@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.get('/user', (req, res) => {
     teammembers = []
     pool
-        .query('SELECT * FROM teammembers;')
+        .query('SELECT * FROM customer;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 teammembers.push(query_res.rows[i]);
