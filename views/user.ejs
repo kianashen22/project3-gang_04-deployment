@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<head>
+   <title>Home Page</title>
+</head>
+<body>
+   <h1>TAs</h1>
+   <% for (var i in teammembers) {%>
+       <p>Order_id: <%=teammembers[i].order_id%>, Customer_id: <%=teammembers[i].customer_id%>, Total Price: <%=teammembers[i].total_price%><p>
+   <% } %>
+</body>

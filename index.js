@@ -26,15 +26,15 @@ process.on('SIGINT', function() {
 	 	 	 	
 app.set("view engine", "ejs");
 
-app.get('/index2', (req, res) => {
-    const data = {name: 'Emma'};
-    res.render('index2', data);
+app.get('/', (req, res) => {
+    const data = {name: 'Caiti'};
+    res.render('index', data);
 });
 
 app.get('/', (req, res) => {
     teammembers = []
     pool
-        .query('SELECT * FROM customer;')
+        .query('SELECT * FROM "order";')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 teammembers.push(query_res.rows[i]);
