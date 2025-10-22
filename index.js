@@ -27,14 +27,14 @@ process.on('SIGINT', function() {
 app.set("view engine", "ejs");
 
 app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
+    const data = {name: 'Caiti'};
     res.render('index', data);
 });
 
 app.get('/user', (req, res) => {
     teammembers = []
     pool
-        .query('SELECT * FROM customer;')
+        .query('SELECT * FROM "order";')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 teammembers.push(query_res.rows[i]);
