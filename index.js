@@ -26,22 +26,22 @@ process.on('SIGINT', function() {
 	 	 	 	
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    const data = {name: 'Mario'};
-    res.render('index', data);
+app.get('/index2', (req, res) => {
+    const data = {name: 'Emma'};
+    res.render('index2', data);
 });
 
-app.get('/user', (req, res) => {
+app.get('/', (req, res) => {
     teammembers = []
     pool
-        .query('SELECT * FROM teammembers;')
+        .query('SELECT * FROM customer;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 teammembers.push(query_res.rows[i]);
             }
             const data = {teammembers: teammembers};
             console.log(teammembers);
-            res.render('user', data);
+            res.render('index', data);
         });
 });
 
