@@ -3,5 +3,9 @@
    <title>Employee Modification</title>
 </head>
 <body>
-   <p> In progress </p>
+   <h1> Employees </h1>
+
+   <% for (var i in employees) {%>
+       <p>Employee: <%=employees[i].first_name%> <%=employees[i].last_name%>, id: <%=employees[i].employee_id%>%><p>
+   <% } %>
 </body>

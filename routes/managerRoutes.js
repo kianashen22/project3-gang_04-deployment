@@ -48,7 +48,17 @@ router.get('/analytics/analyticsOptions', (req, res) => {
 });
 
 router.get('/employeeModification', (req, res) => {
-  res.render('manager/employeeModification');
+    employees = []
+    pool
+        .query('SELECT * FROM employee;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                employees.push(query_res.rows[i]);
+            }
+            const data = {employees: employees};
+            console.log(employees);
+            res.render('manager/employeeModification', data);
+        });
 });
 
 
