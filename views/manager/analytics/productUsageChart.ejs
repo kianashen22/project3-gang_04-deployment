@@ -3,5 +3,9 @@
    <title>Product Usage Chart</title>
 </head>
 <body>
-   <p> In progress </p>
+   <h1>Product Usage</h1>
+   <% for (var i in product_usage) {%>
+       <p>Item: <%=product_usage[i].item_name%>, Usage: <%=product_usage[i].total_quantity%>%><p>
+   <% } %>
+
 </body>
