@@ -55,17 +55,17 @@ app.get('/user', (req, res) => {
 });
 
 app.get('/menu', (req, res) => {
-    // beverage_info = []
-    // pool
-    //     .query('SELECT * FROM beverage_info;')
-    //     .then(query_res => {
-    //         for (let i = 0; i < query_res.rowCount; i++){
-    //             beverage_info.push(query_res.rows[i]);
-    //         }
-    //         const data = {beverage_info: beverage_info};
-    //         console.log(beverage_info);
-    //         res.render('views/menu', data);
-    //     });
+    beverage_info = []
+    pool
+        .query('SELECT * FROM beverage_info;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                beverage_info.push(query_res.rows[i]);
+            }
+            const data = {beverage_info: beverage_info};
+            console.log(beverage_info);
+            res.render('views/menu', data);
+        });
     res.render('menu');
 });
 
