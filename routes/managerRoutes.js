@@ -53,6 +53,9 @@ router.get('/analytics/productUsageChart', (req, res) => {
         });
 });
 
+router.get('/analytics/zReport', (req, res) => {
+  res.render('manager/analytics/zReport');
+});
 
 
 //inventory
