@@ -77,11 +77,46 @@ router.get('/inventory/baseInventory', (req, res) => {
 });
 
 router.get('/inventory/teaInventory', (req, res) => {
-  res.render('manager/inventory/teaInventory');
+  inventoryTea = []
+    pool
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Green Tea', 'Oolong Tea', 'Black Tea', 'Coffee');")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventoryTea.push(query_res.rows[i]);
+            }
+            const data = {inventoryTea: inventoryTea};
+            console.log(inventoryTea);
+            res.render('manager/inventory/teaInventory', data);
+        });
 });
 
+// update tea inventory stock
+router.post('/updateTeaStock', async (req, res) => {
+  console.log('Updating tea stock...');
+  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (1, 2, 3, 4);");
+  res.redirect('/manager/inventory/teaInventory');
+});
+
+
 router.get('/inventory/disposablesInventory', (req, res) => {
-  res.render('manager/inventory/disposablesInventory');
+  inventoryDisposables = []
+    pool
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Regular Cups', 'Large Cups', 'Straws', 'Plastic Lid');")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventoryDisposables.push(query_res.rows[i]);
+            }
+            const data = {inventoryDisposables: inventoryDisposables};
+            console.log(inventoryDisposables);
+            res.render('manager/inventory/disposablesInventory', data);
+        });
+});
+
+// update disposable inventory stock
+router.post('/updateDisposableStock', async (req, res) => {
+  console.log('Updating disposable stock...');
+  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (19, 20, 21, 22);");
+  res.redirect('/manager/inventory/disposablesInventory');
 });
 
 router.get('/inventory/toppingsInventory', (req, res) => {
@@ -98,6 +133,12 @@ router.get('/inventory/toppingsInventory', (req, res) => {
         });
 });
 
+// update toppings inventory stock
+router.post('/updateToppingsStock', async (req, res) => {
+  console.log('Updating toppings stock...');
+  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (8, 9, 10, 11, 12, 13, 14, 15, 16, 17);");
+  res.redirect('/manager/inventory/toppingsInventory');
+});
 
 //employee modifications
 router.get('/employeeModification', (req, res) => {
