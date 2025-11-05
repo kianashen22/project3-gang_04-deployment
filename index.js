@@ -26,6 +26,15 @@ process.on('SIGINT', function() {
 	 	 	 	
 app.set("view engine", "ejs");
 
+// Import route files
+const managerRoutes = require('./routes/managerRoutes');
+// const customerRoutes = require('./routes/customerRoutes');
+
+// Mount them with base paths
+app.use('/manager', managerRoutes);
+// app.use('/customer', customerRoutes);
+
+
 app.get('/', (req, res) => {
     const data = {name: 'Caiti'};
     res.render('index', data);
@@ -44,6 +53,8 @@ app.get('/', (req, res) => {
             res.render('index', data);
         });
 });
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
