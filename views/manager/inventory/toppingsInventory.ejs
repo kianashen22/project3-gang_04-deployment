@@ -3,5 +3,23 @@
     <title>Toppings Inventory</title>
 </head>
 <body>
-    <p>In progress</p>
+    <a href = "inventoryHome">Back</a>
+    <h1>Toppings Inventory</h1>
+
+    <table>
+      <thread>
+         <tr>
+            <th>Item</th>
+            <th>Stock Level</th>
+         </tr>
+      </thread>
+      <tbody>
+         <% for (var i in inventoryToppings) {%>
+            <tr>
+               <td><%=inventoryToppings[i].name%></td>
+               <td><%=inventoryToppings[i].stock_level%>%></td>
+            </tr>
+         <% } %>
+      </tbody>
+   </table>
 </body>
