@@ -3,5 +3,24 @@
    <title>Employee Modification</title>
 </head>
 <body>
-   <p> In progress </p>
+   <a href = "managerHome">Back</a>
+   <h1> Employees </h1>
+
+   <% for (var i in employees) {%>
+       <p>Employee: <%=employees[i].first_name%> <%=employees[i].last_name%>, id: <%=employees[i].employee_id%>%><p>
+   <% } %>
+
+   <form action="/manager/delete" method="POST">
+      <input type="text" name="id" placeholder="Employee ID">
+      <button type="submit">Delete Employee</button>
+   </form>
+
+   <br>
+   <form action="/manager/insert" method="POST">
+      <input type="text" name="first" placeholder="First Name">
+      <input type="text" name="last" placeholder="Last Name">
+      <input type="text" name="id" placeholder="Employee ID">
+      <button type="submit">Insert Employee</button>
+    </form>
+    
 </body>
