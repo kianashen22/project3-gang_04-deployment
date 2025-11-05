@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <title>Menu Modification</title>
+
+</head>
+<body>
+    <h1>Menu Items</h1>
+    <div class="menu">
+        <% for (var i in beverage_info) {%>
+        <p>Item ID: <%=beverage_info[i].beverage_info_id%>, Name: <%=beverage_info[i].name%>, Price: <%=beverage_info[i].price%>, Category: <%=beverage_info[i].category%></p>
+        <% } %>
+    </div>
+
+    <h2>Remove Menu Item</h2>
+    <form action="/remove-menu-item" method="POST">
+        <label>Menu Item Index:</label>
+        <input type="number" id="beverage_info_id" name="beverage_info_id" required>
+        <button type="submit">Remove Item</button>
+    </form>
+
+    <h2>Add Menu Item</h2>
+    <form action="/add-menu-item" method="POST">
+        <label>Menu Item Index:</label>
+        <input type="number" id="beverage_info_id" name="beverage_info_id" required>
+        <label>Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label>Price:</label>
+        <input type="number" step="0.01" id="price" name="price" required>
+        <label>Category:</label>
+        <input type="text" id="category" name="category" required>
+        <button type="submit">Add Item</button>
+    </form>
+</body>

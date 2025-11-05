@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<head>
+    <title>Menu</title>
+
+</head>
+<body>
+    <h1>Menu Items</h1>
+    <% for (var i in beverage_info) {%>
+        <p>Name: <%=beverage_info[i].name%>, Price: <%=beverage_info[i].price%>, Category: <%=beverage_info[i].category%></p>
+    <% } %>
+</body>
