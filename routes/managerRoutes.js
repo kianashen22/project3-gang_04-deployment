@@ -40,7 +40,9 @@ router.get('/employeeModification', (req, res) => {
   res.render('manager/employeeModification');
 });
 
-
+router.get('/menuModification', (req, res) => {
+    res.render('manager/menuModification');
+});
 
 // Export router 
 module.exports = router;
