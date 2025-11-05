@@ -64,9 +64,8 @@ app.get('/menu', (req, res) => {
             }
             const data = {beverage_info: beverage_info};
             console.log(beverage_info);
-            res.render('views/menu', data);
+            res.render('menu', data);
         });
-    res.render('menu');
 });
 
 
