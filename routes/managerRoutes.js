@@ -29,8 +29,19 @@ router.get('/managerHome', (req, res) => {
 });
 
 router.get('/inventory/inventoryHome', (req, res) => {
-  res.render('manager/inventory/inventoryHome');
+    inventory = []
+    pool
+        .query('SELECT * FROM inventory;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventory.push(query_res.rows[i]);
+            }
+            const data = {inventory: inventory};
+            console.log(inventory);
+            res.render('manager/inventory/inventoryHome', data);
+        });
 });
+
 
 router.get('/analytics/analyticsOptions', (req, res) => {
   res.render('manager/analytics/analyticsOptions');
