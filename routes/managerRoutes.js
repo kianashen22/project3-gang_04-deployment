@@ -83,7 +83,17 @@ router.get('/inventory/disposablesInventory', (req, res) => {
 });
 
 router.get('/inventory/toppingsInventory', (req, res) => {
-  res.render('manager/inventory/toppingsInventory');
+  inventoryToppings = []
+    pool
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', 'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventoryToppings.push(query_res.rows[i]);
+            }
+            const data = {inventoryToppings: inventoryToppings};
+            console.log(inventoryToppings);
+            res.render('manager/inventory/toppingsInventory', data);
+        });
 });
 
 
