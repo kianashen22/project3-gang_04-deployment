@@ -43,10 +43,6 @@ router.get('/inventory/inventoryHome', (req, res) => {
 });
 
 
-router.get('/analytics/analyticsOptions', (req, res) => {
-  res.render('manager/analytics/analyticsOptions');
-});
-
 router.get('/employeeModification', (req, res) => {
     employees = []
     pool
@@ -76,7 +72,32 @@ router.get('/analytics/productUsageChart', (req, res) => {
         });
 });
 
+//analytics
+router.get('/analytics/analyticsOptions', (req, res) => {
+  res.render('manager/analytics/analyticsOptions');
+});
 
+
+
+//inventory
+router.get('/inventory/baseInventory', (req, res) => {
+  res.render('manager/inventory/baseInventory');
+});
+
+router.get('/inventory/teaInventory', (req, res) => {
+  res.render('manager/inventory/teaInventory');
+});
+
+router.get('/inventory/disposablesInventory', (req, res) => {
+  res.render('manager/inventory/disposablesInventory');
+});
+
+router.get('/inventory/toppingsInventory', (req, res) => {
+  res.render('manager/inventory/toppingsInventory');
+});
+
+
+//employee modifications
 
 
 // Export router 
