@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <head>
    <title>Ordering Trends Page</title>
+   <!-- using chart.js for bar chart -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <a href = "analyticsOptions">Back</a>
@@ -12,35 +14,43 @@
     
     <canvas id="barChart"></canvas>
 
-    <!-- <script>
-            const ctx = document.getElementById('barChart').getContext('2d');
-            const currChart = new Chart(ctx, {
-                type: 'bar',
-                // data: {
-                //     labels: <%- JSON.stringify(labels) %>,
-                    // datasets: [{
-                    //     label: '<%= legend %>',
-                    //     data: <%- JSON.stringify(data) %>,
-                    //     backgroundColor: [
-                    //         'rgba(255, 99, 132, 0.6)',
-                    //         'rgba(54, 162, 235, 0.6)',
-                    //         'rgba(255, 206, 86, 0.6)'
-                    //     ],
-                    //     borderColor: [
-                    //         'rgba(255, 99, 132, 1)',
-                    //         'rgba(54, 162, 235, 1)',
-                    //         'rgba(255, 206, 86, 1)'
-                    //     ],
-                    //     borderWidth: 1
-                    // }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+    <script>
+        const drinkNames = <%- JSON.stringify(listTopDrink.map(d => d.beverage_name)) %>;
+        const drinkCounts = <%- JSON.stringify(listTopDrink.map(d => d.drink_count)) %>;
+
+        const ctx = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: drinkNames,
+                datasets: [{
+                    label: 'Number of Orders',
+                    data: drinkCounts,
+                    // color for each column
+                    backgroundColor: [
+                        // 'rgba(54, 162, 235, 0.6)',
+                        // 'rgba(255, 99, 132, 0.6)',
+                        // 'rgba(255, 206, 86, 0.6)',
+                        // 'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                        // 'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: 'rgba(0,0,0,0.1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    // axis names
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Drink Count' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Drink Name' }
                     }
                 }
-            });
-        </script> -->
+            }
+        });
+    </script>
 </body>

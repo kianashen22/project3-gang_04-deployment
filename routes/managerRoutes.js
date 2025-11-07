@@ -42,7 +42,7 @@ router.get('/analytics/productUsageChart', (req, res) => {
     product_usage = []
     pool
         // SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity
-        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
+        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) "AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 product_usage.push(query_res.rows[i]);
@@ -71,7 +71,13 @@ router.get('/analytics/zReport', (req, res) => {
 // generate new z-report data
 router.post('/generateZReport', async (req, res) => {
   console.log('Generating Z Report...');
-  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) = CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, customer_total = daily.customer_total FROM daily;");
+  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, " + 
+                    "COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) " +
+                    "= CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, " +
+                    "COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE "+
+                    "AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, "+
+                    "daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, "+
+                    "customer_total = daily.customer_total FROM daily;");
   res.redirect('/manager/analytics/zReport');
 });
 
@@ -79,9 +85,13 @@ router.post('/generateZReport', async (req, res) => {
 router.get('/analytics/orderingTrends', async (req, res) => {
   try {
       // queries
-      const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
-      const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
-      const listTopDrinksResult = await pool.query("SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" O JOIN beverage B ON O.order_id = B.order_id GROUP BY B.beverage_name ORDER BY drink_count DESC LIMIT 6;")
+      const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" " +
+                                              "GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
+      const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" " +
+                                              "GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
+      const listTopDrinksResult = await pool.query("SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" " +
+                                                   "O JOIN beverage B ON O.order_id = B.order_id GROUP BY " +
+                                                   "B.beverage_name ORDER BY drink_count DESC LIMIT 6;")
 
       const peakWeek = peakWeekResult.rows[0] || null;
       const peakHour = peakHourResult.rows[0] || null;
@@ -99,15 +109,6 @@ router.get('/analytics/orderingTrends', async (req, res) => {
       res.status(500).send('Error fetching data');
     }
 });
-
-// // render data for bar chart
-// router.get('/chart', (req, res) => {
-//   // uses listTopDrink, order drinks based on most popular, populate chart
-//   const labels = ;
-//   const data = ;
-//   const legend = ;
-//   res.render('topDrinksChart', { labels, data, legend });
-// })
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
@@ -174,7 +175,9 @@ router.post('/updateDisposableStock', async (req, res) => {
 router.get('/inventory/toppingsInventory', (req, res) => {
   inventoryToppings = []
     pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', 'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name " +
+                "IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', " +
+                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventoryToppings.push(query_res.rows[i]);
