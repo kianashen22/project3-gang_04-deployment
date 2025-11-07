@@ -109,7 +109,18 @@ router.get('/analytics/orderingTrends', async (req, res) => {
 //   res.render('topDrinksChart', { labels, data, legend });
 // })
 router.get('/menuModification', (req, res) => {
-    res.render('manager/menuModification');
+    beverage_info = []
+    pool
+        .query('SELECT * FROM beverage_info;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                beverage_info.push(query_res.rows[i]);
+            }
+            const data = {beverage_info: beverage_info};
+            console.log(beverage_info);
+            res.render('manager/menuModification', data);
+        });
+    // res.render('manager/menuModification');
 });
 
 //delete menu item
@@ -119,7 +130,7 @@ router.post('/removeMenuItem', async(req, res) => {
     await pool.query("DELETE FROM menu_inventory WHERE beverage_info_id=$1;", [id]);
     await pool.query("DELETE FROM beverage_info WHERE beverage_info_id=$1;", [id]);
 
-    res.redirect('/manager/itemModification');
+    res.redirect('/manager/menuModification');
 });
 
 //add menu item
@@ -127,14 +138,33 @@ router.post('/insertMenuItem', async(req, res) => {
     const{id, name, price, category} = req.body;
     console.log('Adding menu item... ');
     await pool.query("INSERT INTO inventory VALUES($1, $2, $3, $4);", id, category, name, price);
-    // ANNA WUZ HERE
-    res.redirect('/manager/menuModification');
+
+    res.redirect(`/manager/itemModification?id=${id}`);
 });
 
 //edit menu item
 router.post('/updateMenuItem', async(req, res) => {
-    // EDIT
+    const{id} = req.body;
+    res.redirect(`/manager/itemModification?id=${id}`);
 });
+
+router.add() //BRUH
+
+/*
+app.get('/item', async (req, res) => {
+  const id = req.query.id;
+
+  try {
+    const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
+    if (result.rows.length === 0) return res.send('No item found');
+    const item = result.rows[0];
+    res.render('itemPage', { item }); // EJS or another template
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error');
+  }
+});
+ */
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
