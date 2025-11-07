@@ -26,6 +26,9 @@ process.on('SIGINT', function() {
 	 	 	 	
 app.set("view engine", "ejs");
 
+// let any files in public folder to be accesible, so that browser can access it
+app.use(express.static('public'));
+
 // Import route files
 const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');

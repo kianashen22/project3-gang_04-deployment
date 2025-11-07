@@ -1,7 +1,20 @@
+
 // routes/customerRoutes.js
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+
+// create image arrays
+// milky image will be the default drink image when a new drink is created unless added to the array
+// use beverage_info id to index the array for corresponding image. if beverage_info id > size of array -> use default photo (milky --> index 0)
+let img_array = ['/img/milky.png', '/img/classicTea.png', '/img/classicTea.png', '/img/classicTea.png', '/img/honeyTea.png', '/img/honeyTea.png', '/img/honeyTea.png',
+                  '/img/classic-pearl-milk-tea.png', '/img/honey-pearl-milk-tea.png', '/img/mango-green-milk-tea.png', '/img/coffee-crema.png', '/img/thai-pearl-milk-tea.png', '/img/taro-pearl-milk-tea.png', 
+                  '/img/honeyLemonade.png', '/img/mangoGreenTea.png', '/img/mangoPassionfruitTea.png', 
+                  '/img/peachTeaBlended.png', '/img/thaiBlended.png', '/img/taroBlended.png', '/img/coffeeBlended.png', '/img/mangoBlended.png' ];
+
+
+
+
 
 // Create router instead of app
 const router = express.Router();
@@ -26,6 +39,13 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
+// create middleware so that img_array can be accessed by all ejs files
+router.use((req, res, next) => {
+  res.locals.img_array = img_array;
+  next();
+});
+
+
 // Routes for customer pages
 router.get('/customerHome', (req, res) => {
     console.log("Customer homepage hit!");
@@ -33,7 +53,7 @@ router.get('/customerHome', (req, res) => {
 });
 
 
-
+// Fresh Brew Page
 router.get('/freshBrew', (req, res) => {
     let freshBrew_drinks = []
     pool
@@ -49,7 +69,7 @@ router.get('/freshBrew', (req, res) => {
 });
 
 
-
+// Fruity Page
 router.get('/fruity', (req, res) => {
     let fruity_drinks = []
     pool
@@ -65,7 +85,7 @@ router.get('/fruity', (req, res) => {
 });
 
 
-
+// Ice Blended Page
 router.get('/iceBlended', (req, res) => {
   console.log("/iceBlended route HIT");
     let iceBlended_drinks = []
@@ -82,6 +102,7 @@ router.get('/iceBlended', (req, res) => {
 });
 
 
+// Milky Page
 router.get('/milky', (req, res) => {
   console.log(" /milky route HIT");
     let milky_drinks = []
@@ -97,6 +118,7 @@ router.get('/milky', (req, res) => {
         });
 });
 
+// Order Summary Page
 router.get('/orderSummary', (req, res) => {
   res.render('customer/orderSummary');
 });

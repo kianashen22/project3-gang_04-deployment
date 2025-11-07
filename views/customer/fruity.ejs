@@ -13,8 +13,20 @@
 
    <br>
    
-    <% for (let drink of fruity_drinks) { %>
-        <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+    <% for (let drink of fruity_drinks) { 
+      
+      let img_url;
+      let img_size = img_array.length;
+
+      if (drink.beverage_info_id > img_size - 1){
+         img_url = img_array[0];
+      }
+      else{
+         img_url = img_array[drink.beverage_info_id];
+      }
+      %>
+      <img src="<%= img_url %>">
+      <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
     <% } %>
 
 
