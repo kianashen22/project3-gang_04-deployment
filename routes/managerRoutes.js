@@ -110,6 +110,10 @@ router.get('/analytics/orderingTrends', async (req, res) => {
     }
 });
 
+router.get('/menuModification', (req, res) => {
+    res.render('manager/menuModification');
+});
+
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
     inventory = []
