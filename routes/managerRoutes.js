@@ -53,10 +53,61 @@ router.get('/analytics/productUsageChart', (req, res) => {
         });
 });
 
+// sets data from current daily_total table in database
 router.get('/analytics/zReport', (req, res) => {
-  res.render('manager/analytics/zReport');
+  zReportData = []
+    pool
+        .query('SELECT * FROM daily_total;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                zReportData.push(query_res.rows[i]);
+            }
+            const data = {zReportData: zReportData};
+            console.log(zReportData);
+            res.render('manager/analytics/zReport', data);
+        });
 });
 
+// generate new z-report data
+router.post('/generateZReport', async (req, res) => {
+  console.log('Generating Z Report...');
+  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) = CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, customer_total = daily.customer_total FROM daily;");
+  res.redirect('/manager/analytics/zReport');
+});
+
+// gets relevent data from database for ordering trends page
+router.get('/analytics/orderingTrends', async (req, res) => {
+  try {
+      // queries
+      const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
+      const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
+      const listTopDrinksResult = await pool.query("SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" O JOIN beverage B ON O.order_id = B.order_id GROUP BY B.beverage_name ORDER BY drink_count DESC LIMIT 6;")
+
+      const peakWeek = peakWeekResult.rows[0] || null;
+      const peakHour = peakHourResult.rows[0] || null;
+      const listTopDrink = listTopDrinksResult.rows || [];
+
+      // render to ejs
+      res.render('manager/analytics/orderingTrends', {
+        peakWeek,
+        peakHour,
+        listTopDrink
+      });
+      
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).send('Error fetching data');
+    }
+});
+
+// // render data for bar chart
+// router.get('/chart', (req, res) => {
+//   // uses listTopDrink, order drinks based on most popular, populate chart
+//   const labels = ;
+//   const data = ;
+//   const legend = ;
+//   res.render('topDrinksChart', { labels, data, legend });
+// })
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {

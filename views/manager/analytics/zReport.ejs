@@ -6,17 +6,19 @@
     <a href = "analyticsOptions">Back</a>
     <h1>Z-Report</h1>
 
-    <p>Current Date: </p>
+    <p>Current Date: <strong><%= zReportData[0].last_z_report %></strong></p>
 
-    <button>Generate Z-Report</button>
+    <form action="/manager/generateZReport" method="post">
+        <button type="submit">Generate Z-Report</button>
+   </form>
 
-    <p>Daily Sales</p>
+    <p>Daily Sales: <strong><%= zReportData[0].daily_sales %></strong></p>
 
-    <p>Daily Tax</p>
+    <p>Daily Tax: <strong><%= zReportData[0].daily_tax %></strong></p>
 
-    <p>New Customers</p>
+    <p>New Customers: <strong><%= zReportData[0].new_customers %></strong></p>
 
-    <p>Daily Customer Total</p>
+    <p>Daily Customer Total: <strong><%= zReportData[0].customer_total %></strong></p>
 
-    <p>Daily Orders Total</p>
+    <p>Daily Orders Total: <strong><%= zReportData[0].order_total %></strong></p>
 </body>
