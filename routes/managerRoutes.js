@@ -108,6 +108,9 @@ router.get('/analytics/orderingTrends', async (req, res) => {
 //   const legend = ;
 //   res.render('topDrinksChart', { labels, data, legend });
 // })
+router.get('/menuModification', (req, res) => {
+    res.render('manager/menuModification');
+});
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {

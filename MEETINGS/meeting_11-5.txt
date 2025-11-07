@@ -1,0 +1,30 @@
+Scrum meeting agenda:
+Basic interfaces for Manager and Customer functionality/getting Sprint 1 done!
+Date: November 5, 2024
+
+Caiti:
+- yesterday: started all the assigned pages, they are functional
+- today: studying, finishing touches
+- bocker: 313 exam
+
+Emma:
+- yesterday: gathered information and brainstormed for preliminary page functionality
+- today: starting on functioning interface
+- blocker: 313 exam
+
+Julian:
+- yesterday: researched API for integration with interface
+- today: order confirmation page interface
+- blocker: delay caused by authentication for API key
+
+Kiana:
+- yesterday: surveyed existing interface and prepared to create interfaces
+- today: working on complete customer interface
+- blocker: high workload from other commitments and courses
+
+Anna:
+- yesterday: started on menu modification interface and menu display for managers
+- today: making it work!
+- blocker: 313 exam 👎
+
+Discussion on what specific distinctions will distinguish the customer interface from the employee interface
