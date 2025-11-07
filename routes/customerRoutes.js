@@ -13,7 +13,31 @@ let img_array = ['/img/milky.png', '/img/classicTea.png', '/img/classicTea.png',
                   '/img/peachTeaBlended.png', '/img/thaiBlended.png', '/img/taroBlended.png', '/img/coffeeBlended.png', '/img/mangoBlended.png' ];
 
 
+// create ORDER object
+function Order(customer_id, total_price, month, week, date, hour, year, combine_date){
+  this.customer_id = customer_id;
+  this.total_price = total_price;
+  this.month = month;
+  this.week = week;
+  this.date = date;
+  this.hour = hour;
+  this.year = year;
+  this.combine_date = combine_date;
+}
 
+// create DRINK object
+function Drink(order_id, beverage_info_id, beverage_name, quantity, ice_level, sweetness_level, size, price){
+  this.order_id = order_id;
+  this.beverage_info_id = beverage_info_id;
+  this.beverage_name = beverage_name;
+  this.quantity = quantity;
+  this.ice_level = ice_level;
+  this.sweetness_level = sweetness_level;
+  this.size = size;
+  this.price = price
+}
+
+// create function for button drink name
 
 
 // Create router instead of app
@@ -42,6 +66,7 @@ process.on('SIGINT', function () {
 // create middleware so that img_array can be accessed by all ejs files
 router.use((req, res, next) => {
   res.locals.img_array = img_array;
+  res.locals.defaultDrink = new Drink(0, 0, 'null', 0, 'null', 'null', 'null', 0.00);
   next();
 });
 

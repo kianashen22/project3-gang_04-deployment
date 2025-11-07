@@ -25,10 +25,18 @@
             img_url = img_array[drink.beverage_info_id];
         }
         %>
-        <img src="<%= img_url %>">
+        <button class = "drinkButton" 
+            data-drinkId = "<%= drink.beverage_info_id %>" 
+            data-drinkName = "<%= drink.name %>" >
+            <img src="<%= img_url %>">
+        </button>
+    
         <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
     <% } %>
 
+    <script src="/js/models.js"></script>
+    <script src = "/js/customerHandler.js"></script>
+    
 </body>
 
 <!--
