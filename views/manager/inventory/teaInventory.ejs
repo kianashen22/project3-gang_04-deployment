@@ -3,5 +3,27 @@
     <title>Tea Inventory</title>
 </head>
 <body>
-    <p>In progress</p>
+    <a href = "inventoryHome">Back</a>
+    <h1>Tea Inventory</h1>
+
+    <table>
+      <thread>
+         <tr>
+            <th>Item</th>
+            <th>Stock Level</th>
+         </tr>
+      </thread>
+      <tbody>
+         <% for (var i in inventoryTea) {%>
+            <tr>
+               <td><%=inventoryTea[i].name%></td>
+               <td><%=inventoryTea[i].stock_level%>%></td>
+            </tr>
+         <% } %>
+      </tbody>
+   </table>
+
+   <form action="/manager/updateTeaStock" method="post">
+        <button type="submit">Update Tea Stock</button>
+   </form>
 </body>

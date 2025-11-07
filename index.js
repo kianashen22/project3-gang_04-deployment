@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
     res.render('index', data);
 });
 
-app.get('/user', (req, res) => {
+app.get('/', (req, res) => {
     teammembers = []
     pool
         .query('SELECT * FROM "order";')
@@ -50,7 +50,7 @@ app.get('/user', (req, res) => {
             }
             const data = {teammembers: teammembers};
             console.log(teammembers);
-            res.render('user', data);
+            res.render('index', data);
         });
 });
 
