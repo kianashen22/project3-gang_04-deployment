@@ -20,16 +20,16 @@
         </form>
 
         <h2>Remove Menu Item</h2>
-        <form action="/remove-menu-item" method="POST">
+        <form action="/removeMenuItem" method="POST">
             <label>Menu Item Index:</label>
-            <input type="number" id="beverage_info_id" name="beverage_info_id" required>
+            <input type="number" id="beverage_info_id" name="id" required>
             <button type="submit">Remove Item</button>
         </form>
 
         <h2>Add New Menu Item</h2>
-        <form action="/add-menu-item" method="POST">
+        <form action="/insertMenuItem" method="POST">
             <label>Menu Item Index:</label>
-            <input type="number" id="beverage_info_id" name="beverage_info_id" required>
+            <input type="number" id="beverage_info_id" name="id" required>
             <label>Name:</label>
             <input type="text" id="name" name="name" required>
             <label>Price:</label>

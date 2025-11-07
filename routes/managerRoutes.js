@@ -112,6 +112,30 @@ router.get('/menuModification', (req, res) => {
     res.render('manager/menuModification');
 });
 
+//delete menu item
+router.post('/removeMenuItem', async(req, res) => {
+    const{id} = req.body;
+    console.log('Removing menu item... ');
+    await pool.query("DELETE FROM menu_inventory WHERE beverage_info_id=$1;", [id]);
+    await pool.query("DELETE FROM beverage_info WHERE beverage_info_id=$1;", [id]);
+
+    res.redirect('/manager/itemModification');
+});
+
+//add menu item
+router.post('/insertMenuItem', async(req, res) => {
+    const{id, name, price, category} = req.body;
+    console.log('Adding menu item... ');
+    await pool.query("INSERT INTO inventory VALUES($1, $2, $3, $4);", id, category, name, price);
+    // ANNA WUZ HERE
+    res.redirect('/manager/menuModification');
+});
+
+//edit menu item
+router.post('/updateMenuItem', async(req, res) => {
+    // EDIT
+});
+
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
     inventory = []
@@ -210,7 +234,7 @@ router.get('/employeeModification', (req, res) => {
         });
 });
 
-router.post('/delete', async (req, res) => {
+router.post('removeEmployee', async (req, res) => {
   const { id } = req.body;
   try {
     await pool.query('DELETE FROM employee WHERE employee_id = $1;', [id])
@@ -224,7 +248,7 @@ router.post('/delete', async (req, res) => {
 });
 
 
-router.post('/insert', async (req, res) => {
+router.post('/insertEmployee', async (req, res) => {
   const  {id, first, last} = req.body;
   if (!id || !first || !last) {
     return res.status(400).send('All fields are required.');
