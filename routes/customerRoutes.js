@@ -32,20 +32,69 @@ router.get('/customerHome', (req, res) => {
     res.render('customer/customerHome');
 });
 
+
+
 router.get('/freshBrew', (req, res) => {
-  res.render('customer/freshBrew');
+    let freshBrew_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                freshBrew_drinks.push(query_res.rows[i]);
+            }
+            const data = {freshBrew_drinks: freshBrew_drinks};
+            console.log(freshBrew_drinks);
+            res.render('customer/freshBrew', data);
+        });
 });
+
+
 
 router.get('/fruity', (req, res) => {
-  res.render('customer/fruity');
+    let fruity_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                fruity_drinks.push(query_res.rows[i]);
+            }
+            const data = {fruity_drinks: fruity_drinks};
+            console.log(fruity_drinks);
+            res.render('customer/fruity', data);
+        });
 });
+
+
 
 router.get('/iceBlended', (req, res) => {
-  res.render('customer/iceBlended');
+  console.log("/iceBlended route HIT");
+    let iceBlended_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+              iceBlended_drinks.push(query_res.rows[i]);
+            }
+            const data = {iceBlended_drinks: iceBlended_drinks};
+            console.log(iceBlended_drinks);
+            res.render('customer/iceBlended', data);
+        });
 });
 
+
 router.get('/milky', (req, res) => {
-  res.render('customer/milky');
+  console.log(" /milky route HIT");
+    let milky_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                milky_drinks.push(query_res.rows[i]);
+            }
+            const data = {milky_drinks: milky_drinks};
+            console.log(milky_drinks);
+            res.render('customer/milky', data);
+        });
 });
 
 router.get('/orderSummary', (req, res) => {

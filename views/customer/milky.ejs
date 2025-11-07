@@ -10,4 +10,16 @@
    <a href = "iceBlended">Ice Blended</a>
    <a href = "milky">Milk Tea</a>
    <a href = "orderSummary" >Cart</a>
+
+   <br>
+   
+    <% for (let drink of milky_drinks) { %>
+        <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+    <% } %>
+
 </body>
+
+<!--
+    Make this page dynamic, ie if someone were add a menu item, create cards and photos for that
+    to be displayed.
+-->
