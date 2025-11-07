@@ -139,6 +139,7 @@ router.post('/insertMenuItem', async(req, res) => {
     console.log('Adding menu item... ');
     await pool.query("INSERT INTO inventory VALUES($1, $2, $3, $4);", id, category, name, price);
 
+    console.log('Redirecting to edit page... ');
     res.redirect(`/manager/itemModification?id=${id}`);
 });
 
@@ -148,7 +149,19 @@ router.post('/updateMenuItem', async(req, res) => {
     res.redirect(`/manager/itemModification?id=${id}`);
 });
 
-router.add() //BRUH
+router.get('/itemModification', async(req,res) => {
+    const{id} = req.query.id;
+
+    try {
+        const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1', [id]);
+        if (result.rows.length === 0) return res.send('No item found');
+        const item = result.rows[0];
+        res.render('/manager/itemModification', { item }); // EJS or another template
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Database error');
+    }
+});
 
 /*
 app.get('/item', async (req, res) => {

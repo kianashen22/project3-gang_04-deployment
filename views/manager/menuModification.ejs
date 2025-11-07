@@ -13,14 +13,14 @@
 
     <div class="modification-options">
         <h2>Remove Menu Item</h2>
-        <form action="/removeMenuItem" method="POST">
+        <form action="/manager/removeMenuItem" method="POST">
             <label>Menu Item Index:</label>
             <input type="number" id="beverage_info_id" name="id" required>
             <button type="submit">Remove Item</button>
         </form>
 
         <h2>Add New Menu Item</h2>
-        <form action="/insertMenuItem" method="POST">
+        <form action="/manager/insertMenuItem" method="POST">
             <label>Menu Item Index:</label>
             <input type="number" id="beverage_info_id" name="id" required>
             <label>Name:</label>
@@ -33,7 +33,7 @@
         </form>
 
         <h2>Edit Menu Item</h2>
-        <form action="/updateMenuItem" method="POST">
+        <form action="/manager/updateMenuItem" method="POST">
             <label>Menu Item Index:</label>
             <input type="number" id="beverage_info_id" name="id" required>
             <button type="submit">Go To Item</button>
