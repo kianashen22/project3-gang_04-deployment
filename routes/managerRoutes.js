@@ -210,11 +210,11 @@ router.get('/itemModification', async(req,res) => {
 
 // menu inventory adding
 router.post('/addToMenuItem', (req, res) => {
-    // TODO
+    // TODO anna
 });
 
 router.post('/removeFromMenuItem', (req, res) => {
-    // TODO
+    // TODO anna
 });
 
 // menu inventory removing
