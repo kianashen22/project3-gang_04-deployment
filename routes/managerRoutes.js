@@ -137,26 +137,29 @@ router.post('/removeMenuItem', async(req, res) => {
 router.post('/insertMenuItem', async(req, res) => {
     const{id, name, price, category} = req.body;
     console.log('Adding menu item... ');
-    await pool.query("INSERT INTO inventory VALUES($1, $2, $3, $4);", id, category, name, price);
+    await pool.query("INSERT INTO beverage_info VALUES($1, $2, $3, $4);", [id, category, name, price]);
+    // res.redirect('/manager/menuModification');
 
-    console.log('Redirecting to edit page... ');
+    console.log('Redirecting to edit page... ', id);
     res.redirect(`/manager/itemModification?id=${id}`);
 });
 
 //edit menu item
 router.post('/updateMenuItem', async(req, res) => {
     const{id} = req.body;
+
+    console.log('Redirecting to edit page... ', id);
     res.redirect(`/manager/itemModification?id=${id}`);
 });
 
 router.get('/itemModification', async(req,res) => {
-    const{id} = req.query.id;
+    const id = req.query.id;
 
     try {
         const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1', [id]);
         if (result.rows.length === 0) return res.send('No item found');
         const item = result.rows[0];
-        res.render('/manager/itemModification', { item }); // EJS or another template
+        res.render('manager/itemModification', { item }); // EJS or another template
     } catch (err) {
         console.error(err);
         res.status(500).send('Database error');
