@@ -11,23 +11,34 @@
         <% } %>
     </div>
 
-    <h2>Remove Menu Item</h2>
-    <form action="/remove-menu-item" method="POST">
-        <label>Menu Item Index:</label>
-        <input type="number" id="beverage_info_id" name="beverage_info_id" required>
-        <button type="submit">Remove Item</button>
-    </form>
+    <div class="modification-options">
+        <h2>Remove Menu Item</h2>
+        <form action="/manager/removeMenuItem" method="POST">
+            <label>Menu Item Index:</label>
+            <input type="number" id="beverage_info_id" name="id" required>
+            <button type="submit">Remove Item</button>
+        </form>
 
-    <h2>Add Menu Item</h2>
-    <form action="/add-menu-item" method="POST">
-        <label>Menu Item Index:</label>
-        <input type="number" id="beverage_info_id" name="beverage_info_id" required>
-        <label>Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label>Price:</label>
-        <input type="number" step="0.01" id="price" name="price" required>
-        <label>Category:</label>
-        <input type="text" id="category" name="category" required>
-        <button type="submit">Add Item</button>
-    </form>
+        <h2>Add New Menu Item</h2>
+        <form action="/manager/insertMenuItem" method="POST">
+            <label>Menu Item Index:</label>
+<!--             consider changing to automatically increment to prevent random numbers-->
+            <input type="number" id="beverage_info_id" name="id" required>
+            <label>Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label>Price:</label>
+            <input type="number" step="0.01" id="price" name="price" required>
+            <label>Category:</label>
+<!--             consider changing to dropdown to prevent random categories-->
+            <input type="text" id="category" name="category" required>
+            <button type="submit">Add Item</button>
+        </form>
+
+        <h2>Edit Menu Item</h2>
+        <form action="/manager/updateMenuItem" method="POST">
+            <label>Menu Item Index:</label>
+            <input type="number" id="beverage_info_id" name="id" required>
+            <button type="submit">Go To Item</button>
+        </form>
+    </div>
 </body>

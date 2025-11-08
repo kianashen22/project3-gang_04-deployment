@@ -1,0 +1,35 @@
+Scrum meeting agenda:
+Making sure we all lock in before monday, evaluating progress
+Date: November 7th
+
+Caiti:
+- Y: finishing touches on her stuff
+- T: floating, helping out
+- B: none :)
+
+Emma:
+- Y: database operations for inventory pages
+- T: z-report and finishing inventory analytics displays
+- B: finding time in schedule
+
+Julian:
+- Y: started on order modification and confirmation pages on the frontend
+- T: completing those pages and finalizing backend operations
+- B: time constraints as well
+
+Kiana:
+- Y: started on the customer menu ordering, the drinks pages, and the drink modifications
+- T: backend logic for these pages
+- B: homework, and studying for exams
+
+Anna:
+- Y: started on database operations for menu modifications
+- T: finishing up those database operations and starting on other pages
+- B: also time constraints
+
+Discussion on progress
+Caiti is on fire
+Emma is making great progress
+Julian has started and is on track
+
+Anna is getting through it but will take a day to catch up

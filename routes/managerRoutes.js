@@ -122,8 +122,113 @@ router.get('/analytics/orderingTrends', async (req, res) => {
 });
 
 router.get('/menuModification', (req, res) => {
-    res.render('manager/menuModification');
+    beverage_info = []
+    pool
+        .query('SELECT * FROM beverage_info;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                beverage_info.push(query_res.rows[i]);
+            }
+            const data = {beverage_info: beverage_info};
+            console.log(beverage_info);
+            res.render('manager/menuModification', data);
+        });
+    // res.render('manager/menuModification');
 });
+
+//delete menu item
+router.post('/removeMenuItem', async(req, res) => {
+    const{id} = req.body;
+    console.log('Removing menu item... ');
+    await pool.query("DELETE FROM menu_inventory WHERE beverage_info_id=$1;", [id]);
+    await pool.query("DELETE FROM beverage_info WHERE beverage_info_id=$1;", [id]);
+
+    res.redirect('/manager/menuModification');
+});
+
+//add menu item
+router.post('/insertMenuItem', async(req, res) => {
+    const{id, name, price, category} = req.body;
+    console.log('Adding menu item... ');
+    await pool.query("INSERT INTO beverage_info VALUES($1, $2, $3, $4);", [id, category, name, price]);
+    // res.redirect('/manager/menuModification');
+
+    console.log('Redirecting to edit page... ', id);
+    res.redirect(`/manager/itemModification?id=${id}`);
+});
+
+//edit menu item
+router.post('/updateMenuItem', async(req, res) => {
+    const{id} = req.body;
+
+    console.log('Redirecting to edit page... ', id);
+    res.redirect(`/manager/itemModification?id=${id}`);
+});
+
+// page for editing menu item
+router.get('/itemModification', async(req,res) => {
+    const id = req.query.id;
+
+    try {
+        const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1;', [id]);
+        if (result.rows.length === 0) return res.send('No item found');
+        const item = result.rows[0];
+
+
+        // const bev_items = await pool.query('SELECT * FROM menu_inventory WHERE beverage_info_id=$2;', [id]);
+        // if(result.rows.length === 0) return res.send('No item found');
+        // const bev = bev_items[0];
+
+        const bev_items = [];
+        pool
+            .query('SELECT\n' +
+                '  bi.name AS beverage_name,\n' +
+                '  inv.name AS inventory_name,\n' +
+                '  mi.qt AS quantity,\n' +
+                '  mi.unit AS unit\n' +
+                'FROM beverage_info AS bi\n' +
+                'JOIN menu_inventory AS mi\n' +
+                '  ON bi.beverage_info_id = mi.beverage_info_id\n' +
+                'JOIN inventory AS inv\n' +
+                '  ON inv.inventory_id = mi.inventory_id\n' +
+                'WHERE bi.beverage_info_id = $1;\n;', [id])
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++){
+                    bev_items.push(query_res.rows[i]);
+                }
+                // const data = {bev_items: bev_items};
+                console.log('BEV ITEMS', bev_items);
+                res.render('manager/itemModification', {item, bev_items});
+            });
+
+        // res.render('manager/itemModification', { item, bev }); // EJS or another template
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Database error');
+    }
+});
+
+// menu inventory adding
+
+
+
+// menu inventory removing
+
+/*
+app.get('/item', async (req, res) => {
+  const id = req.query.id;
+
+  try {
+    const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
+    if (result.rows.length === 0) return res.send('No item found');
+    const item = result.rows[0];
+    res.render('itemPage', { item }); // EJS or another template
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error');
+  }
+});
+ */
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
@@ -225,7 +330,7 @@ router.get('/employeeModification', (req, res) => {
         });
 });
 
-router.post('/delete', async (req, res) => {
+router.post('removeEmployee', async (req, res) => {
   const { id } = req.body;
   try {
     await pool.query('DELETE FROM employee WHERE employee_id = $1;', [id])
@@ -239,7 +344,7 @@ router.post('/delete', async (req, res) => {
 });
 
 
-router.post('/insert', async (req, res) => {
+router.post('/insertEmployee', async (req, res) => {
   const  {id, first, last} = req.body;
   if (!id || !first || !last) {
     return res.status(400).send('All fields are required.');
