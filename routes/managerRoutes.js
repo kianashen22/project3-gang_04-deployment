@@ -85,23 +85,34 @@ router.post('/generateZReport', async (req, res) => {
 router.get('/analytics/orderingTrends', async (req, res) => {
   try {
       // queries
+      const { startDate, endDate } = req.query;
       const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" " +
                                               "GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
       const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" " +
                                               "GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
-      const listTopDrinksResult = await pool.query("SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" " +
-                                                   "O JOIN beverage B ON O.order_id = B.order_id GROUP BY " +
-                                                   "B.beverage_name ORDER BY drink_count DESC LIMIT 6;")
-
       const peakWeek = peakWeekResult.rows[0] || null;
       const peakHour = peakHourResult.rows[0] || null;
-      const listTopDrink = listTopDrinksResult.rows || [];
+      
+      let query = "SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" O JOIN beverage B ON O.order_id = B.order_id";
+      
+      const params = [];
+
+      if (startDate && endDate) {
+        query += " WHERE O.combine_date::date BETWEEN $1 AND $2";
+        params.push(startDate, endDate);
+      }
+
+      query += " GROUP BY B.beverage_name ORDER BY drink_count DESC LIMIT 6";
+      const listTopDrinkResult = await pool.query(query, params);
+      const listTopDrink = listTopDrinkResult.rows;
 
       // render to ejs
       res.render('manager/analytics/orderingTrends', {
         peakWeek,
         peakHour,
-        listTopDrink
+        listTopDrink,
+        startDate,
+        endDate
       });
       
     } catch (err) {

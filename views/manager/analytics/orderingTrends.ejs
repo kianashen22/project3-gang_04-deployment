@@ -11,6 +11,17 @@
     <p>Peak Sales Week: <strong><%= peakWeek.week %></strong></p>
 
     <p>Peak Sales Hour: <strong><%= peakHour.hour %></strong></p>
+
+    <form action="/manager/analytics/orderingTrends" method="GET">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" value="<%= startDate || '' %>" required>
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" value="<%= endDate || '' %>" required>
+
+        <button type="submit">Filter</button>
+    </form>
+
     
     <canvas id="barChart"></canvas>
 
