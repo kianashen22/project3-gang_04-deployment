@@ -17,17 +17,22 @@
 
     <div>
 <!--        form for now, buttons will be added later to improve UX-->
-        <form>
+        <form action="/manager/addToMenuItem" method="POST">
             <label>Inventory Id:</label>
             <input type="number" id="inventory_id" name = "id" required>
             <label>Quantity:</label>
-            <input type="number" id="quantity" name = "qt">
+            <input type="number" id="quantity" name = "qt" required>
 
 <!--            consider a dropdown to prevent random units-->
             <label>Unit:</label>
-            <input type="text" id="unit" name = "unit">
+            <input type="text" id="unit" name = "unit" required>
 
             <button type="submit">Add to Item</button>
+        </form>
+
+        <form action="/manager/removeFromMenyItem" method="POST">
+            <label>Inventory ID:</label>
+            <input type="number" id="inventory_id" name = "id" required>
             <button type="submit">Remove from Item</button>
         </form>
     </div>
