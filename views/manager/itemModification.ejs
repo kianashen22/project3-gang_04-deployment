@@ -18,8 +18,9 @@
     <div>
 <!--        form for now, buttons will be added later to improve UX-->
         <form action="/manager/addToMenuItem" method="POST">
+            <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
             <label>Inventory Id:</label>
-            <input type="number" id="inventory_id" name = "id" required>
+            <input type="number" id="inventory_id" name = "inv_id" required>
             <label>Quantity:</label>
             <input type="number" id="quantity" name = "qt" required>
 
@@ -31,9 +32,13 @@
         </form>
 
         <form action="/manager/removeFromMenyItem" method="POST">
+            <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
+
             <label>Inventory ID:</label>
-            <input type="number" id="inventory_id" name = "id" required>
+            <input type="number" id="inventory_id" name = "inv_id" required>
             <button type="submit">Remove from Item</button>
         </form>
     </div>
+
+    <a href="menuModification.ejs"> DONE </a>
 </body>

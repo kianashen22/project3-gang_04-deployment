@@ -209,12 +209,26 @@ router.get('/itemModification', async(req,res) => {
 });
 
 // menu inventory adding
-router.post('/addToMenuItem', (req, res) => {
-    // TODO anna
+router.post('/addToMenuItem', async(req, res) => {
+    const{id, inv_id, qt, unit} = req.body;
+    try {
+        console.log('Adding item to the menu... ');
+        await pool.query('INSERT INTO menu_inventory VALUES($1, $2, $3, $4);', [id, inv_id, qt, unit]);
+        // TODO anna
+    } catch {
+        res.status(500).send('Database error');
+    }
 });
 
-router.post('/removeFromMenuItem', (req, res) => {
-    // TODO anna
+router.post('/removeFromMenuItem', async(req, res) => {
+    try {
+        console.log('Remove item from the menu... ');
+        // await pool.query('DELETE FROM menu_inventory where;', [id, inv_id, qt, unit]); TODO
+        // TODO anna
+    } catch {
+        res.status(500).send('Database error');
+    }
+    res.render('manager/itemModification');
 });
 
 // menu inventory removing
