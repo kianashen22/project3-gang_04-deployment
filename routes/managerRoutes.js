@@ -152,19 +152,54 @@ router.post('/updateMenuItem', async(req, res) => {
     res.redirect(`/manager/itemModification?id=${id}`);
 });
 
+// page for editing menu item
 router.get('/itemModification', async(req,res) => {
     const id = req.query.id;
 
     try {
-        const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1', [id]);
+        const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1;', [id]);
         if (result.rows.length === 0) return res.send('No item found');
         const item = result.rows[0];
-        res.render('manager/itemModification', { item }); // EJS or another template
+
+
+        // const bev_items = await pool.query('SELECT * FROM menu_inventory WHERE beverage_info_id=$2;', [id]);
+        // if(result.rows.length === 0) return res.send('No item found');
+        // const bev = bev_items[0];
+
+        const bev_items = [];
+        pool
+            .query('SELECT\n' +
+                '  bi.name AS beverage_name,\n' +
+                '  inv.name AS inventory_name,\n' +
+                '  mi.qt AS quantity,\n' +
+                '  mi.unit AS unit\n' +
+                'FROM beverage_info AS bi\n' +
+                'JOIN menu_inventory AS mi\n' +
+                '  ON bi.beverage_info_id = mi.beverage_info_id\n' +
+                'JOIN inventory AS inv\n' +
+                '  ON inv.inventory_id = mi.inventory_id\n' +
+                'WHERE bi.beverage_info_id = $1;\n;', [id])
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++){
+                    bev_items.push(query_res.rows[i]);
+                }
+                // const data = {bev_items: bev_items};
+                console.log('BEV ITEMS', bev_items);
+                res.render('manager/itemModification', {item, bev_items});
+            });
+
+        // res.render('manager/itemModification', { item, bev }); // EJS or another template
     } catch (err) {
         console.error(err);
         res.status(500).send('Database error');
     }
 });
+
+// menu inventory adding
+
+
+
+// menu inventory removing
 
 /*
 app.get('/item', async (req, res) => {

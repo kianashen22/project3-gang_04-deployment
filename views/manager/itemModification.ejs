@@ -8,4 +8,27 @@
     <p><strong>ID:</strong> <%= item.beverage_info_id %></p>
     <p><strong>Name:</strong> <%= item.name %></p>
     <p><strong>Price:</strong> <%= item.price %></p>
+
+    <div>
+        <% for (var i in bev_items) { %>
+        <p><%= bev_items[i].inventory_name, bev_items[i].quantity, bev_items[i].unit %></p>
+        <% } %>
+    </div>
+
+    <div>
+<!--        form for now, buttons will be added later to improve UX-->
+        <form>
+            <label>Inventory Id:</label>
+            <input type="number" id="inventory_id" name = "id" required>
+            <label>Quantity:</label>
+            <input type="number" id="quantity" name = "qt">
+
+<!--            consider a dropdown to prevent random units-->
+            <label>Unit:</label>
+            <input type="text" id="unit" name = "unit">
+
+            <button type="submit">Add to Item</button>
+            <button type="submit">Remove from Item</button>
+        </form>
+    </div>
 </body>
