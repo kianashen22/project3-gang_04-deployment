@@ -154,6 +154,12 @@ router.get('/orderSummary', (req, res) => {
   res.render('customer/orderSummary');
 });
 
+// Sign In Page
+router.get('/signIn', (req, res) => {
+
+  res.render('customer/signIn');
+});
+
 
 
 

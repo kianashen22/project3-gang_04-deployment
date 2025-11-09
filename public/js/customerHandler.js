@@ -15,6 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
         displayCart();
     }
 
+    const continueBtn = document.getElementById("continueButton");
+    if (continueBtn) {
+        continueBtn.addEventListener("click", () => {
+            window.location.href = "/customer/signIn";
+        });
+    }
+
     const drinkButtons = document.querySelectorAll(".drinkButton");
     drinkButtons.forEach(button => {
         button.addEventListener("click",setDrinkNameIDPrice)
@@ -127,8 +134,10 @@ function displayCart() {
     // otherwise render
     cart.forEach((item, index) => {
         const div = document.createElement("div");
+        const img_index = parseInt(item.drinkId, 10);
         div.innerHTML = `
             <h3>${item.drinkName}</h3>
+            <img src = "${img_array[img_index]}">
             <p>Quantity: ${item.quantity}</p>
             <p>Ice level: ${item.iceLevel}</p>
             <p>Sweetness: ${item.sweetness}</p>
@@ -147,6 +156,8 @@ function removeItem(index) {
     localStorage.setItem("cart", JSON.stringify(cart));
     location.reload();
 }
+
+
 
 
 // let cart = JSON.parse(localStorage.getItem("cart"));  -> converts string to object
