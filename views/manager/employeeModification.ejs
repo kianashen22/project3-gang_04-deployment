@@ -10,13 +10,13 @@
        <p>Employee: <%=employees[i].first_name%> <%=employees[i].last_name%>, id: <%=employees[i].employee_id%>%><p>
    <% } %>
 
-   <form action="/manager/delete" method="POST">
+   <form action="/manager/removeEmployee" method="POST">
       <input type="text" name="id" placeholder="Employee ID">
       <button type="submit">Delete Employee</button>
    </form>
 
    <br>
-   <form action="/manager/insert" method="POST">
+   <form action="/manager/insertEmployee" method="POST">
       <input type="text" name="first" placeholder="First Name">
       <input type="text" name="last" placeholder="Last Name">
       <input type="text" name="id" placeholder="Employee ID">

@@ -1,0 +1,9 @@
+<div>
+    <h3><%= d.name %></h3>
+    <p>Quantity: <%= d.quantity %></p>
+    <p>Each: $<%= Number(d.price).toFixed(2) %></p>
+    <p>Line Total: $<%= (Number(d.price) * Number(d.quantity)).toFixed(2) %></p>
+    <p>Sweetness: <%= d.sweetnessLevel %></p>
+    <p>Ice: <%= d.iceLevel %></p>
+    <p>Topping: <%= d.topping %> (<%= d.action %>)</p>
+  </div>

@@ -42,7 +42,7 @@ router.get('/analytics/productUsageChart', (req, res) => {
     product_usage = []
     pool
         // SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity
-        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
+        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) "AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 product_usage.push(query_res.rows[i]);
@@ -71,7 +71,13 @@ router.get('/analytics/zReport', (req, res) => {
 // generate new z-report data
 router.post('/generateZReport', async (req, res) => {
   console.log('Generating Z Report...');
-  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) = CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, customer_total = daily.customer_total FROM daily;");
+  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, " + 
+                    "COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) " +
+                    "= CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, " +
+                    "COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE "+
+                    "AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, "+
+                    "daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, "+
+                    "customer_total = daily.customer_total FROM daily;");
   res.redirect('/manager/analytics/zReport');
 });
 
@@ -79,19 +85,34 @@ router.post('/generateZReport', async (req, res) => {
 router.get('/analytics/orderingTrends', async (req, res) => {
   try {
       // queries
-      const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
-      const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
-      const listTopDrinksResult = await pool.query("SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" O JOIN beverage B ON O.order_id = B.order_id GROUP BY B.beverage_name ORDER BY drink_count DESC LIMIT 6;")
-
+      const { startDate, endDate } = req.query;
+      const peakWeekResult = await pool.query("SELECT week, SUM(total_price) AS weekly_sales FROM \"order\" " +
+                                              "GROUP BY week ORDER BY weekly_sales DESC LIMIT 1;");
+      const peakHourResult = await pool.query("SELECT hour, SUM(total_price) AS total_sales FROM \"order\" " +
+                                              "GROUP BY hour ORDER BY total_sales DESC LIMIT 1;");
       const peakWeek = peakWeekResult.rows[0] || null;
       const peakHour = peakHourResult.rows[0] || null;
-      const listTopDrink = listTopDrinksResult.rows || [];
+      
+      let query = "SELECT B.beverage_name, COUNT(*) AS drink_count FROM \"order\" O JOIN beverage B ON O.order_id = B.order_id";
+      
+      const params = [];
+
+      if (startDate && endDate) {
+        query += " WHERE O.combine_date::date BETWEEN $1 AND $2";
+        params.push(startDate, endDate);
+      }
+
+      query += " GROUP BY B.beverage_name ORDER BY drink_count DESC LIMIT 6";
+      const listTopDrinkResult = await pool.query(query, params);
+      const listTopDrink = listTopDrinkResult.rows;
 
       // render to ejs
       res.render('manager/analytics/orderingTrends', {
         peakWeek,
         peakHour,
-        listTopDrink
+        listTopDrink,
+        startDate,
+        endDate
       });
       
     } catch (err) {
@@ -100,17 +121,114 @@ router.get('/analytics/orderingTrends', async (req, res) => {
     }
 });
 
-// // render data for bar chart
-// router.get('/chart', (req, res) => {
-//   // uses listTopDrink, order drinks based on most popular, populate chart
-//   const labels = ;
-//   const data = ;
-//   const legend = ;
-//   res.render('topDrinksChart', { labels, data, legend });
-// })
 router.get('/menuModification', (req, res) => {
-    res.render('manager/menuModification');
+    beverage_info = []
+    pool
+        .query('SELECT * FROM beverage_info;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                beverage_info.push(query_res.rows[i]);
+            }
+            const data = {beverage_info: beverage_info};
+            console.log(beverage_info);
+            res.render('manager/menuModification', data);
+        });
+    // res.render('manager/menuModification');
 });
+
+//delete menu item
+router.post('/removeMenuItem', async(req, res) => {
+    const{id} = req.body;
+    console.log('Removing menu item... ');
+    await pool.query("DELETE FROM menu_inventory WHERE beverage_info_id=$1;", [id]);
+    await pool.query("DELETE FROM beverage_info WHERE beverage_info_id=$1;", [id]);
+
+    res.redirect('/manager/menuModification');
+});
+
+//add menu item
+router.post('/insertMenuItem', async(req, res) => {
+    const{id, name, price, category} = req.body;
+    console.log('Adding menu item... ');
+    await pool.query("INSERT INTO beverage_info VALUES($1, $2, $3, $4);", [id, category, name, price]);
+    // res.redirect('/manager/menuModification');
+
+    console.log('Redirecting to edit page... ', id);
+    res.redirect(`/manager/itemModification?id=${id}`);
+});
+
+//edit menu item
+router.post('/updateMenuItem', async(req, res) => {
+    const{id} = req.body;
+
+    console.log('Redirecting to edit page... ', id);
+    res.redirect(`/manager/itemModification?id=${id}`);
+});
+
+// page for editing menu item
+router.get('/itemModification', async(req,res) => {
+    const id = req.query.id;
+
+    try {
+        const result = await pool.query('SELECT * FROM beverage_info WHERE beverage_info_id = $1;', [id]);
+        if (result.rows.length === 0) return res.send('No item found');
+        const item = result.rows[0];
+
+
+        // const bev_items = await pool.query('SELECT * FROM menu_inventory WHERE beverage_info_id=$2;', [id]);
+        // if(result.rows.length === 0) return res.send('No item found');
+        // const bev = bev_items[0];
+
+        const bev_items = [];
+        pool
+            .query('SELECT\n' +
+                '  bi.name AS beverage_name,\n' +
+                '  inv.name AS inventory_name,\n' +
+                '  mi.qt AS quantity,\n' +
+                '  mi.unit AS unit\n' +
+                'FROM beverage_info AS bi\n' +
+                'JOIN menu_inventory AS mi\n' +
+                '  ON bi.beverage_info_id = mi.beverage_info_id\n' +
+                'JOIN inventory AS inv\n' +
+                '  ON inv.inventory_id = mi.inventory_id\n' +
+                'WHERE bi.beverage_info_id = $1;\n;', [id])
+            .then(query_res => {
+                for (let i = 0; i < query_res.rowCount; i++){
+                    bev_items.push(query_res.rows[i]);
+                }
+                // const data = {bev_items: bev_items};
+                console.log('BEV ITEMS', bev_items);
+                res.render('manager/itemModification', {item, bev_items});
+            });
+
+        // res.render('manager/itemModification', { item, bev }); // EJS or another template
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Database error');
+    }
+});
+
+// menu inventory adding
+
+
+
+// menu inventory removing
+
+/*
+app.get('/item', async (req, res) => {
+  const id = req.query.id;
+
+  try {
+    const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
+    if (result.rows.length === 0) return res.send('No item found');
+    const item = result.rows[0];
+    res.render('itemPage', { item }); // EJS or another template
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error');
+  }
+});
+ */
 
 //inventory
 router.get('/inventory/inventoryHome', (req, res) => {
@@ -177,7 +295,9 @@ router.post('/updateDisposableStock', async (req, res) => {
 router.get('/inventory/toppingsInventory', (req, res) => {
   inventoryToppings = []
     pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', 'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name " +
+                "IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', " +
+                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventoryToppings.push(query_res.rows[i]);
@@ -210,7 +330,7 @@ router.get('/employeeModification', (req, res) => {
         });
 });
 
-router.post('/delete', async (req, res) => {
+router.post('removeEmployee', async (req, res) => {
   const { id } = req.body;
   try {
     await pool.query('DELETE FROM employee WHERE employee_id = $1;', [id])
@@ -224,7 +344,7 @@ router.post('/delete', async (req, res) => {
 });
 
 
-router.post('/insert', async (req, res) => {
+router.post('/insertEmployee', async (req, res) => {
   const  {id, first, last} = req.body;
   if (!id || !first || !last) {
     return res.status(400).send('All fields are required.');
