@@ -37,7 +37,6 @@ function Drink(order_id, beverage_info_id, beverage_name, quantity, ice_level, s
   this.price = price
 }
 
-// create function for button drink name
 
 
 // Create router instead of app
@@ -143,10 +142,21 @@ router.get('/milky', (req, res) => {
         });
 });
 
+// Drink Modifications Page
+router.get('/drinkModifications', (req, res) => {
+  console.log(" /drinkModifications route HIT");
+  res.render('customer/drinkModifications');
+});
+
 // Order Summary Page
 router.get('/orderSummary', (req, res) => {
+
   res.render('customer/orderSummary');
 });
+
+
+
+
 
 
 

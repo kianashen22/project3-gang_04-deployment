@@ -3,7 +3,7 @@
    <title>Drink Modifications</title>
 </head>
 <body>
-   <h1>Customer Home</h1>
+   <h1>Drink Modifications</h1>
 
    <a href = "customerHome">Home</a>
    <a href = "freshBrew">Fresh Brew Tea</a>
@@ -11,11 +11,105 @@
    <a href = "iceBlended">Ice Blended</a>
    <a href = "milky">Milk Tea</a>
    <a href = "orderSummary" >Cart</a>
-   <!-- TODO: button (add to order) -->
 
-   <!-- TODO: button (add to order) -->
+   <h2 id = "drinkNameTitle">Drink Name</h2>
+   <h2 id = "drinkPrice">Price</h2>
+   <img id="drinkImage" src="<%= img_array[0] %>" alt="Drink Image">
 
-   <!-- TODO: button (add to order) -->
+   <h3>Ice Level</h3>
+   <form id = "drinkForm">
 
-   <!-- TODO: button (add to order) -->
+      <input type="radio" id="regularIce" name="iceLevel" value="Regular Ice" checked>
+      <label for="regularIce">Regular Ice</label><br>
+
+      <input type="radio" id="lightIce" name="iceLevel" value="Light Ice">
+      <label for="lightIce">Light Ice</label><br>
+
+      <input type="radio" id="noIce" name="iceLevel" value="No Ice">
+      <label for="noIce">No Ice</label><br>
+
+      <input type="radio" id="extraIce" name="iceLevel" value="Extra Ice">
+      <label for="extraIce">Extra Ice</label>
+   
+
+   <h3>Sweetness Level</h3>
+   
+      <input type="radio" id="sweet100" name="sweetness" value="100%" checked>
+      <label for="sweet100">100%</label><br>
+
+      <input type="radio" id="sweet80" name="sweetness" value="80%">
+      <label for="sweet80">80%</label><br>
+
+      <input type="radio" id="sweet50" name="sweetness" value="50%">
+      <label for="sweet50">50%</label><br>
+
+      <input type="radio" id="sweet30" name="sweetness" value="30%">
+      <label for="sweet30">30%</label><br>
+
+      <input type="radio" id="sweet0" name="sweetness" value="0%">
+      <label for="sweet0">0%</label><br>
+
+      <input type="radio" id="sweet129" name="sweetness" value="120%">
+      <label for="sweet129">120%</label><br>
+   
+
+   <h3>Toppings +0.75</h3>
+   
+      <input type="radio" id="toppingPearl" name="toppings" value="Tapioca Pearl">
+      <label for="toppingPearl">Tapioca Pearl</label><br>
+
+      <input type="radio" id="toppingLychee" name="toppings" value="Lychee Jelly">
+      <label for="toppingLychee">Lychee Jelly</label><br>
+
+      <input type="radio" id="toppingIceCream" name="toppings" value="Ice Cream">
+      <label for="toppingIceCream">Ice Cream</label><br>
+
+      <input type="radio" id="toppingCoffeeJelly" name="toppings" value="Coffee Jelly">
+      <label for="toppingCoffeeJelly">Coffee Jelly</label><br>
+
+      <input type="radio" id="toppingThaiPowder" name="toppings" value="Thai Powder">
+      <label for="toppingThaiPowder">Thai Powder</label><br>
+
+      <input type="radio" id="toppingTaroPowder" name="toppings" value="Taro Powder">
+      <label for="toppingTaroPowder">Taro Powder</label><br>
+
+      <input type="radio" id="toppingHoney" name="toppings" value="Honey">
+      <label for="toppingHoney">Honey</label><br>
+
+      <input type="radio" id="toppingPassionFruit" name="toppings" value="Passion Fruit">
+      <label for="toppingPassionFruit">Passion Fruit</label><br>
+
+      <input type="radio" id="toppingMango" name="toppings" value="Mango">
+      <label for="toppingMango">Mango</label><br>
+   
+
+   <h3>Actions</h3>
+   
+      <input type="radio" id="add" name="action" value="Add">
+      <label for="add">Add</label><br>
+
+      <input type="radio" id="sub" name="action" value="Sub">
+      <label for="sub">Sub</label><br>
+
+      <input type="radio" id="noTopping" name="action" value="No Topping">
+      <label for="noTopping">No Topping</label>
+   </form>
+
+   <h3>Quantity</h3>
+      <button id="decreaseQty">-</button>
+      <span id="quantityDisplay">1</span>
+      <button id="increaseQty">+</button>
+   <br>
+   <br>
+   <button id="addToCartBtn">Add to Cart</button>
+
+
+
+   <script>
+      const img_array = <%- JSON.stringify(img_array) %>;
+   </script>
+   <script src = "/js/models.js"></script>      
+   <script src = "/js/customerHandler.js"></script> 
+
 </body>
+

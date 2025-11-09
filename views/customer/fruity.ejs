@@ -14,20 +14,24 @@
    <br>
    
     <% for (let drink of fruity_drinks) { 
-      
-      let img_url;
-      let img_size = img_array.length;
+         const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+        %>
 
-      if (drink.beverage_info_id > img_size - 1){
-         img_url = img_array[0];
-      }
-      else{
-         img_url = img_array[drink.beverage_info_id];
-      }
-      %>
-      <img src="<%= img_url %>">
-      <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+        <button class = "drinkButton" 
+            data-drink-id = "<%= drink.beverage_info_id %>" 
+            data-drink-name = "<%= drink.name %>" 
+            data-drink-price="<%= drink.price%>" >
+            <img src="<%= img_url %>">
+        </button>
+    
+        <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
     <% } %>
+
+        <p id = "drinkName">Drink Name</p>
+        <p id = "drinkID">Drink ID</p>
+
+    <script src = "/js/models.js"></script>      
+    <script src = "/js/customerHandler.js"></script> 
 
 
 </body>

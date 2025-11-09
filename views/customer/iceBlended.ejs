@@ -14,20 +14,27 @@
 
    <br>
    
-    <% for (let drink of iceBlended_drinks) { 
-      let img_url;
-      let img_size = img_array.length;
-
-      if (drink.beverage_info_id > img_size - 1){
-         img_url = img_array[0];
-      }
-      else{
-         img_url = img_array[drink.beverage_info_id];
-      }
+   <% for (let drink of iceBlended_drinks) { 
+         const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
       %>
-      <img src="<%= img_url %>">
+
+      < class = "drinkButton" 
+         data-drink-id = "<%= drink.beverage_info_id %>" 
+         data-drink-name = "<%= drink.name %>" 
+         data-drink-price="<%= drink.price%>" >
+         <img src="<%= img_url %>">
+      </button>
+    
       <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+
     <% } %>
+
+      <p id = "drinkName">Drink Name</p>
+      <p id = "drinkID">Drink ID</p>
+   
+
+   <script src = "/js/models.js"></script>      
+   <script src = "/js/customerHandler.js"></script> 
 
 
 </body>
