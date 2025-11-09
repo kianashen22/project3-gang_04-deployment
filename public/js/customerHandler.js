@@ -6,12 +6,20 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    if (document.getElementById("drinkNameTitle")) {
+        setDrinkModificationPage();
+    }
+
+    // Check if we are on the Order Summary page
+    if (document.getElementById("cartContainer")) {
+        displayCart();
+    }
+
     const drinkButtons = document.querySelectorAll(".drinkButton");
     drinkButtons.forEach(button => {
         button.addEventListener("click",setDrinkNameIDPrice)
     })
 
-    // loading details for drink modification page
 });
 
 function setDrinkNameIDPrice(){
@@ -29,7 +37,6 @@ function setDrinkNameIDPrice(){
     window.location.href = "/customer/drinkModifications";
 }
 
-window.addEventListener("load", setDrinkModificationPage);
 
 function setDrinkModificationPage(){
     // set Drink Title
@@ -47,11 +54,10 @@ function setDrinkModificationPage(){
     imgElement.src = img_array[index];
 }
 
-// Drink Modification Page
 let quantity = 1;
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
+// Quantity Button Functions
 document.getElementById("increaseQty").addEventListener("click", () => {
     quantity++;
     updateQuantityDisplay();
@@ -63,7 +69,6 @@ document.getElementById("decreaseQty").addEventListener("click", () => {
         updateQuantityDisplay();
     }
 });
-
 
 
 document.getElementById("addToCartBtn").addEventListener("click", () => {
@@ -106,9 +111,9 @@ function updateQuantityDisplay() {
 }
 
 
-// Order Summary
-window.addEventListener("load", displayCart);
 
+
+// Order Summary
 function displayCart() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const container = document.getElementById("cartContainer");
