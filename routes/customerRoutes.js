@@ -169,6 +169,7 @@ router.get('/orderSummary', (req, res) => {
     totals: { subtotal, tax, total }
   });
 });
+
 //order confirmation page
 router.get('/orderConfirmation', (req, res) => {
   res.render('customer/orderConfirmation');
