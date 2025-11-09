@@ -3,6 +3,8 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const session = require('express-session');
+
 
 // create image arrays
 // milky image will be the default drink image when a new drink is created unless added to the array
@@ -45,7 +47,12 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true })); //allows for passing data from forms
 
-
+router.use(session({
+  secret: 'dev-only-change-this',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
+}));
 // Create pool
 const pool = new Pool({
   user: process.env.PSQL_USER,
@@ -145,11 +152,132 @@ router.get('/milky', (req, res) => {
 
 // Order Summary Page
 router.get('/orderSummary', (req, res) => {
-  res.render('customer/orderSummary');
+  const cart = req.session.cart || [];
+
+  // totals
+  const subtotal = cart.reduce((s, d) => s + (Number(d.price) + Number(d.toppingCharge || 0)) * Number(d.quantity), 0);
+  const tax = subtotal * 0.085; // 8.5% — adjust if needed
+  const total = subtotal + tax;
+
+  res.render('customer/orderSummary', {
+    order: { drinks: cart },
+    totals: { subtotal, tax, total }
+  });
 });
+//order confirmation page
+router.get('/orderConfirmation', (req, res) => {
+  res.render('customer/orderConfirmation');
+});
+const db = {
+  async getDrink(id) {
+    const q = `
+      SELECT beverage_info_id, name, price
+      FROM beverage_info
+      WHERE beverage_info_id = $1
+    `;
+    const { rows } = await pool.query(q, [id]);
+    return rows[0] || null;
+  },
 
+  async getIceLevels() {
+    // Use DB if you have a table; otherwise hardcode
+    return ['no ice', 'light ice', 'regular ice', 'extra ice'];
+  },
 
+  async getSugarLevels() {
+    return ['0%', '30%', '50%', '80%', '100%', '120%'];
+  },
 
+  async getToppings() {
+    // Adjust table/columns to your schema
+    const q = `
+      SELECT beverage_topping_id, topping_name
+      FROM beverage_toppings
+      ORDER BY beverage_topping_id
+    `;
+    const { rows } = await pool.query(q);
+    return rows;
+  },
+};
+router.get('/:id/customize', async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).render('404', { message: 'Invalid item id.' });
+    }
+
+    // Fetch drink + option lists in parallel
+    const [drink, iceLevels, sugarLevels, toppings] = await Promise.all([
+      db.getDrink(id),           // -> { id, name, base_price, image }
+      db.getIceLevels(),         // -> e.g. ['no ice','light','regular','extra']
+      db.getSugarLevels(),       // -> e.g. ['0%','30%','50%','80%','100%','120%']
+      db.getToppings(),          // -> e.g. [{id:1,name:'Tapioca Pearl',price:0.75}, ...]
+    ]);
+
+    if (!drink) {
+      return res.status(404).render('404', { message: 'Drink not found.' });
+    }
+
+    // Provide sensible defaults so the template can preselect values
+    const defaults = {
+      quantity: 1,
+      size: 'large',
+      iceLevel: 'regular',
+      sugarLevel: '50%',
+      toppingIds: [], // none selected
+      action: 'add',
+    };
+
+    res.render('customer/drinkModifications', {
+      drink,
+      iceLevels,
+      sugarLevels,
+      toppings,
+      defaults,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+router.post('/cart/add', (req, res) => {
+  // ensure cart
+  if (!req.session.cart) req.session.cart = [];
+
+  const {
+    beverageInfoId,
+    name,
+    price,
+    size,
+    iceLevel,
+    sweetnessLevel,
+    topping,
+    action,
+    quantity
+  } = req.body;
+
+  // normalize + compute
+  const qty = Math.max(1, Number(quantity) || 1);
+  const basePrice = Number(price) || 0;
+  const toppingCharge = (action === 'add' && topping) ? 0.75 : 0; // tweak if you price toppings differently
+  const lineTotal = (basePrice + toppingCharge) * qty;
+
+  req.session.cart.push({
+    beverageInfoId: Number(beverageInfoId),
+    name,
+    size,
+    iceLevel,
+    sweetnessLevel,
+    topping: topping || null,
+    action,                     // 'add' | 'sub' | 'remove'
+    price: basePrice,
+    toppingCharge,
+    quantity: qty,
+    lineTotal
+  });
+  console.log('CART NOW:', req.session.cart);
+  // for now, just bounce back to Milky list or go to summary later
+  return res.redirect('/customer/milky');
+});
 
 
 
