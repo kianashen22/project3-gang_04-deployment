@@ -31,7 +31,7 @@
             <button type="submit">Add to Item</button>
         </form>
 
-        <form action="/manager/removeFromMenyItem" method="POST">
+        <form action="/manager/removeFromMenuItem" method="POST">
             <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
 
             <label>Inventory ID:</label>
@@ -40,5 +40,5 @@
         </form>
     </div>
 
-    <a href="menuModification.ejs"> DONE </a>
+    <a href="/manager/menuModification"> DONE </a>
 </body>

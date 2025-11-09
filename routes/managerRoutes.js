@@ -174,14 +174,7 @@ router.get('/itemModification', async(req,res) => {
         if (result.rows.length === 0) return res.send('No item found');
         const item = result.rows[0];
 
-
-        // const bev_items = await pool.query('SELECT * FROM menu_inventory WHERE beverage_info_id=$2;', [id]);
-        // if(result.rows.length === 0) return res.send('No item found');
-        // const bev = bev_items[0];
-
-        const bev_items = [];
-        pool
-            .query('SELECT\n' +
+        const bev_items_res = await pool.query('SELECT\n' +
                 '  bi.name AS beverage_name,\n' +
                 '  inv.name AS inventory_name,\n' +
                 '  mi.qt AS quantity,\n' +
@@ -191,16 +184,12 @@ router.get('/itemModification', async(req,res) => {
                 '  ON bi.beverage_info_id = mi.beverage_info_id\n' +
                 'JOIN inventory AS inv\n' +
                 '  ON inv.inventory_id = mi.inventory_id\n' +
-                'WHERE bi.beverage_info_id = $1;\n;', [id])
-            .then(query_res => {
-                for (let i = 0; i < query_res.rowCount; i++){
-                    bev_items.push(query_res.rows[i]);
-                }
-                // const data = {bev_items: bev_items};
-                console.log('BEV ITEMS', bev_items);
-                res.render('manager/itemModification', {item, bev_items});
-            });
+                'WHERE bi.beverage_info_id = $1;\n;', [id]);
 
+        const bev_items = bev_items_res.rows;
+        console.log('BEV ITEMS', bev_items);
+
+        res.render('manager/itemModification', {item, bev_items});
         // res.render('manager/itemModification', { item, bev }); // EJS or another template
     } catch (err) {
         console.error(err);
@@ -214,17 +203,20 @@ router.post('/addToMenuItem', async(req, res) => {
     try {
         console.log('Adding item to the menu... ');
         await pool.query('INSERT INTO menu_inventory VALUES($1, $2, $3, $4);', [id, inv_id, qt, unit]);
-        // TODO anna
+
+        res.redirect(`/manager/itemModification?id=${id}`); //
     } catch {
         res.status(500).send('Database error');
     }
 });
 
 router.post('/removeFromMenuItem', async(req, res) => {
+    const{id, inv_id} = req.body;
     try {
         console.log('Remove item from the menu... ');
-        // await pool.query('DELETE FROM menu_inventory where;', [id, inv_id, qt, unit]); TODO
-        // TODO anna
+        await pool.query('DELETE FROM menu_inventory WHERE beverage_info_id=$1 AND inventory_id = $2;', [id, inv_id]);
+
+        res.redirect(`/manager/itemModification?id=${id}`);
     } catch {
         res.status(500).send('Database error');
     }
