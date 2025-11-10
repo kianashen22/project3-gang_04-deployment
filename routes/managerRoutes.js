@@ -223,7 +223,7 @@ router.post('/removeFromMenuItem', async(req, res) => {
     res.render('manager/itemModification');
 });
 
-// menu inventory removing
+
 
 /*
 app.get('/item', async (req, res) => {
@@ -242,6 +242,38 @@ app.get('/item', async (req, res) => {
  */
 
 //inventory
+
+router.get('/inventory/modifyInventory', (req, res) => {
+    inventory = []
+    pool
+        .query('SELECT * FROM inventory;')
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventory.push(query_res.rows[i]);
+            }
+            const data = {inventory: inventory};
+            console.log(inventory);
+            res.render('manager/inventory/modifyInventory', data);
+        });
+    //display inventory
+});
+
+router.post('/inventory/addItem', async(req, res) => {
+    const{id, name, stock} = req.body;
+    console.log('Adding item to the inventory... ');
+
+    await pool.query('INSERT INTO inventory VALUES($1, $2, $3);', [id, name, stock]);
+    res.redirect(`/manager/inventory/modifyInventory`);
+});
+
+router.post('/inventory/deleteItem', async(req, res) => {
+    const{id} = req.body;
+    console.log('Remove item from the inventory... ');
+
+    await pool.query('DELETE FROM inventory WHERE inventory_id=$1', [id]);
+    res.redirect(`/manager/inventory/modifyInventory`);
+});
+
 router.get('/inventory/inventoryHome', (req, res) => {
     inventory = []
     pool
