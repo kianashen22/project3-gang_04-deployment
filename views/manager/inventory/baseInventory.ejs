@@ -3,5 +3,29 @@
     <title>Bases Inventory</title>
 </head>
 <body>
-    <p>In progress</p>
+<!--    TODO anna-->
+    <a href = "inventoryHome">Back</a>
+    <h1>Disposables Inventory</h1>
+
+    <table>
+        <thread>
+            <tr>
+                <th>Item</th>
+                <th>Stock Level</th>
+            </tr>
+        </thread>
+        <tbody>
+            <% for (var i in inventoryBase) {%>
+            <tr>
+                <td><%=inventoryBase[i].name%></td>
+                <td><%=inventoryBase[i].stock_level%>%></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <form action="/manager/updateBaseStock" method="POST">
+<!--        add base stock route post-->
+        <button type="submit">Add Inventory</button>
+    </form>
 </body>
