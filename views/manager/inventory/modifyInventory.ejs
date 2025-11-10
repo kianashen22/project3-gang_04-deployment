@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+    <title>Modify Inventory</title>
+</head>
+<body>
+    <h1>Modify Inventory</h1>
+    <div class="inventory">
+        <% for (var i in inventory) { %>
+        <p>Inventory ID: <%=inventory[i].inventory_id%>, Name: <%=inventory[i].name%>, Stock: <%=inventory[i].stock_level%></p>
+        <% } %>
+    </div>
+
+    <form action="/manager/inventory/addItem" method="POST">
+<!--        consider auto-incrementing to prevent random numbers-->
+        <input type="number" name="id" required>
+        <input type="text" name="name" required>
+        <input type="number" name="stock">
+        <button type="submit">Add to Inventory</button>
+    </form>
+
+    <form action="/manager/inventory/deleteItem" method="POST">
+<!--        change to dropdown-->
+        <input type="number" name="id" required>
+        <button type="submit">Delete from Inventory</button>
+    </form>
+</body>
