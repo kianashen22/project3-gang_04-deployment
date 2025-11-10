@@ -53,9 +53,48 @@ router.get('/analytics/productUsageChart', (req, res) => {
         });
 });
 
+// xreport
+router.get('/analytics/xReport', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT \n' +
+            '        EXTRACT(HOUR FROM combine_date) AS hour,\n' +
+            '        SUM(total_price) AS total_sales\n' +
+            '      FROM "order"\n' +
+            '      WHERE combine_date::date = CURRENT_DATE\n' +
+            '      GROUP BY EXTRACT(HOUR FROM combine_date)\n' +
+            '      ORDER BY EXTRACT(HOUR FROM combine_date);'
+        );
+
+        const dailyTotal = await pool.query('SELECT SUM(total_price) AS total_sales_today ' +
+        'FROM "order" ' +
+        'WHERE combine_date::date = CURRENT_DATE; '
+        );
+
+        res.render('manager/analytics/xReport', {
+            hourly: result.rows,
+            daily: dailyTotal.rows[0].total_sales_today
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Database error');
+    }
+});
+
+router.post('/generateXReport', async (req, res) => {
+    await pool.query('SELECT ' +
+                            'EXTRACT(HOUR FROM combine_date) AS hour, ' +
+                            'SUM(total_price) ' +
+                        ' FROM "order" ' +
+                        ' WHERE combine_date::date = CURRENT_DATE ' +
+                        ' GROUP BY EXTRACT(HOUR FROM combine_date) ' +
+                        ' ORDER BY EXTRACT(HOUR FROM combine_date);');
+    res.redirect('/manager/analytics/xReport');
+});
+
 // sets data from current daily_total table in database
 router.get('/analytics/zReport', (req, res) => {
-  zReportData = []
+    zReportData = []
     pool
         .query('SELECT * FROM daily_total;')
         .then(query_res => {
