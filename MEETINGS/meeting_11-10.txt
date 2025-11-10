@@ -1,0 +1,32 @@
+Scrum meeting agenda:
+Make sure we're wrapped up and on track for sprint end
+Date: November 10, 2025
+
+Caiti:
+- Y: finishing touches
+- T: debugging, testing
+- B: None :)
+
+Emma:
+- Y: revised finished tasks
+- T: integration optimization and getting ahead on sprint 2
+- B: None :)
+
+Julian:
+- Y: finished order modifications and summery page
+- T: connecting analytics pages, making sure it's cohesive
+- B: None :)
+
+Kiana:
+- Y: connected customer interface pages
+- T: finishing touches
+- B: Exams
+
+Anna:
+- Y: finished up inventory and menu modification pages, advanced x-report
+- T: finalizing inventory subpage
+- B: None
+
+Discussing less complete areas and things we want to iterate on for sprint 2 in preparation for backlog grooming
+- image uploading for new menu items
+- getting ready for retro
