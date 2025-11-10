@@ -15,10 +15,10 @@
             </tr>
         </thread>
         <tbody>
-            <% for (var i in inventoryDisposables) {%>
+            <% for (var i in inventoryBase) {%>
             <tr>
-                <td><%=inventoryDisposables[i].name%></td>
-                <td><%=inventoryDisposables[i].stock_level%>%></td>
+                <td><%=inventoryBase[i].name%></td>
+                <td><%=inventoryBase[i].stock_level%>%></td>
             </tr>
             <% } %>
         </tbody>
@@ -26,6 +26,6 @@
 
     <form action="/inventory/updateBaseStock" method="POST">
 <!--        add base stock route post-->
-        <button>Add Inventory</button>
+        <button type="submit">Add Inventory</button>
     </form>
 </body>

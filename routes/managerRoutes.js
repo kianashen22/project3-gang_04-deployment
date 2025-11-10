@@ -328,7 +328,25 @@ router.get('/inventory/inventoryHome', (req, res) => {
 });
 
 router.get('/inventory/baseInventory', (req, res) => {
-  res.render('manager/inventory/baseInventory');
+  inventoryBase = []
+    pool
+        .query("SELECT * FROM inventory WHERE name IN ('Blended Ice', 'Creamer', 'Lemonade');")
+        .then(query_res => {
+            for (let i = 0; i < query_res.rowCount; i++){
+                inventoryBase.push(query_res.rows[i]);
+            }
+            const data = {inventory: inventoryBase};
+            console.log(inventoryBase);
+            res.render('manager/inventory/baseInventory', data);
+        })
+
+    // res.render('manager/inventory/baseInventory');
+});
+
+router.post('/updateBaseStock', async (req, res) => {
+    console.log('Updating base stock...');
+    await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (5, 6, 7);");
+    res.redirect('/manager/inventory/baseInventory');
 });
 
 router.get('/inventory/teaInventory', (req, res) => {
