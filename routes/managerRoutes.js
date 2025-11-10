@@ -418,7 +418,7 @@ router.post('/updateToppingsStock', async (req, res) => {
 router.get('/employeeModification', (req, res) => {
     employees = []
     pool
-        .query('SELECT * FROM employee;')
+        .query('SELECT * FROM employee ORDER BY employee_id ASC;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 employees.push(query_res.rows[i]);
@@ -429,7 +429,7 @@ router.get('/employeeModification', (req, res) => {
         });
 });
 
-router.post('removeEmployee', async (req, res) => {
+router.post('/removeEmployee', async (req, res) => {
   const { id } = req.body;
   try {
     await pool.query('DELETE FROM employee WHERE employee_id = $1;', [id])
