@@ -1,4 +1,36 @@
 <!DOCTYPE html>
+<html>
 <head>
-
+    <title>X Report</title>
 </head>
+<body>
+<a href="analyticsOptions">Back</a>
+<h1>X-Report (Hourly Sales)</h1>
+
+<p>Total Sales Today: <strong>$<%= daily %></strong></p>
+
+<h2>Hourly Breakdown</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Hour</th>
+        <th>Sales</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if (hourly.length === 0) { %>
+        <tr><td colspan="2">No sales recorded today.</td></tr>
+    <% } else { %>
+        <% hourly.forEach(row => { %>
+            <tr>
+                <td><%= row.hour %>:00</td>
+                <td>$<%= row.hourly_sales %></td>
+            </tr>
+        <% }) %>
+    <% } %>
+    </tbody>
+</table>
+
+<button onclick="/generateXReport">Refresh</button>
+</body>
+</html>
