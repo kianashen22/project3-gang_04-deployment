@@ -27,15 +27,22 @@ process.on('SIGINT', function () {
 });
 
 // Routes for manager pages
+router.get('/index', (req, res) => {
+  res.render('../index');
+});
+
+// Routes for manager pages
 router.get('/managerHome', (req, res) => {
   res.render('manager/managerHome');
 });
 
-
-
 //analytics
 router.get('/analytics/analyticsOptions', (req, res) => {
   res.render('manager/analytics/analyticsOptions');
+});
+
+router.get('/analytics/salesReport', (req, res) => {
+  res.render('manager/analytics/salesReport');
 });
 
 router.get('/analytics/productUsageChart', (req, res) => {
@@ -169,7 +176,7 @@ router.get('/menuModification', (req, res) => {
             }
             const data = {beverage_info: beverage_info};
             console.log(beverage_info);
-            res.render('manager/menuModification', data);
+            res.render('manager/menuMods/menuModification', data);
         });
     // res.render('manager/menuModification');
 });
@@ -425,7 +432,7 @@ router.get('/employeeModification', (req, res) => {
             }
             const data = {employees: employees};
             console.log(employees);
-            res.render('manager/employeeModification', data);
+            res.render('manager/employeeMod/employeeModification', data);
         });
 });
 

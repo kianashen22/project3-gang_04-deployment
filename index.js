@@ -70,6 +70,11 @@ app.get('/menu', (req, res) => {
             res.render('menu', data);
         });
 });
+
+app.get('/index', (req, res) => {
+    res.render('index');
+});
+
 // app.get('/', (req, res) => {
 //     teammembers = []
 //     pool
