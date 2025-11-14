@@ -1,0 +1,29 @@
+agenda:
+ - discuss current state of tasks
+ - compare information gained about apis
+Date: Nov 14, 2025
+
+emma:
+ - Y: planned implantation of next few tasks
+ - T: researched api tasks
+ - B: busy with other stuff
+
+julian:
+ - Y: made weather api call
+ - T: make dynamic images show up to represent api data
+ - B: none
+
+kiana
+ - Y: meeting w caiti about OAuth api
+ - T: start implementing OAuth api
+ - B: busy but no
+
+caiti
+ - Y: planned OAuth API
+ - T: implement API
+ - B: none
+
+anna:
+ - Y: implement translate api
+ - T: login tasks
+ - B: waiting on oauth api
