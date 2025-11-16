@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>Modify <%= drink.name %></title>
+
+  <style>
+    button.active {
+      background-color: #ccc;
+      color: #333;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -79,11 +87,27 @@
     function setupSingleSelect(groupId, dataAttr, hiddenId) {
       const group = document.getElementById(groupId);
       if (!group) return;
+
+      const buttons = group.querySelectorAll('button[data-' + dataAttr + ']');
+      const hidden = document.getElementById(hiddenId);
+
       group.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-' + dataAttr + ']');
         if (!btn) return;
+
         const val = btn.dataset[dataAttr];
         document.getElementById(hiddenId).value = val;
+
+        buttons.forEach(b => b.classList.remove('active'));
+
+        // add active to clicked button
+        btn.classList.add('active');
+
+        buttons.forEach(btn => {
+          if (btn.dataset[dataAttr] == hidden.value) {
+            btn.classList.add('active');
+          }
+        });
       });
     }
 
@@ -95,16 +119,26 @@
     (function() {
       const group = document.getElementById('toppingGroup');
       const field = document.getElementById('toppingField');
-      if (!group || !field) return;
+      
+      const buttons = group.querySelectorAll('button[data-topping]');
+      
+      // if (!group || !field) return;
       group.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-topping]');
         if (!btn) return;
+
         const value = btn.dataset.topping;
+
         // Toggle off if same topping clicked twice
         if (field.value === value) {
+          // unselect
           field.value = '';
+
+          btn.classList.remove('active');
         } else {
           field.value = value;
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
         }
       });
     })();
@@ -113,12 +147,27 @@
     (function() {
       const group = document.getElementById('actionGroup');
       const field = document.getElementById('actionField');
-      if (!group || !field) return;
+
+      const buttons = group.querySelectorAll('button[data-action]');
+
+      // if (!group || !field) return;
       group.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
+
         field.value = btn.dataset.action;
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
+
+      // preload default
+      buttons.forEach(btn => {
+        if (btn.dataset.action === field.value) {
+          btn.classList.add('active');
+        }
+      });
+      
     })();
   </script>
 </body>
