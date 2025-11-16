@@ -41,8 +41,37 @@ router.get('/analytics/analyticsOptions', (req, res) => {
   res.render('manager/analytics/analyticsOptions');
 });
 
-router.get('/analytics/salesReport', (req, res) => {
-  res.render('manager/analytics/salesReport');
+router.get('/analytics/salesReport', async (req, res) => {
+  try {
+      // queries
+      const { startDate2, endDate2 } = req.query;
+
+      let query = "SELECT beverage.beverage_name, SUM(beverage.quantity) AS total_quantity, " +
+                  "SUM(beverage.price * beverage.quantity)::DECIMAL(10,2) AS total_sales FROM \"order\" " +
+                  "INNER JOIN beverage ON \"order\".order_id = beverage.order_id";
+      
+      const params = [];
+
+      if (startDate2 && endDate2) {
+        query += " WHERE \"order\".combine_date::date BETWEEN $1 AND $2";
+        params.push(startDate2, endDate2);
+      }
+
+      query += " GROUP BY beverage.beverage_name ORDER BY total_sales DESC;";
+      const result = await pool.query(query, params);
+      const salesReportResult = result.rows;
+
+      // render to ejs
+      res.render('manager/analytics/salesReport', {
+        salesReportResult,
+        startDate2,
+        endDate2
+      });
+      
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).send('Error fetching data');
+    }
 });
 
 router.get('/analytics/productUsageChart', (req, res) => {

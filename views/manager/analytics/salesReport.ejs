@@ -6,4 +6,33 @@
     <a href = "analyticsOptions">Back</a>
     <h1>Sales Report</h1>
 
+    <form action="/manager/analytics/salesReport" method="GET">
+        <label for="startDate2">Start Date:</label>
+        <input type="date" id="startDate2" name="startDate2" value="<%= startDate2 || '' %>" required>
+
+        <label for="endDate2">End Date:</label>
+        <input type="date" id="endDate2" name="endDate2" value="<%= endDate2 || '' %>" required>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Drink Name</th>
+          <th>Total Amount</th>
+          <th>Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% salesReportResult.forEach(row => { %>
+          <tr>
+            <td><%= row.beverage_name %></td>
+            <td><%= row.total_quantity %></td>
+            <td>$<%= row.total_sales %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
 </body>
