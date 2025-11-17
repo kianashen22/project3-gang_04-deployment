@@ -64,6 +64,7 @@ app.use('/customer', customerRoutes);
 app.get('/', (req, res) => {
     const data = {name: 'Caiti'};
     res.render('index', data);
+});
 
 // Google Login
 app.get('/auth/google', (req, res) => {
@@ -97,6 +98,7 @@ app.get('/auth/google/callback', async (req, res) => {
             'SELECT * FROM managerlogin WHERE email = $1',
             [user.email]
         );
+
         if (result.rowCount === 0) {
             return res.status(403).send('Access denied: not an authorized manager');
         }
