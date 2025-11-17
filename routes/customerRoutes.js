@@ -82,7 +82,7 @@ router.get('/customerHome', async (req, res) => {
   try {
     console.log("Customer homepage hit!");
 
-    const city = req.query.city || 'Houston';
+    const city = req.query.city || 'College Station';
 
     const apiKey = process.env.OPENWEATHER_API_KEY;
     console.log('OpenWeather key present:', !!apiKey);
