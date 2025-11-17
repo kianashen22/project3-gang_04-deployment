@@ -3,6 +3,14 @@
     <title>Home Page</title>
 </head>
 <body>
+    <nav>
+        <% if (user) { %>
+            <span>Welcome, <%= user.name %>!</span>
+            <a href="/logout">Logout</a>
+        <% } else { %>
+            <a href="/auth/google">Login with Google</a>
+        <% } %>
+    </nav>
     <a href="/menu">Menu</a>
     <a href="/manager/managerHome">Manager Home</a>
     <h1>SIGN IN</h1>
