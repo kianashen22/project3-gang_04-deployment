@@ -166,7 +166,7 @@ function requireEmployee(req, res, next) {
 
 
 
-app.get('/', (req, res) => {
+app.get('/index', (req, res) => {
     res.render('index', { user: req.session.user || null });
 });
 
