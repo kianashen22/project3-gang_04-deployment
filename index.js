@@ -37,7 +37,6 @@ const customerRoutes = require('./routes/customerRoutes');
 app.use('/manager', managerRoutes);
 app.use('/customer', customerRoutes);
 
-
 app.get('/', (req, res) => {
     const data = {name: 'Caiti'};
     res.render('index', data);
