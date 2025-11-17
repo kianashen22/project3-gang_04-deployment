@@ -55,10 +55,12 @@ app.use(express.static('public'));
 // Import route files
 const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
+const employeeRoutes = require('./routes/employeeRoutes');
 
 
 // Mount them with base paths
 app.use('/manager', requireManager, managerRoutes);
+app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 
 
@@ -94,19 +96,35 @@ app.get('/auth/google/callback', async (req, res) => {
             'SELECT * FROM managerlogin WHERE email = $1',
             [user.email]
         );
+        //no manager found
         if (result.rowCount === 0) {
-            return res.status(403).send('Access denied: not an authorized manager');
+            const result = await pool.query(
+                'SELECT * FROM employee WHERE email = $1',
+                [user.email]
+            );
+
+            if (result.rowCount === 0) {
+                return res.status(403).send('Access denied: not an authorized manager');
+            }
+
+            req.session.user = {
+                email: result.rows[0].email,
+                name: result.rows[0].name,
+                role: 'employee'
+            };
+            res.redirect('/employee/employeeHome');    
+
+        } else {
+            // saves user
+            req.session.user = {
+                email: result.rows[0].email,
+                name: result.rows[0].name,
+                role: 'manager'
+            };
+            res.redirect('/manager/managerHome');    
         }
 
-        // saves user
-        req.session.user = {
-            email: result.rows[0].email,
-            name: result.rows[0].name,
-            role: 'manager'
-        };
-
-        res.redirect('/manager/managerHome');    } 
-    catch (err) {
+    } catch (err) {
         console.error("OAuth Error", err);
         res.redirect('/');  // TODO: create a page that indicates that access was denied
     }
@@ -127,9 +145,18 @@ app.get('/logout', (req, res) => {
 function requireManager(req, res, next) {
     if (!req.session.user) return res.redirect('/auth/google');
     if (req.session.user.role !== 'manager')
-        return res.status(403).send('Access denied');
+        return res.status(403).send('Not a manager, Access denied');
     next();
 }
+
+function requireEmployee(req, res, next) {
+    if (!req.session.user) return res.redirect('/auth/google');
+    if (req.session.user.role !== 'employee')
+        if (req.session.user.role !== 'manager')
+            return res.status(403).send('Not an employee, Access denied');
+    next();
+}
+
 
 
 
