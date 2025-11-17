@@ -34,7 +34,6 @@ const oauth2Client = new OAuth2Client({
     redirectUri: process.env.GOOGLE_REDIRECT_URI,
 });
 
-
 // Create Session
 app.use(
     session({
