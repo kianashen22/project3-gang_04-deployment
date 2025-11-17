@@ -64,9 +64,11 @@ app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 
 app.get('/', (req, res) => {
-    const data = {name: 'Caiti'};
-    res.render('index', data);
+    // Example: if you are using sessions
+    const user = req.session.user; // or however you store the logged-in user
+    res.render('index', { user: user });
 });
+
 // Google Login
 app.get('/auth/google', (req, res) => {
     const url = oauth2Client.generateAuthUrl({
