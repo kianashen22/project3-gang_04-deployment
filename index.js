@@ -3,6 +3,9 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 
+const session = require("express-session");
+const { OAuth2Client } = require("google-auth-library");
+
 // Create express app
 const app = express();
 const port = 3000;
@@ -23,39 +26,118 @@ process.on('SIGINT', function() {
     console.log('Application successfully shutdown');
     process.exit(0);
 });
+
+// Create OAuth Client
+const oauth2Client = new OAuth2Client({
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI,
+});
+
+
+// Create Session
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+
+    })
+);
 	 	 	 	
 app.set("view engine", "ejs");
 
 // let any files in public folder to be accesible, so that browser can access it
 app.use(express.static('public'));
 
+
+
 // Import route files
 const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 
+
 // Mount them with base paths
-app.use('/manager', managerRoutes);
+app.use('/manager', requireManager, managerRoutes);
 app.use('/customer', customerRoutes);
 
 
-app.get('/', (req, res) => {
-    const data = {name: 'Caiti'};
-    res.render('index', data);
+// Google Login
+app.get('/auth/google', (req, res) => {
+    const url = oauth2Client.generateAuthUrl({
+        access_type: "offline",
+        scope: ["openid", "profile", "email"],
+        prompt: "select_account"
+    });
+    
+    res.redirect(url);
 });
 
-app.get('/', (req, res) => {
-    teammembers = []
-    pool
-        .query('SELECT * FROM "order";')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                teammembers.push(query_res.rows[i]);
-            }
-            const data = {teammembers: teammembers};
-            console.log(teammembers);
-            res.render('index', data);
+
+app.get('/auth/google/callback', async (req, res) => {
+    const code = req.query.code;
+
+    try {
+
+        const { tokens } = await oauth2Client.getToken(code);
+
+        const ticket = await oauth2Client.verifyIdToken({
+            idToken: tokens.id_token,
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
+
+
+        const user = ticket.getPayload();
+
+        // VERIFY USER IN MANGAGER TABLE
+        const result = await pool.query(
+            'SELECT * FROM managerlogin WHERE email = $1',
+            [user.email]
+        );
+        if (result.rowCount === 0) {
+            return res.status(403).send('Access denied: not an authorized manager');
+        }
+
+        // saves user
+        req.session.user = {
+            email: result.rows[0].email,
+            name: result.rows[0].name,
+            role: 'manager'
+        };
+
+        res.redirect('/manager/managerHome');    } 
+    catch (err) {
+        console.error("OAuth Error", err);
+        res.redirect('/');  // TODO: create a page that indicates that access was denied
+    }
 });
+
+
+// Logout
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    });
+});
+
+
+
+
+// function to require manager to be loged in
+function requireManager(req, res, next) {
+    if (!req.session.user) return res.redirect('/auth/google');
+    if (req.session.user.role !== 'manager')
+        return res.status(403).send('Access denied');
+    next();
+}
+
+
+
+app.get('/', (req, res) => {
+    res.render('index', { user: req.session.user || null });
+});
+
+
 
 app.get('/menu', (req, res) => {
     beverage_info = []
@@ -70,39 +152,6 @@ app.get('/menu', (req, res) => {
             res.render('menu', data);
         });
 });
-
-app.get('/index', (req, res) => {
-    res.render('index');
-});
-
-// app.get('/', (req, res) => {
-//     teammembers = []
-//     pool
-//         .query('SELECT * FROM "order";')
-//         .then(query_res => {
-//             for (let i = 0; i < query_res.rowCount; i++){
-//                 teammembers.push(query_res.rows[i]);
-//             }
-//             const data = {teammembers: teammembers};
-//             console.log(teammembers);
-//             res.render('index', data);
-//         });
-// });
-
-// app.get('/menu', (req, res) => {
-//     beverage_info = []
-//     pool
-//         .query('SELECT * FROM beverage_info;')
-//         .then(query_res => {
-//             for (let i = 0; i < query_res.rowCount; i++){
-//                 beverage_info.push(query_res.rows[i]);
-//             }
-//             const data = {beverage_info: beverage_info};
-//             console.log(beverage_info);
-//             res.render('views/menu', data);
-//         });
-//     res.render('menu');
-// });
 
 
 

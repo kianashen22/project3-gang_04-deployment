@@ -27,13 +27,40 @@ process.on('SIGINT', function () {
 });
 
 // Routes for manager pages
-router.get('/index', (req, res) => {
-  res.render('../index');
+router.get('/loginPage', (req, res) => {
+    res.render('manager/managerLogin');
 });
 
-// Routes for manager pages
 router.get('/managerHome', (req, res) => {
-  res.render('manager/managerHome');
+  res.render('manager/managerHome',{user: req.session.user});
+});
+
+
+router.post('/login', async (req, res) =>{
+    const { username, password } = req.body;
+
+    try {
+      const query = 'SELECT * FROM managerLogin WHERE username = $1';
+      const result = await pool.query(query, [username]);
+      const rows = result.rows;
+      //can't find user
+      if (rows.length === 0) { return res.status(404).json({ success: false, message: 'User not found' }); }
+      
+      //user found!
+      //will hash inital password (with salt gotten from req.body password)
+      //returns true if same
+      // if (await bcrypt.compare(password, data.password)) {
+      if (password == (rows[0]).password) {
+          console.log('Login Success')
+          return res.status(200).json({ success: true, message: 'Login success' });
+      } else {
+          return res.status(401).json({ success: false, message: 'Wrong password' });
+      }
+        
+        
+    } catch {
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
 });
 
 //analytics
