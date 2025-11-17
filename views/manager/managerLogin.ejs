@@ -1,0 +1,54 @@
+<body>
+    <h1>SIGN IN</h1>
+    <form action="/loggedIn" id = 'logInForm' method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Sign In">
+    </form>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            //making sure that we don't try to getelementbyid until after the user clicks submit
+            const form = document.getElementById('logInForm');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                console.log("gotten from form: ", username, " ", password)
+                //pass the username & pass to the server as res
+                const res =  await fetch('/manager/login', {
+                    method: 'POST',
+                    headers: {'Content-Type' : 'application/json'},
+                    body: JSON.stringify({ username, password })
+                });
+
+
+                // //turn the response into data -> send to console for debugging
+
+                if (res.status === 200) {
+                    // login success → redirect to manager page
+                    window.location.href = '/manager/managerHome';
+                } else if (res.status === 401) {
+                    alert('Wrong password');
+                } else if (res.status === 404) {
+                    alert('User not found');
+                } else if (res.status === 500) {
+                    alert('Database Error');
+                } else if (res.status === 501) {
+                    alert('Comparison error');
+                } else {
+                    alert('Server error');
+                }
+                    
+            });
+        
+        } catch (err) {
+            console.log('didntwork')
+            console.error(err);
+        }
+    });           
+</script>
