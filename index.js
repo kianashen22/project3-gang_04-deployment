@@ -44,7 +44,7 @@ app.use(
 
     })
 );
-	 	 	 	
+
 app.set("view engine", "ejs");
 
 // let any files in public folder to be accesible, so that browser can access it
@@ -61,6 +61,9 @@ const customerRoutes = require('./routes/customerRoutes');
 app.use('/manager', requireManager, managerRoutes);
 app.use('/customer', customerRoutes);
 
+app.get('/', (req, res) => {
+    const data = {name: 'Caiti'};
+    res.render('index', data);
 
 // Google Login
 app.get('/auth/google', (req, res) => {
@@ -69,7 +72,7 @@ app.get('/auth/google', (req, res) => {
         scope: ["openid", "profile", "email"],
         prompt: "select_account"
     });
-    
+
     res.redirect(url);
 });
 
@@ -105,7 +108,7 @@ app.get('/auth/google/callback', async (req, res) => {
             role: 'manager'
         };
 
-        res.redirect('/manager/managerHome');    } 
+        res.redirect('/manager/managerHome');    }
     catch (err) {
         console.error("OAuth Error", err);
         res.redirect('/');  // TODO: create a page that indicates that access was denied
