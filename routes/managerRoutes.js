@@ -33,7 +33,7 @@ router.get('/index', (req, res) => {
 
 // Routes for manager pages
 router.get('/managerHome', (req, res) => {
-  res.render('manager/managerHome');
+  res.render('manager/managerHome',{user: req.session.user});
 });
 
 //analytics

@@ -94,24 +94,21 @@ app.get('/auth/google/callback', async (req, res) => {
             'SELECT * FROM managerlogin WHERE email = $1',
             [user.email]
         );
-
         if (result.rowCount === 0) {
             return res.status(403).send('Access denied: not an authorized manager');
         }
 
         // saves user
         req.session.user = {
-
             email: result.rows[0].email,
             name: result.rows[0].name,
             role: 'manager'
         };
 
-        res.redirect('/manager/managerHome');
-    } 
+        res.redirect('/manager/managerHome');    } 
     catch (err) {
         console.error("OAuth Error", err);
-        res.redirect('/');  // create a page that indicates that access was denied
+        res.redirect('/');  // TODO: create a page that indicates that access was denied
     }
 });
 
