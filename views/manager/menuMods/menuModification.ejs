@@ -27,7 +27,11 @@
         <h2>Remove Menu Item</h2>
         <form action="/manager/removeMenuItem" method="POST">
             <label>Menu Item Index:</label>
-            <input type="number" id="beverage_info_id" name="id" required>
+            <select type="number" name="id" required>
+                <% for (var i in beverage_info) { %>
+                <option value="<%=beverage_info[i].beverage_info_id%>"><%=beverage_info[i].beverage_info_id%> - <%=beverage_info[i].name%></option>
+                <% } %>
+            </select>
             <button type="submit">Remove Item</button>
         </form>
 
@@ -57,7 +61,11 @@
         <h2>Edit Menu Item</h2>
         <form action="/manager/updateMenuItem" method="POST">
             <label>Menu Item Index:</label>
-            <input type="number" id="beverage_info_id" name="id" required>
+            <select type="number" name="id" required>
+                <% for (var i in beverage_info) { %>
+                <option value="<%=beverage_info[i].beverage_info_id%>"><%=beverage_info[i].beverage_info_id%> - <%=beverage_info[i].name%></option>
+                <% } %>
+            </select>
             <button type="submit">Go To Item</button>
         </form>
     </div>
