@@ -22,15 +22,24 @@
    <% } %>
 
    <form action="/manager/removeEmployee" method="POST">
-      <input type="text" name="id" placeholder="Employee ID">
+      <input type="text" name="id" placeholder="ID">
       <button type="submit">Delete Employee</button>
+   </form>
+
+   <br>
+
+   <form action="/manager/updateEmployee" method="POST">
+        <input type="number" name="id" placeholder="ID">
+        <input type="email" name="email" placeholder="employee@example.com">
+        <button type="submit">Update Employee Email</button>
    </form>
 
    <br>
    <form action="/manager/insertEmployee" method="POST">
       <input type="text" name="first" placeholder="First Name">
       <input type="text" name="last" placeholder="Last Name">
-      <input type="text" name="id" placeholder="Employee ID">
+      <input type="email" name="email" placeholder="employee@example.com">
+      <input type="number" name="id" placeholder="ID">
       <button type="submit">Insert Employee</button>
     </form>
     
