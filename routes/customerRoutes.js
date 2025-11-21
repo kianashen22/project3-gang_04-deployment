@@ -208,8 +208,116 @@ router.get('/orderSummary', (req, res) => {
 });
 
 //order confirmation page
-router.get('/orderConfirmation', (req, res) => {
-  res.render('customer/orderConfirmation');
+router.get('/orderConfirmation',async (req, res , next) => {
+  try {
+    const cart = req.session.cart || [];
+
+    // if cart is empty, don't create a blank order
+    if (cart.length === 0) {
+      return res.redirect('/customer/orderSummary');
+    }
+
+    // --- compute totals (same logic as orderSummary) ---
+    const subtotal = cart.reduce(
+      (sum, item) =>
+        sum +
+        (Number(item.price) + Number(item.toppingCharge || 0)) *
+          Number(item.quantity || 1),
+      0
+    );
+    const tax = subtotal * 0.085;
+    const total = subtotal + tax;
+
+    // --- time breakdown for analytics columns ---
+    const now = new Date();
+    const month = now.getMonth() + 1;   // 1–12
+    const date = now.getDate();         // 1–31
+    const year = now.getFullYear();     // e.g. 2025
+    const hour = now.getHours();        // 0–23
+
+    const startOfYear = new Date(year, 0, 1);
+    const daysSince = Math.floor(
+      (now - startOfYear) / (1000 * 60 * 60 * 24)
+    );
+    const week = Math.floor(daysSince / 7) + 1;
+
+    // combine_date is DATE, so use yyyy-mm-dd
+    const combine_date = now.toISOString().slice(0, 10);
+
+    const customerId = 1; // or whatever real customer_id you use
+
+const orderResult = await pool.query(
+  `
+  INSERT INTO "order" (
+    customer_id,
+    total_price,
+    month,
+    week,
+    date,
+    hour,
+    year,
+    combine_date
+  )
+  VALUES (
+    $1,
+    $2,
+    EXTRACT(MONTH FROM NOW())::int,
+    EXTRACT(WEEK  FROM NOW())::int,
+    EXTRACT(DAY   FROM NOW())::int,
+    EXTRACT(HOUR  FROM NOW())::int,
+    EXTRACT(YEAR  FROM NOW())::int,
+    CURRENT_DATE
+  )
+  RETURNING order_id
+  `,
+  [customerId, total]
+);
+
+    const orderId = orderResult.rows[0].order_id;
+    const maxResult = await pool.query(
+      'SELECT COALESCE(MAX(beverage_id), 0) AS max_id FROM beverage'
+    );
+    let nextBeverageId = maxResult.rows[0].max_id + 1;
+    // --- 2) insert each beverage tied to this order ---
+    const insertBeverageSql = `
+      INSERT INTO beverage
+        (beverage_id, order_id, beverage_info_id, beverage_name,
+         quantity, ice_level, sweetness_level, size, price)
+      VALUES
+        ($1,          $2,       $3,              $4,
+     $5,          $6,       $7,              $8,   $9)
+    `;
+
+    for (const item of cart) {
+      const unitPrice =
+        Number(item.price) + Number(item.toppingCharge || 0);
+    
+      await pool.query(insertBeverageSql, [
+        nextBeverageId,                       // beverage_id we control
+        orderId,                              // FK to "order"
+        Number(item.beverageInfoId),          // FK to beverage_info
+        item.name,
+        Number(item.quantity) || 1,
+        item.iceLevel || null,
+        item.sweetnessLevel || null,
+        item.size || null,
+        unitPrice,
+      ]);
+    
+      nextBeverageId++; // bump ID for the next row
+    }
+
+    // --- 3) clear cart ---
+    req.session.cart = [];
+
+    // --- 4) render confirmation ---
+    res.render('customer/orderConfirmation', {
+      orderId,
+      total
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 const db = {
   async getDrink(id) {
@@ -247,7 +355,7 @@ router.get('/:id/customize', async (req, res, next) => {
       return res.status(400).render('404', { message: 'Invalid item id.' });
     }
 
-    const [drink, iceLevels, sugarLevels, toppings] = await Promise.all([
+    const [drink, iceLevels, sugarLevels, toppingsRaw] = await Promise.all([
       db.getDrink(id),          
       db.getIceLevels(),         
       db.getSugarLevels(),      
@@ -257,7 +365,14 @@ router.get('/:id/customize', async (req, res, next) => {
     if (!drink) {
       return res.status(404).render('404', { message: 'Drink not found.' });
     }
-
+    const seen = new Set();
+    const toppings = [];
+    for (const t of toppingsRaw) {
+      const name = t.topping_name || t.name;
+      if (seen.has(name)) continue;
+      seen.add(name);
+      toppings.push(t);
+    }
     // Provide sensible defaults so the template can preselect values
     const defaults = {
       quantity: 1,

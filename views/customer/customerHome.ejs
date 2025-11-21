@@ -13,14 +13,7 @@
    <a href = "iceBlended">Ice Blended</a>
    <a href = "milky">Milk Tea</a>
    <a href = "orderSummary" >Cart</a>
-   <% if (weather) { %>
-      <h2>Weather for <%= weather.city %></h2>
-      <p>Temperature: <%= weather.temp %>°F</p>
-      <p>Feels like: <%= weather.feelsLike %>°F</p>
-      <p>Condition: <%= weather.description %></p>
-    <% } else { %>
-      <p>No weather data available.</p>
-    <% } %>
+   <%- include('../partials/weather', { weather: weather }) %>
 </body>
 
 <!--
