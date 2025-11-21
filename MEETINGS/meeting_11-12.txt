@@ -1,0 +1,30 @@
+Scrum meeting agenda:
+Discuss sprint 2 backlog items and plan API usage
+Date: November 12, 2025
+
+Caiti:
+- Y: brainstormed and planned implementation of her tasks
+- T: start on least time-consuming tasks (TBD)
+- B: figuring out how to do stuff
+
+Emma:
+- Y: meeting agenda, back buttons and connections
+- T: planning and initial surveyal of new tasks
+- B: classwork, other extracurriculars
+
+Julian:
+- Y: started testing weather API connection with postman to understand how it works
+- T: implementation of weather API
+- B: exams
+
+Kiana:
+- Y: what caiti did but better
+- T: what caiti is doing (but better)
+- B: understanding APIs
+
+Anna:
+- Y: reading google translate api documentation and learning how it works
+- T: implementing employee login and new button functionality
+- B: sleep deprivation (I reallyyyyy need to sleep)
+
+We discussed accessibility functionality
