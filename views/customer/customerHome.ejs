@@ -1,29 +1,109 @@
 <!DOCTYPE html>
 <head>
+   <link rel="stylesheet" href="../../public/css/customerStyle.css">
    <title>Customer Home</title>
 </head>
 <body>
-   <a href = "../index">Back</a>
+   <%- include("../partials/customerNavBar") %>
 
-   <!--    this is the start of google translate code-->
-   <div id="google_translate_element"></div>
-   <script type="text/javascript">
-      function googleTranslateElementInit() {
-         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-   </script>
-   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-   <!--    this is the end of google translate code-->
+   <div class = "drinkNavBar">
+      <div id = "titleContainer">
+         <h1>Make an Order</h1> 
+      </div>
 
-   <h1>Customer Home</h1>
+      <div id = "drinkContainer">
+         <div class = "allDropDown">
+            <button id = "all">All</button>
+            <div class="dropdown-content">
+               <a href="#">Link 1</a>
+               <a href="#">Link 2</a>
+               <a href="#">Link 3</a>
+            </div>
+         </div>
 
-   <!-- <a href = "http://localhost:3000/">Home</a> -->
-   <a href = "customerHome">Menu</a>
-   <a href = "freshBrew">Fresh Brew Tea</a>
-   <a href = "fruity" >Fruit Tea</a>
-   <a href = "iceBlended">Ice Blended</a>
-   <a href = "milky">Milk Tea</a>
-   <a href = "orderSummary" >Cart</a>
+         <div class = "freshBrewDropDown">
+            <button id = "freshBrew">Fresh Brew Tea</button>
+            <div class="dropdown-content">
+                  <% for (let drink of freshBrew_drinks) { 
+                     const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+                  %>
+                  <button class = "drinkButton" 
+                        data-drink-id = "<%= drink.beverage_info_id %>" 
+                        data-drink-name = "<%= drink.name %>"
+                        data-drink-price="<%= drink.price%>" >
+                        <img src="<%= img_url %>">
+                  </button>
+               
+                  <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+               <% } %>
+            </div>
+         </div>
+
+         <div class = "fruitTeaDropDown">
+            <button id = "fruitTea">Fruit Tea</button>
+            <div class="dropdown-content">
+                  <% for (let drink of fruity_drinks) { 
+                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+                     %>
+
+                     <button class = "drinkButton" 
+                           data-drink-id = "<%= drink.beverage_info_id %>" 
+                           data-drink-name = "<%= drink.name %>" 
+                           data-drink-price="<%= drink.price%>" >
+                           <img src="<%= img_url %>">
+                     </button>
+                  
+                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                  <% } %>
+            </div>
+         </div>
+
+         <div class = "iceBlendDropDown">
+            <button id = "iceBlended">Ice Blended</button>
+            <div class="dropdown-content">
+                  <% for (let drink of iceBlended_drinks) { 
+                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+                     %>
+
+                     <button class = "drinkButton" 
+                        data-drink-id = "<%= drink.beverage_info_id %>" 
+                        data-drink-name = "<%= drink.name %>" 
+                        data-drink-price="<%= drink.price%>" >
+                        <img src="<%= img_url %>">
+                     </button>
+                  
+                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+
+                  <% } %>
+            </div>
+         </div>
+
+         <div class = "milkTeaDropDown">
+            <button id = "milkTea">Milk Tea</button>
+            <div class="dropdown-content">
+                  <% for (let drink of milky_drinks) { 
+                     const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+                     %>
+
+                     <button class = "drinkButton" 
+                           data-drink-id = "<%= drink.beverage_info_id %>" 
+                           data-drink-name = "<%= drink.name %>" 
+                           data-drink-price="<%= drink.price%>" >
+                           <img src="<%= img_url %>">
+                     </button>
+                  
+                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                  <% } %>
+            </div>
+         </div>
+
+         <div class = "searchDropDown">
+            <button id = "search"><img src="/img/search.png"></button>
+         </div>
+
+      </div>
+   </div>
+   <script src = "/js/customerHandler.js"></script> 
 </body>
 
 <!--

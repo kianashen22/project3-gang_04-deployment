@@ -78,11 +78,54 @@ router.use((req, res, next) => {
 
 
 // Routes for customer pages
+// router.get('/customerHome', (req, res) => {
+//     console.log("Customer homepage hit!");
+
+//     res.render('customer/customerHome');
+// });
+
 router.get('/customerHome', (req, res) => {
     console.log("Customer homepage hit!");
-    res.render('customer/customerHome');
-});
+    let freshBrew_drinks = []
+    let fruity_drinks = []
+    let iceBlended_drinks = []
+    let milky_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
+        .then(query_res1 => {
+            for (let i = 0; i < query_res1.rowCount; i++){
+                freshBrew_drinks.push(query_res1.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
+        })
 
+        .then(query_res2 => {
+            for (let i = 0; i < query_res2.rowCount; i++){
+                fruity_drinks.push(query_res2.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
+        })
+
+        .then(query_res3 => {
+            for (let i = 0; i < query_res3.rowCount; i++){
+              iceBlended_drinks.push(query_res3.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
+        })
+
+        .then(query_res4 => {
+            for (let i = 0; i < query_res4.rowCount; i++){
+                milky_drinks.push(query_res4.rows[i]);
+            }
+            
+            res.render('customer/customerHome', {
+              freshBrew_drinks,
+              fruity_drinks,
+              iceBlended_drinks,
+              milky_drinks
+            });
+        });
+});
 
 // Fresh Brew Page
 router.get('/freshBrew', (req, res) => {
@@ -285,6 +328,7 @@ router.post('/cart/add', (req, res) => {
   return res.redirect('/customer/milky');
 });
 
+// FUNCTIONS
 
 
 

@@ -1,0 +1,144 @@
+/*
+FIGMA COLOR PALLET
+moss : #CBDFCD
+emerald : #68A691
+rose: #EFC7C2
+yellow: #FFE5D4
+mauve : #694F5D
+
+FONTS:
+Instrument Sans
+
+FONT COLORS:
+green header: #68A691
+
+
+*/
+@import "@fontsource/instrument-sans";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+    font-family: "Instrument Sans", sans-serif;
+}
+
+/* ---- customerNavBar styling --- */
+.customerNavBarContainer{
+    background-color:  #68A691;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px 20px 20px;  /* Top Right Bottom Left */    
+}
+.customerNavBarContainer #left{
+    background-color:  #68A691;
+    display: flex;
+    gap: 20px;
+}
+
+
+.customerNavBarContainer #left div a{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 30px;
+}
+
+.customerNavBarContainer #left div a:hover{
+    transform: scale(1.1, 1.1);
+}
+
+/* ---- drinkNavBar Styling ---- */
+.drinkNavBar{
+    background-color:  #CBDFCD;
+    width: 100vw; 
+    margin: 0;   
+    padding: 0;
+    position: relative;
+}
+
+.drinkNavBar #titleContainer{
+    padding: 20px 20px 0 0;
+}
+.drinkNavBar #titleContainer h1{
+    text-align: center;
+    font-size: 48px;
+    color: #68A691;
+}
+.drinkNavBar #drinkContainer{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.drinkNavBar #drinkContainer button{
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    height: 80px;
+    width: 250px;
+    border-radius: 10px 10px 0 0;
+}
+
+.drinkNavBar #drinkContainer button:hover{
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #68A691;
+    background: white;
+    border: none;
+    padding: 0px;
+}
+
+/*
+.dropdown-content{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;   
+    width: 100vw; 
+    background-color: white;
+}
+
+/*
+.dropdown-content.show {
+    display: block;
+}
+*/
+
+/*
+.allDropDown button:hover + .dropdown-content {
+    display: block;
+}
+
+
+
+.freshBrewDropDown button:focus + .dropdown-content {
+    display: block;
+}
+
+/*
+.fruitTeaDropDown button:hover + .dropdown-content {
+    display: block;
+}
+
+
+.iceBlendDropDown button:hover + .dropdown-content {
+    display: block;
+}
+
+
+.milkTeaDropDown button:hover + .dropdown-content {
+    display: block;
+}
+
+
+.searchDropDown button:hover + .dropdown-content {
+    display: block;
+}
+*/
