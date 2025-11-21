@@ -22,7 +22,12 @@ html, body {
     overflow-x: hidden; 
     font-family: "Instrument Sans", sans-serif;
 }
+footer {
 
+    padding: 40px;
+    background-color: white;
+    margin-top: 50px; 
+}
 /* ---- customerNavBar styling --- */
 .customerNavBarContainer{
     background-color:  #68A691;
@@ -74,7 +79,7 @@ html, body {
     gap: 10px;
 }
 
-.drinkNavBar #drinkContainer button{
+.drinkCategoryButton{
     font-family: "Instrument Sans", sans-serif;
     font-size: 30px;
     font-weight: bold;
@@ -85,60 +90,60 @@ html, body {
     border-radius: 10px 10px 0 0;
 }
 
-.drinkNavBar #drinkContainer button:hover{
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-    color: #68A691;
-    background: white;
-    border: none;
-    padding: 0px;
-}
 
-/*
+
+
 .dropdown-content{
-    display: none;
+    flex-wrap: wrap;    
     position: absolute;
     top: 100%;
-    left: 0;   
-    width: 100vw; 
+    left: 0;
+    width: 100%;
     background-color: white;
+    margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
+    gap: 60px;   
+
 }
 
-/*
-.dropdown-content.show {
-    display: block;
-}
-*/
-
-/*
-.allDropDown button:hover + .dropdown-content {
-    display: block;
-}
-
-
-
-.freshBrewDropDown button:focus + .dropdown-content {
-    display: block;
+.drinkCard {
+    width: 200px; 
+    min-width: 0;      
+    aspect-ratio: 1/1;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#CBDFCD;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-/*
-.fruitTeaDropDown button:hover + .dropdown-content {
-    display: block;
+.drinkCard:hover{
+    background-color: #A3B5A5;
 }
 
-
-.iceBlendDropDown button:hover + .dropdown-content {
-    display: block;
+.drinkButton {
+    border-style: none;
+    width: 100%;
+    padding: 0.5rem; 
+    background-color:#CBDFCD;
 }
-
-
-.milkTeaDropDown button:hover + .dropdown-content {
-    display: block;
+.drinkCard:hover .drinkButton{
+    background-color: #A3B5A5;
 }
 
 
-.searchDropDown button:hover + .dropdown-content {
-    display: block;
+.drinkCard img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
-*/
+
+.drinkTextContainer {
+    width: 100%;
+    text-align: center;
+    min-width: 0;   
+}
+
+

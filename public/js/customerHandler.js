@@ -13,8 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
-    
+        
     // ALL Tab is default open screen drop down
+    const allContainer = document.querySelector(".allDropDown");
+    const dropdownContent = allContainer.querySelector(".dropdown-content");
+    dropdownContent.style.display = "flex";
+    const allBtn = document.getElementById("all");
+    allBtn.style.backgroundColor = "white";
+    allBtn.style.color = "#68A691";
+
     
     const continueBtn = document.getElementById("continueButton");
     if (continueBtn) {
@@ -32,75 +39,142 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ALL DROP DOWN MENU
 document.getElementById("all").addEventListener("click", function(){
+    // reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";  
+        btn.style.color = "black"; 
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    //style
+    const allBtn = document.getElementById("all");
+    allBtn.style.backgroundColor = "white";
+    allBtn.style.color = "#68A691";
     const allContainer = document.querySelector(".allDropDown");
     const dropdownContent = allContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";
 });
 
 
 // FRESH BREW DROP DOWN MENU
 document.getElementById("freshBrew").addEventListener("click", function(){
+
+    //reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";  
+        btn.style.color = "black";  
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    //style
+    const freshBtn = document.getElementById("freshBrew");
+    freshBtn.style.backgroundColor = "white";
+    freshBtn.style.color = "#68A691";
     const freshBrewContainer = document.querySelector(".freshBrewDropDown");
     const dropdownContent = freshBrewContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";
 });
 
 // FRUIT TEA DROP DOWN MENU
 document.getElementById("fruitTea").addEventListener("click", function(){
+    //reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";   
+        btn.style.color = "black"; 
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    //style
+    const fruitTeaBtn = document.getElementById("fruitTea");
+    fruitTeaBtn.style.backgroundColor = "white";
+    fruitTeaBtn.style.color = "#68A691";
     const fruitTeaContainer = document.querySelector(".fruitTeaDropDown");
     const dropdownContent = fruitTeaContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";
 });
 
 // ICE BLENDED DROP DOWN MENU
 document.getElementById("iceBlended").addEventListener("click", function(){
+    //reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";  
+        btn.style.color = "black";  
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    //style
+    const iceBlendBtn = document.getElementById("iceBlended");
+    iceBlendBtn.style.backgroundColor = "white";
+    iceBlendBtn.style.color = "#68A691";
     const iceBlendedContainer = document.querySelector(".iceBlendDropDown");
     const dropdownContent = iceBlendedContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";
 });
 
 // MILK TEA DROP DOWN MENU
 document.getElementById("milkTea").addEventListener("click", function(){
+    // reset 
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD"; 
+        btn.style.color = "black";   
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    // style
+    const milkTeaBtn = document.getElementById("milkTea");
+    milkTeaBtn.style.backgroundColor = "white";
+    milkTeaBtn.style.color = "#68A691";
     const milkTeaContainer = document.querySelector(".milkTeaDropDown");
     const dropdownContent = milkTeaContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";
 });
 
 // SEARCH DROP DOWN MENU
 document.getElementById("search").addEventListener("click", function(){
+    //reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";   
+        btn.style.color = "black"; 
+    });
+
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
     })
 
+    // style
+    const searchBtn = document.getElementById("search");
+    searchBtn.style.backgroundColor = "white";
+    searchBtn.style.color = "#68A691";
     const searchContainer = document.querySelector(".searchDropDown");
     const dropdownContent = searchContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "block";
+    dropdownContent.style.display = "flex";  // CHANGE THIS DEPENDING ON DISPLAY OF SEARCH DROP DOWN!!
 });
 
 

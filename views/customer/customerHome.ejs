@@ -13,96 +13,119 @@
 
       <div id = "drinkContainer">
          <div class = "allDropDown">
-            <button id = "all">All</button>
+            <button id = "all" class = "drinkCategoryButton">All</button>
             <div class="dropdown-content">
-               <a href="#">Link 1</a>
-               <a href="#">Link 2</a>
-               <a href="#">Link 3</a>
+                  <% for (let drink of all_drinks) { 
+                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
+                     %>
+
+                     <div class = "drinkCard">
+                        <button class = "drinkButton" 
+                              data-drink-id = "<%= drink.beverage_info_id %>" 
+                              data-drink-name = "<%= drink.name %>" 
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
+                     
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
+                     
+                  <% } %>
             </div>
          </div>
 
          <div class = "freshBrewDropDown">
-            <button id = "freshBrew">Fresh Brew Tea</button>
+            <button id = "freshBrew" class = "drinkCategoryButton">Fresh Brew Tea</button>
             <div class="dropdown-content">
                   <% for (let drink of freshBrew_drinks) { 
                      const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
                   %>
-                  <button class = "drinkButton" 
-                        data-drink-id = "<%= drink.beverage_info_id %>" 
-                        data-drink-name = "<%= drink.name %>"
-                        data-drink-price="<%= drink.price%>" >
-                        <img src="<%= img_url %>">
-                  </button>
-               
-                  <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                     <div class = "drinkCard">
+                        <button class = "drinkButton" 
+                              data-drink-id = "<%= drink.beverage_info_id %>" 
+                              data-drink-name = "<%= drink.name %>" 
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
+                     
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
                <% } %>
             </div>
          </div>
 
          <div class = "fruitTeaDropDown">
-            <button id = "fruitTea">Fruit Tea</button>
+            <button id = "fruitTea" class = "drinkCategoryButton">Fruit Tea</button>
             <div class="dropdown-content">
                   <% for (let drink of fruity_drinks) { 
                         const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
                      %>
-
-                     <button class = "drinkButton" 
-                           data-drink-id = "<%= drink.beverage_info_id %>" 
-                           data-drink-name = "<%= drink.name %>" 
-                           data-drink-price="<%= drink.price%>" >
-                           <img src="<%= img_url %>">
-                     </button>
-                  
-                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                     <div class = "drinkCard">
+                        <button class = "drinkButton" 
+                              data-drink-id = "<%= drink.beverage_info_id %>" 
+                              data-drink-name = "<%= drink.name %>" 
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
+                     
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
                   <% } %>
             </div>
          </div>
 
          <div class = "iceBlendDropDown">
-            <button id = "iceBlended">Ice Blended</button>
+            <button id = "iceBlended" class = "drinkCategoryButton">Ice Blended</button>
             <div class="dropdown-content">
                   <% for (let drink of iceBlended_drinks) { 
                         const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
                      %>
 
-                     <button class = "drinkButton" 
-                        data-drink-id = "<%= drink.beverage_info_id %>" 
-                        data-drink-name = "<%= drink.name %>" 
-                        data-drink-price="<%= drink.price%>" >
-                        <img src="<%= img_url %>">
-                     </button>
-                  
-                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                     <div class = "drinkCard">
+                        <button class = "drinkButton" 
+                              data-drink-id = "<%= drink.beverage_info_id %>" 
+                              data-drink-name = "<%= drink.name %>" 
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
+                     
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
 
                   <% } %>
             </div>
          </div>
 
          <div class = "milkTeaDropDown">
-            <button id = "milkTea">Milk Tea</button>
+            <button id = "milkTea" class = "drinkCategoryButton">Milk Tea</button>
             <div class="dropdown-content">
                   <% for (let drink of milky_drinks) { 
                      const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
                      %>
-
-                     <button class = "drinkButton" 
-                           data-drink-id = "<%= drink.beverage_info_id %>" 
-                           data-drink-name = "<%= drink.name %>" 
-                           data-drink-price="<%= drink.price%>" >
-                           <img src="<%= img_url %>">
-                     </button>
-                  
-                     <p>Name: <%= drink.name %>, Price: <%= drink.price %></p>
+                     <div class = "drinkCard">
+                        <button class = "drinkButton" 
+                              data-drink-id = "<%= drink.beverage_info_id %>" 
+                              data-drink-name = "<%= drink.name %>" 
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
+                     
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
                   <% } %>
             </div>
          </div>
 
          <div class = "searchDropDown">
-            <button id = "search"><img src="/img/search.png"></button>
+            <button id = "search" class = "drinkCategoryButton"><img src="/img/search.png"></button>
+            <div class = "dropdown-content">
+
+            </div>
          </div>
 
       </div>
    </div>
+   <footer></footer>
    <script src = "/js/customerHandler.js"></script> 
 </body>
 
