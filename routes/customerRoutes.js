@@ -4,7 +4,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 const session = require('express-session');
-
+const axios = require('axios');
 
 // create image arrays
 // milky image will be the default drink image when a new drink is created unless added to the array
@@ -84,56 +84,12 @@ router.use((req, res, next) => {
 //     res.render('customer/customerHome');
 // });
 
-router.get('/customerHome', (req, res) => {
+router.get('/customerHome', async (req, res) => {
+  try {
     console.log("Customer homepage hit!");
-    let freshBrew_drinks = []
-    let fruity_drinks = []
-    let iceBlended_drinks = []
-    let milky_drinks = []
-    let all_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-        .then(query_res1 => {
-            for (let i = 0; i < query_res1.rowCount; i++){
-                freshBrew_drinks.push(query_res1.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-        })
-
-        .then(query_res2 => {
-            for (let i = 0; i < query_res2.rowCount; i++){
-                fruity_drinks.push(query_res2.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-        })
-
-        .then(query_res3 => {
-            for (let i = 0; i < query_res3.rowCount; i++){
-              iceBlended_drinks.push(query_res3.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-        })
-
-        .then(query_res4 => {
-            for (let i = 0; i < query_res4.rowCount; i++){
-                milky_drinks.push(query_res4.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info')
-        })
-
-        .then(query_res5 => {
-            for (let i = 0; i < query_res5.rowCount; i++){
-                all_drinks.push(query_res5.rows[i]);
-            }
-            res.render('customer/customerHome', {
-              freshBrew_drinks,
-              fruity_drinks,
-              iceBlended_drinks,
-              milky_drinks,
-              all_drinks
-            });
-        });
+    res.render('customer/customerHome');
 });
+
 
 // Fresh Brew Page
 router.get('/freshBrew', (req, res) => {
@@ -212,7 +168,7 @@ router.get('/orderSummary', (req, res) => {
 
   // totals
   const subtotal = cart.reduce((s, d) => s + (Number(d.price) + Number(d.toppingCharge || 0)) * Number(d.quantity), 0);
-  const tax = subtotal * 0.085; // 8.5% — adjust if needed
+  const tax = subtotal * 0.085; 
   const total = subtotal + tax;
 
   res.render('customer/orderSummary', {
@@ -222,8 +178,116 @@ router.get('/orderSummary', (req, res) => {
 });
 
 //order confirmation page
-router.get('/orderConfirmation', (req, res) => {
-  res.render('customer/orderConfirmation');
+router.get('/orderConfirmation',async (req, res , next) => {
+  try {
+    const cart = req.session.cart || [];
+
+    // if cart is empty, don't create a blank order
+    if (cart.length === 0) {
+      return res.redirect('/customer/orderSummary');
+    }
+
+    // --- compute totals (same logic as orderSummary) ---
+    const subtotal = cart.reduce(
+      (sum, item) =>
+        sum +
+        (Number(item.price) + Number(item.toppingCharge || 0)) *
+          Number(item.quantity || 1),
+      0
+    );
+    const tax = subtotal * 0.085;
+    const total = subtotal + tax;
+
+    // --- time breakdown for analytics columns ---
+    const now = new Date();
+    const month = now.getMonth() + 1;   // 1–12
+    const date = now.getDate();         // 1–31
+    const year = now.getFullYear();     // e.g. 2025
+    const hour = now.getHours();        // 0–23
+
+    const startOfYear = new Date(year, 0, 1);
+    const daysSince = Math.floor(
+      (now - startOfYear) / (1000 * 60 * 60 * 24)
+    );
+    const week = Math.floor(daysSince / 7) + 1;
+
+    // combine_date is DATE, so use yyyy-mm-dd
+    const combine_date = now.toISOString().slice(0, 10);
+
+    const customerId = 1; // or whatever real customer_id you use
+
+const orderResult = await pool.query(
+  `
+  INSERT INTO "order" (
+    customer_id,
+    total_price,
+    month,
+    week,
+    date,
+    hour,
+    year,
+    combine_date
+  )
+  VALUES (
+    $1,
+    $2,
+    EXTRACT(MONTH FROM NOW())::int,
+    EXTRACT(WEEK  FROM NOW())::int,
+    EXTRACT(DAY   FROM NOW())::int,
+    EXTRACT(HOUR  FROM NOW())::int,
+    EXTRACT(YEAR  FROM NOW())::int,
+    CURRENT_DATE
+  )
+  RETURNING order_id
+  `,
+  [customerId, total]
+);
+
+    const orderId = orderResult.rows[0].order_id;
+    const maxResult = await pool.query(
+      'SELECT COALESCE(MAX(beverage_id), 0) AS max_id FROM beverage'
+    );
+    let nextBeverageId = maxResult.rows[0].max_id + 1;
+    // --- 2) insert each beverage tied to this order ---
+    const insertBeverageSql = `
+      INSERT INTO beverage
+        (beverage_id, order_id, beverage_info_id, beverage_name,
+         quantity, ice_level, sweetness_level, size, price)
+      VALUES
+        ($1,          $2,       $3,              $4,
+     $5,          $6,       $7,              $8,   $9)
+    `;
+
+    for (const item of cart) {
+      const unitPrice =
+        Number(item.price) + Number(item.toppingCharge || 0);
+    
+      await pool.query(insertBeverageSql, [
+        nextBeverageId,                       // beverage_id we control
+        orderId,                              // FK to "order"
+        Number(item.beverageInfoId),          // FK to beverage_info
+        item.name,
+        Number(item.quantity) || 1,
+        item.iceLevel || null,
+        item.sweetnessLevel || null,
+        item.size || null,
+        unitPrice,
+      ]);
+    
+      nextBeverageId++; // bump ID for the next row
+    }
+
+    // --- 3) clear cart ---
+    req.session.cart = [];
+
+    // --- 4) render confirmation ---
+    res.render('customer/orderConfirmation', {
+      orderId,
+      total
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 const db = {
   async getDrink(id) {
@@ -237,7 +301,6 @@ const db = {
   },
 
   async getIceLevels() {
-    // Use DB if you have a table; otherwise hardcode
     return ['no ice', 'light ice', 'regular ice', 'extra ice'];
   },
 
@@ -246,7 +309,6 @@ const db = {
   },
 
   async getToppings() {
-    // Adjust table/columns to your schema
     const q = `
       SELECT beverage_topping_id, topping_name
       FROM beverage_toppings
@@ -263,24 +325,30 @@ router.get('/:id/customize', async (req, res, next) => {
       return res.status(400).render('404', { message: 'Invalid item id.' });
     }
 
-    // Fetch drink + option lists in parallel
-    const [drink, iceLevels, sugarLevels, toppings] = await Promise.all([
-      db.getDrink(id),           // -> { id, name, base_price, image }
-      db.getIceLevels(),         // -> e.g. ['no ice','light','regular','extra']
-      db.getSugarLevels(),       // -> e.g. ['0%','30%','50%','80%','100%','120%']
-      db.getToppings(),          // -> e.g. [{id:1,name:'Tapioca Pearl',price:0.75}, ...]
+    const [drink, iceLevels, sugarLevels, toppingsRaw] = await Promise.all([
+      db.getDrink(id),          
+      db.getIceLevels(),         
+      db.getSugarLevels(),      
+      db.getToppings(),          
     ]);
 
     if (!drink) {
       return res.status(404).render('404', { message: 'Drink not found.' });
     }
-
+    const seen = new Set();
+    const toppings = [];
+    for (const t of toppingsRaw) {
+      const name = t.topping_name || t.name;
+      if (seen.has(name)) continue;
+      seen.add(name);
+      toppings.push(t);
+    }
     // Provide sensible defaults so the template can preselect values
     const defaults = {
       quantity: 1,
-      size: 'large',
+      size: 'small',
       iceLevel: 'regular',
-      sugarLevel: '50%',
+      sugarLevel: '100%',
       toppingIds: [], // none selected
       action: 'add',
     };
@@ -297,7 +365,6 @@ router.get('/:id/customize', async (req, res, next) => {
   }
 });
 router.post('/cart/add', (req, res) => {
-  // ensure cart
   if (!req.session.cart) req.session.cart = [];
 
   const {
@@ -312,10 +379,10 @@ router.post('/cart/add', (req, res) => {
     quantity
   } = req.body;
 
-  // normalize + compute
+
   const qty = Math.max(1, Number(quantity) || 1);
   const basePrice = Number(price) || 0;
-  const toppingCharge = (action === 'add' && topping) ? 0.75 : 0; // tweak if you price toppings differently
+  const toppingCharge = (action === 'add' && topping) ? 0.75 : 0; 
   const lineTotal = (basePrice + toppingCharge) * qty;
 
   req.session.cart.push({
@@ -325,15 +392,14 @@ router.post('/cart/add', (req, res) => {
     iceLevel,
     sweetnessLevel,
     topping: topping || null,
-    action,                     // 'add' | 'sub' | 'remove'
+    action,                    
     price: basePrice,
     toppingCharge,
     quantity: qty,
     lineTotal
   });
   console.log('CART NOW:', req.session.cart);
-  // for now, just bounce back to Milky list or go to summary later
-  return res.redirect('/customer/milky');
+  return res.redirect('/customer/customerHome');
 });
 
 // FUNCTIONS

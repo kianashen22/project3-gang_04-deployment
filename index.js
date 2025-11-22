@@ -28,6 +28,7 @@ process.on('SIGINT', function() {
 });
 
 // Create OAuth Client
+const redirectUrl = process.env.GOOGLE_REDIRECT_URI;
 const oauth2Client = new OAuth2Client({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,

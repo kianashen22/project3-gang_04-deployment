@@ -21,16 +21,37 @@
        <p>Employee: <%=employees[i].first_name%> <%=employees[i].last_name%>, id: <%=employees[i].employee_id%>%><p>
    <% } %>
 
+   <br>
+
    <form action="/manager/removeEmployee" method="POST">
-      <input type="text" name="id" placeholder="Employee ID">
+      <label>Employee ID:</label>
+      <select name="id">
+         <% for (var i in employees) { %>
+            <option value="<%=employees[i].employee_id%>"><%=employees[i].employee_id%> - <%=employees[i].first_name%> <%=employees[i].last_name%></option>
+         <% } %>
+      </select>
       <button type="submit">Delete Employee</button>
+   </form>
+
+   <br>
+
+   <form action="/manager/updateEmployee" method="POST">
+      <label>Employee ID:</label>
+      <select name="id">
+         <% for (var i in employees) { %>
+         <option value="<%=employees[i].employee_id%>"><%=employees[i].employee_id%> - <%=employees[i].first_name%> <%=employees[i].last_name%></option>
+         <% } %>
+      </select>
+        <input type="email" name="email" placeholder="employee@example.com">
+        <button type="submit">Update Employee Email</button>
    </form>
 
    <br>
    <form action="/manager/insertEmployee" method="POST">
       <input type="text" name="first" placeholder="First Name">
       <input type="text" name="last" placeholder="Last Name">
-      <input type="text" name="id" placeholder="Employee ID">
+      <input type="email" name="email" placeholder="employee@example.com">
+      <input type="number" name="id" placeholder="ID">
       <button type="submit">Insert Employee</button>
     </form>
     

@@ -31,14 +31,19 @@
 <!--        form for now, buttons will be added later to improve UX-->
         <form action="/manager/addToMenuItem" method="POST">
             <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
+
             <label>Inventory Id:</label>
             <input type="number" id="inventory_id" name = "inv_id" required>
             <label>Quantity:</label>
             <input type="number" id="quantity" name = "qt" required>
 
-<!--            consider a dropdown to prevent random units-->
             <label>Unit:</label>
-            <input type="text" id="unit" name = "unit" required>
+            <select id="unit" name = "unit" required>
+                <option value="grams">grams</option>
+                <option value="ml">ml</option>
+                <option value="pieces">pieces</option>
+                <option value="oz">oz</option>
+            </select>
 
             <button type="submit">Add to Item</button>
         </form>
