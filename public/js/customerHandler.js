@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropdownContent = allContainer.querySelector(".dropdown-content");
     dropdownContent.style.display = "flex";
     const allBtn = document.getElementById("all");
-    allBtn.style.backgroundColor = "white";
+    allBtn.style.backgroundColor = " #FFFEF9";
     allBtn.style.color = "#68A691";
 
     
@@ -53,7 +53,7 @@ document.getElementById("all").addEventListener("click", function(){
 
     //style
     const allBtn = document.getElementById("all");
-    allBtn.style.backgroundColor = "white";
+    allBtn.style.backgroundColor = " #FFFEF9";
     allBtn.style.color = "#68A691";
     const allContainer = document.querySelector(".allDropDown");
     const dropdownContent = allContainer.querySelector(".dropdown-content");
@@ -78,7 +78,7 @@ document.getElementById("freshBrew").addEventListener("click", function(){
 
     //style
     const freshBtn = document.getElementById("freshBrew");
-    freshBtn.style.backgroundColor = "white";
+    freshBtn.style.backgroundColor = " #FFFEF9";
     freshBtn.style.color = "#68A691";
     const freshBrewContainer = document.querySelector(".freshBrewDropDown");
     const dropdownContent = freshBrewContainer.querySelector(".dropdown-content");
@@ -101,7 +101,7 @@ document.getElementById("fruitTea").addEventListener("click", function(){
 
     //style
     const fruitTeaBtn = document.getElementById("fruitTea");
-    fruitTeaBtn.style.backgroundColor = "white";
+    fruitTeaBtn.style.backgroundColor = " #FFFEF9";
     fruitTeaBtn.style.color = "#68A691";
     const fruitTeaContainer = document.querySelector(".fruitTeaDropDown");
     const dropdownContent = fruitTeaContainer.querySelector(".dropdown-content");
@@ -124,7 +124,7 @@ document.getElementById("iceBlended").addEventListener("click", function(){
 
     //style
     const iceBlendBtn = document.getElementById("iceBlended");
-    iceBlendBtn.style.backgroundColor = "white";
+    iceBlendBtn.style.backgroundColor = " #FFFEF9";
     iceBlendBtn.style.color = "#68A691";
     const iceBlendedContainer = document.querySelector(".iceBlendDropDown");
     const dropdownContent = iceBlendedContainer.querySelector(".dropdown-content");
@@ -147,7 +147,7 @@ document.getElementById("milkTea").addEventListener("click", function(){
 
     // style
     const milkTeaBtn = document.getElementById("milkTea");
-    milkTeaBtn.style.backgroundColor = "white";
+    milkTeaBtn.style.backgroundColor = " #FFFEF9";
     milkTeaBtn.style.color = "#68A691";
     const milkTeaContainer = document.querySelector(".milkTeaDropDown");
     const dropdownContent = milkTeaContainer.querySelector(".dropdown-content");
@@ -170,7 +170,7 @@ document.getElementById("search").addEventListener("click", function(){
 
     // style
     const searchBtn = document.getElementById("search");
-    searchBtn.style.backgroundColor = "white";
+    searchBtn.style.backgroundColor = " #FFFEF9";
     searchBtn.style.color = "#68A691";
     const searchContainer = document.querySelector(".searchDropDown");
     const dropdownContent = searchContainer.querySelector(".dropdown-content");

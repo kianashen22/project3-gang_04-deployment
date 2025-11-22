@@ -64,8 +64,7 @@ app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 
 app.get('/', (req, res) => {
-    // Example: if you are using sessions
-    const user = req.session.user; // or however you store the logged-in user
+    const user = req.session.user; 
     res.render('index', { user: user });
 });
 
@@ -165,7 +164,7 @@ function requireEmployee(req, res, next) {
 
 
 
-app.get('/', (req, res) => {
+app.get('/index', (req, res) => {
     res.render('index', { user: req.session.user || null });
 });
 

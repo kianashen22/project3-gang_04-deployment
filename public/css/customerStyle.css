@@ -5,6 +5,7 @@ emerald : #68A691
 rose: #EFC7C2
 yellow: #FFE5D4
 mauve : #694F5D
+cream-white:  #FFFEF9
 
 FONTS:
 Instrument Sans
@@ -21,13 +22,9 @@ html, body {
     padding: 0;
     overflow-x: hidden; 
     font-family: "Instrument Sans", sans-serif;
+    background-color:  #FFFEF9;
 }
-footer {
 
-    padding: 40px;
-    background-color: white;
-    margin-top: 50px; 
-}
 /* ---- customerNavBar styling --- */
 .customerNavBarContainer{
     background-color:  #68A691;
@@ -99,7 +96,7 @@ footer {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: white;
+    background-color: #FFFEF9;
     margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
     gap: 60px;   
 

@@ -4,6 +4,7 @@
    <title>Order Summary</title>
 </head>
 <body>
+  <%- include("../partials/customerNavBar") %>
 
     <!--    this is the start of google translate code-->
     <div id="google_translate_element"></div>
@@ -16,13 +17,7 @@
     <!--    this is the end of google translate code-->
 
    <h1>Order Summary</h1>
-   <a href = "http://localhost:3000/">Home</a>
-   <a href = "customerHome">Menu</a>
-   <a href = "freshBrew">Fresh Brew Tea</a>
-   <a href = "fruity" >Fruit Tea</a>
-   <a href = "iceBlended">Ice Blended</a>
-   <a href = "milky">Milk Tea</a>
-   <a href = "orderSummary" >Cart</a>
+
    <% 
    const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
    const calcSubtotal = items.reduce((s, d) => {
@@ -65,6 +60,6 @@
    <div>Total: $<%= total.toFixed(2) %></div>
  <% } %>
 
- <p><a href="/customer/milky">Back</a><a href="/customer/orderConfirmation">Check out</a></p>
+ <p><a href="/customer/orderConfirmation">Check out</a></p>
  
 </body>
