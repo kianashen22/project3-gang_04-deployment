@@ -4,6 +4,7 @@
    <title>Customer Home</title>
 </head>
 <body>
+          <%- include('../partials/weather', { weather: weather }) %>
 <div class = "customerNavBarContainer">
     <div id = "left">
 
@@ -156,7 +157,7 @@
    </div>
    <footer></footer>
    <script src = "/js/customerHandler.js"></script> 
-   <%- include('../partials/weather', { weather: weather }) %>
+
 </body>
 
 <!--

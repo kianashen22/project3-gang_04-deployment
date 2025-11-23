@@ -84,12 +84,141 @@ router.use((req, res, next) => {
 //     res.render('customer/customerHome');
 // });
 
+
+
+// router.get('/customerHome', async (req, res) => {
+//   try {
+//     console.log("Customer homepage hit!");
+
+//     const city = req.query.city || 'College Station';
+
+//     const apiKey = process.env.OPENWEATHER_API_KEY;
+//     console.log('OpenWeather key present:', !!apiKey);
+
+//     const weatherResponse = await axios.get(
+//       'https://api.openweathermap.org/data/2.5/weather',
+//       {
+//         params: {
+//           q: city,
+//           appid: apiKey,
+//           units: 'imperial',
+//         },
+//       }
+//     );
+
+//     const data = {
+//       city: weatherResponse.data.name,
+//       temp: weatherResponse.data.main.temp,
+//       feelsLike: weatherResponse.data.main.feels_like,
+//       description: weatherResponse.data.weather[0].description,
+//     };
+
+//     res.render('customer/customerHome', { weather: data, error: null });
+//   } catch (err) {
+//     if (err.response) {
+//       console.error('OpenWeather error:', err.response.status, err.response.data);
+//     } else {
+//       console.error('Unknown error:', err.message);
+//     }
+
+//     res.render('customer/customerHome', {
+//       weather: null,
+//       error: 'Error fetching weather.',
+//     });
+//   }
+// });
+
 router.get('/customerHome', async (req, res) => {
   try {
     console.log("Customer homepage hit!");
-    res.render('customer/customerHome');
-});
+    // WEATHER API INFORMATION
 
+      const city = req.query.city || 'College Station';
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    console.log('OpenWeather key present:', !!apiKey);
+
+    const weatherResponse = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: 'imperial',
+        },
+      }
+    );
+
+    const data = {
+      city: weatherResponse.data.name,
+      temp: weatherResponse.data.main.temp,
+      feelsLike: weatherResponse.data.main.feels_like,
+      description: weatherResponse.data.weather[0].description,
+    };
+
+    // LOADING DRINKS ON THE PAGE INFORMATION
+    let freshBrew_drinks = []
+    let fruity_drinks = []
+    let iceBlended_drinks = []
+    let milky_drinks = []
+    let all_drinks = []
+    pool
+        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
+        .then(query_res1 => {
+            for (let i = 0; i < query_res1.rowCount; i++){
+                freshBrew_drinks.push(query_res1.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
+        })
+
+        .then(query_res2 => {
+            for (let i = 0; i < query_res2.rowCount; i++){
+                fruity_drinks.push(query_res2.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
+        })
+
+        .then(query_res3 => {
+            for (let i = 0; i < query_res3.rowCount; i++){
+              iceBlended_drinks.push(query_res3.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
+        })
+
+        .then(query_res4 => {
+            for (let i = 0; i < query_res4.rowCount; i++){
+                milky_drinks.push(query_res4.rows[i]);
+            }
+            return pool.query('SELECT * FROM beverage_info')
+        })
+
+        .then(query_res5 => {
+            for (let i = 0; i < query_res5.rowCount; i++){
+                all_drinks.push(query_res5.rows[i]);
+            }
+            res.render('customer/customerHome', {
+              weather: data, 
+              error: null ,
+              freshBrew_drinks,
+              fruity_drinks,
+              iceBlended_drinks,
+              milky_drinks,
+              all_drinks
+            });
+        });
+} catch (err) {
+    if (err.response) {
+      console.error('OpenWeather error:', err.response.status, err.response.data);
+    } else {
+      console.error('Unknown error:', err.message);
+    }
+
+    res.render('customer/customerHome', {
+      weather: null,
+      error: 'Error fetching weather.',
+    });
+}
+});
 
 // Fresh Brew Page
 router.get('/freshBrew', (req, res) => {
