@@ -41,57 +41,58 @@
         <div class = "col">
             <h2>Fresh Brew</h2>
             <% for (let drink of freshBrew_drinks) { %>
-                <button class = "drinkCard" 
+                <a class = "drinkCard" 
                     data-drink-id = "<%= drink.beverage_info_id %>" 
                     data-drink-name = "<%= drink.name %>" 
-                    data-drink-price="<%= drink.price%>" >
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
                     <%= drink.name %>
-                </button>
+                </a >
             <% } %>
         </div>
         <div class = "col">
             <h2>Fruit Tea</h2>
             <% for (let drink of fruity_drinks) { %>
-                <button class = "drinkCard" 
+                <a class = "drinkCard" 
                     data-drink-id = "<%= drink.beverage_info_id %>" 
                     data-drink-name = "<%= drink.name %>" 
-                    data-drink-price="<%= drink.price%>" >
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
                     <%= drink.name %>
-                </button>
+                </a>
             <% } %>
         </div>
         <div class = "col">
             <h2>Ice Blended</h2>
             <% for (let drink of iceBlended_drinks) { %>
-                <button class = "drinkCard" 
+                <a class = "drinkCard" 
                     data-drink-id = "<%= drink.beverage_info_id %>" 
                     data-drink-name = "<%= drink.name %>" 
-                    data-drink-price="<%= drink.price%>" >
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
                     <%= drink.name %>
-                </button>
+                </a>
             <% } %>
         </div>
         <div class = "col">
             <h2>Milk Tea</h2>
             <% for (let drink of milky_drinks) { %>
-                <button class = "drinkCard" 
+                <a class = "drinkCard" 
                     data-drink-id = "<%= drink.beverage_info_id %>" 
                     data-drink-name = "<%= drink.name %>" 
-                    data-drink-price="<%= drink.price%>" >
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
                     <%= drink.name %>
-                </button>
+                </a>
             <% } %>
         </div>
     </div>
 
 
-   <script src = "/js/employeeHandler.js"></script> 
-
 </body>
 
-<!--
-    - Add Search Bar
-    - Add Nav Bar
-    - Add Buttons -- maybe reusable ones
--->
 
