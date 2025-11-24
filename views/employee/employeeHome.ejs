@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+   <link rel="stylesheet" href="/css/employeeStyle.css">
+   <title>Customer Home</title>
+<style>
+    body {
+      background-color: #F8FFF9;
+
+    }
+  </style>
+</head>
+<body>
+    <%- include('../partials/weather', { weather: weather }) %>
+<div class = "navBarContainer">
+    <div id = "left">
+
+        <div>
+            <a href = "../index">
+                <img src = "/img/skipBack.png">
+                Back</a>
+        </div>
+
+        <div>
+            <a href = "orderSummary" >
+                <img src = "/img/shoppingCart.png">
+                Cart</a>
+        </div>
+    </div>
+
+    <div id = "right">
+        <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+        </div>
+    </div>
+</div>
+    <h1>Welcome, Name </h1>
+    <!-- search bar -->
+    <div class = "drinkContainer">
+        <div class = "col">
+            <h2>Fresh Brew</h2>
+            <% for (let drink of freshBrew_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a >
+            <% } %>
+        </div>
+        <div class = "col">
+            <h2>Fruit Tea</h2>
+            <% for (let drink of fruity_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a>
+            <% } %>
+        </div>
+        <div class = "col">
+            <h2>Ice Blended</h2>
+            <% for (let drink of iceBlended_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a>
+            <% } %>
+        </div>
+        <div class = "col">
+            <h2>Milk Tea</h2>
+            <% for (let drink of milky_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a>
+            <% } %>
+        </div>
+    </div>
+
+
+</body>
+
+

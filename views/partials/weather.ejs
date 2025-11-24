@@ -1,0 +1,26 @@
+<% if (weather) { %>
+    <% 
+      const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
+      let main = (weather.main || '').toLowerCase();
+      let icon = validIcons.includes(main) ? main : 'clear';
+    %>
+  
+    <div class="weather-widget">
+      <h2>Weather for <%= weather.city %></h2>
+  
+      <div class="weather-main">
+        <img
+          src="/img/<%= icon %>.png"
+          alt="<%= weather.description %> icon"
+          class="weather-icon"
+        />
+        <div class="weather-text">
+          <p>Temperature: <%= weather.temp %>°F</p>
+          <p>Feels like: <%= weather.feelsLike %>°F</p>
+          <p>Condition: <%= weather.description %></p>
+        </div>
+      </div>
+    </div>
+  <% } else { %>
+    <p>No weather data available.</p>
+  <% } %>

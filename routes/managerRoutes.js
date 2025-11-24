@@ -505,10 +505,19 @@ router.post('/removeEmployee', async (req, res) => {
       
 });
 
+router.post('/updateEmployee', async (req, res) => {
+    const { id, email } = req.body;
+    try {
+      await pool.query('UPDATE employee SET email = $1 WHERE employee_id = $2;', [email, id])
+      res.redirect('/manager/employeeModification');
+    } catch {
+        res.send('Error updating employee.');
+    }
+});
 
 router.post('/insertEmployee', async (req, res) => {
-  const  {id, first, last} = req.body;
-  if (!id || !first || !last) {
+  const  {id, first, last, email} = req.body;
+  if (!id || !first || !last || !email) {
     return res.status(400).send('All fields are required.');
   }
   const check = await pool.query('SELECT 1 FROM employee WHERE employee_id = $1', [id]);
@@ -518,7 +527,7 @@ router.post('/insertEmployee', async (req, res) => {
   }
 
   try {
-    await pool.query('INSERT INTO employee VALUES($1, $2, $3);', [id, first, last])
+    await pool.query('INSERT INTO employee VALUES($1, $2, $3, $4);', [id, first, last, email])
     res.redirect('/manager/employeeModification');
   } catch (err) {
     console.error(err);
@@ -527,6 +536,8 @@ router.post('/insertEmployee', async (req, res) => {
   }
       
 });
+
+
 
 
 // Export router 

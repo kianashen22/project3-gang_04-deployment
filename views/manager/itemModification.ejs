@@ -4,6 +4,16 @@
 </head>
 
 <body>
+    <!--    this is the start of google translate code-->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!--    this is the end of google translate code-->
+
     <a href = "managerHome">Back</a>
     <a href = "/logout"> Logout </a>
     <h1>Item Modification</h1>
@@ -21,14 +31,19 @@
 <!--        form for now, buttons will be added later to improve UX-->
         <form action="/manager/addToMenuItem" method="POST">
             <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
+
             <label>Inventory Id:</label>
             <input type="number" id="inventory_id" name = "inv_id" required>
             <label>Quantity:</label>
             <input type="number" id="quantity" name = "qt" required>
 
-<!--            consider a dropdown to prevent random units-->
             <label>Unit:</label>
-            <input type="text" id="unit" name = "unit" required>
+            <select id="unit" name = "unit" required>
+                <option value="grams">grams</option>
+                <option value="ml">ml</option>
+                <option value="pieces">pieces</option>
+                <option value="oz">oz</option>
+            </select>
 
             <button type="submit">Add to Item</button>
         </form>

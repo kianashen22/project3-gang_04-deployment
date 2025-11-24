@@ -1,0 +1,148 @@
+/*
+FIGMA COLOR PALLET
+moss : #CBDFCD
+emerald : #68A691
+rose: #EFC7C2
+yellow: #FFE5D4
+mauve : #694F5D
+cream-white:  #FFFEF9
+
+FONTS:
+Instrument Sans
+
+FONT COLORS:
+green header: #68A691
+
+*/
+
+
+@import "@fontsource/instrument-sans";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+    font-family: "Instrument Sans", sans-serif;
+    background-color:  #FFFEF9;
+}
+
+/* ---- customerNavBar styling --- */
+.customerNavBarContainer{
+    background-color:  #68A691;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px 20px 20px;  /* Top Right Bottom Left */    
+}
+.customerNavBarContainer #left{
+    background-color:  #68A691;
+    display: flex;
+    gap: 20px;
+}
+
+
+.customerNavBarContainer #left div a{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 30px;
+}
+
+.customerNavBarContainer #left div a:hover{
+    transform: scale(1.1, 1.1);
+}
+
+/* ---- drinkNavBar Styling ---- */
+.drinkNavBar{
+    background-color:  #CBDFCD;
+    width: 100vw; 
+    margin: 0;   
+    padding: 0;
+    position: relative;
+}
+
+.drinkNavBar #titleContainer{
+    padding: 20px 20px 0 0;
+}
+.drinkNavBar #titleContainer h1{
+    text-align: center;
+    font-size: 48px;
+    color: #68A691;
+}
+.drinkNavBar #drinkContainer{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.drinkCategoryButton{
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    height: 80px;
+    width: 250px;
+    border-radius: 10px 10px 0 0;
+}
+
+
+
+
+.dropdown-content{
+    flex-wrap: wrap;    
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FFFEF9;
+    margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
+    gap: 60px;   
+
+}
+
+.drinkCard {
+    width: 200px; 
+    min-width: 0;      
+    aspect-ratio: 1/1;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#CBDFCD;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.drinkCard:hover{
+    background-color: #A3B5A5;
+}
+
+.drinkButton {
+    border-style: none;
+    width: 100%;
+    padding: 0.5rem; 
+    background-color:#CBDFCD;
+}
+.drinkCard:hover .drinkButton{
+    background-color: #A3B5A5;
+}
+
+
+.drinkCard img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.drinkTextContainer {
+    width: 100%;
+    text-align: center;
+    min-width: 0;   
+}
+
+

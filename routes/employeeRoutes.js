@@ -6,15 +6,6 @@ const dotenv = require('dotenv').config();
 const session = require('express-session');
 const axios = require('axios');
 
-// create image arrays
-// milky image will be the default drink image when a new drink is created unless added to the array
-// use beverage_info id to index the array for corresponding image. if beverage_info id > size of array -> use default photo (milky --> index 0)
-let img_array = ['/img/milky.png', '/img/classicTea.png', '/img/classicTea.png', '/img/classicTea.png', '/img/honeyTea.png', '/img/honeyTea.png', '/img/honeyTea.png',
-                  '/img/classic-pearl-milk-tea.png', '/img/honey-pearl-milk-tea.png', '/img/mango-green-milk-tea.png', '/img/coffee-crema.png', '/img/thai-pearl-milk-tea.png', '/img/taro-pearl-milk-tea.png', 
-                  '/img/honeyLemonade.png', '/img/mangoGreenTea.png', '/img/mangoPassionfruitTea.png', 
-                  '/img/peachTeaBlended.png', '/img/thaiBlended.png', '/img/taroBlended.png', '/img/coffeeBlended.png', '/img/mangoBlended.png' ];
-
-
 // create ORDER object
 function Order(customer_id, total_price, month, week, date, hour, year, combine_date){
   this.customer_id = customer_id;
@@ -69,71 +60,22 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
-// create middleware so that img_array can be accessed by all ejs files
+// ??? - is this necessary
 router.use((req, res, next) => {
-  res.locals.img_array = img_array;
   res.locals.defaultDrink = new Drink(0, 0, 'null', 0, 'null', 'null', 'null', 0.00);
   next();
 });
 
 
-// Routes for customer pages
-// router.get('/customerHome', (req, res) => {
-//     console.log("Customer homepage hit!");
+//HOME PAGE--
 
-//     res.render('customer/customerHome');
-// });
+router.get('/employeeHome', async (req, res) => {
 
-
-
-// router.get('/customerHome', async (req, res) => {
-//   try {
-//     console.log("Customer homepage hit!");
-
-//     const city = req.query.city || 'College Station';
-
-//     const apiKey = process.env.OPENWEATHER_API_KEY;
-//     console.log('OpenWeather key present:', !!apiKey);
-
-//     const weatherResponse = await axios.get(
-//       'https://api.openweathermap.org/data/2.5/weather',
-//       {
-//         params: {
-//           q: city,
-//           appid: apiKey,
-//           units: 'imperial',
-//         },
-//       }
-//     );
-
-//     const data = {
-//       city: weatherResponse.data.name,
-//       temp: weatherResponse.data.main.temp,
-//       feelsLike: weatherResponse.data.main.feels_like,
-//       description: weatherResponse.data.weather[0].description,
-//     };
-
-//     res.render('customer/customerHome', { weather: data, error: null });
-//   } catch (err) {
-//     if (err.response) {
-//       console.error('OpenWeather error:', err.response.status, err.response.data);
-//     } else {
-//       console.error('Unknown error:', err.message);
-//     }
-
-//     res.render('customer/customerHome', {
-//       weather: null,
-//       error: 'Error fetching weather.',
-//     });
-//   }
-// });
-
-router.get('/customerHome', async (req, res) => {
+  console.log("Employee homepage hit!");
+  // WEATHER API INFORMATION
+  let data = null;
   try {
-    console.log("Customer homepage hit!");
-    // WEATHER API INFORMATION
-
-      const city = req.query.city || 'College Station';
+    const city = req.query.city || 'College Station';
 
     const apiKey = process.env.OPENWEATHER_API_KEY;
     console.log('OpenWeather key present:', !!apiKey);
@@ -149,147 +91,63 @@ router.get('/customerHome', async (req, res) => {
       }
     );
 
-    const data = {
+    data = {
       city: weatherResponse.data.name,
       temp: weatherResponse.data.main.temp,
       feelsLike: weatherResponse.data.main.feels_like,
       description: weatherResponse.data.weather[0].description,
     };
+  } catch {
+    console.error('Weather API error:', err.message);
 
-    // LOADING DRINKS ON THE PAGE INFORMATION
-    let freshBrew_drinks = []
-    let fruity_drinks = []
-    let iceBlended_drinks = []
-    let milky_drinks = []
-    let all_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-        .then(query_res1 => {
-            for (let i = 0; i < query_res1.rowCount; i++){
-                freshBrew_drinks.push(query_res1.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-        })
+  }
 
-        .then(query_res2 => {
-            for (let i = 0; i < query_res2.rowCount; i++){
-                fruity_drinks.push(query_res2.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-        })
 
-        .then(query_res3 => {
-            for (let i = 0; i < query_res3.rowCount; i++){
-              iceBlended_drinks.push(query_res3.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-        })
+  // LOADING DRINKS ON THE PAGE INFORMATION
+  let freshBrew_drinks = []
+  let fruity_drinks = []
+  let iceBlended_drinks = []
+  let milky_drinks = []
+  try {
+    let query_res1 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Fresh Brew'");
+    freshBrew_drinks = query_res1.rows;
 
-        .then(query_res4 => {
-            for (let i = 0; i < query_res4.rowCount; i++){
-                milky_drinks.push(query_res4.rows[i]);
-            }
-            return pool.query('SELECT * FROM beverage_info')
-        })
+    let query_res2 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Fruity Beverage'");
+    fruity_drinks = query_res2.rows;
 
-        .then(query_res5 => {
-            for (let i = 0; i < query_res5.rowCount; i++){
-                all_drinks.push(query_res5.rows[i]);
-            }
-            res.render('customer/customerHome', {
-              weather: data, 
-              error: null ,
-              freshBrew_drinks,
-              fruity_drinks,
-              iceBlended_drinks,
-              milky_drinks,
-              all_drinks
-            });
-        });
-} catch (err) {
-    if (err.response) {
-      console.error('OpenWeather error:', err.response.status, err.response.data);
-    } else {
-      console.error('Unknown error:', err.message);
-    }
+    let query_res3 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Ice Blended'");
+    iceBlended_drinks = query_res3.rows;
 
-    res.render('customer/customerHome', {
-      weather: null,
-      error: 'Error fetching weather.',
+    let query_res4 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Milky Series'");
+    milky_drinks = query_res4.rows;
+
+
+    res.render('employee/employeeHome', {
+      weather: data, 
+      error: null ,
+      freshBrew_drinks,
+      fruity_drinks,
+      iceBlended_drinks,
+      milky_drinks
     });
-}
+  } catch (err) {
+      if (err.response) {
+        console.error('OpenWeather error:', err.response.status, err.response.data);
+      } else {
+        console.error('Unknown error:', err.message);
+      }
+
+      res.render('employee/employeeHome', {
+        weather: null,
+        error: 'Error fetching weather.',
+        freshBrew_drinks,
+        fruity_drinks,
+        iceBlended_drinks,
+        milky_drinks
+      });
+  }
 });
 
-// Fresh Brew Page
-router.get('/freshBrew', (req, res) => {
-    let freshBrew_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                freshBrew_drinks.push(query_res.rows[i]);
-            }
-            const data = {freshBrew_drinks: freshBrew_drinks};
-            console.log(freshBrew_drinks);
-            res.render('customer/freshBrew', data);
-        });
-});
-
-
-// Fruity Page
-router.get('/fruity', (req, res) => {
-    let fruity_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                fruity_drinks.push(query_res.rows[i]);
-            }
-            const data = {fruity_drinks: fruity_drinks};
-            console.log(fruity_drinks);
-            res.render('customer/fruity', data);
-        });
-});
-
-
-// Ice Blended Page
-router.get('/iceBlended', (req, res) => {
-  console.log("/iceBlended route HIT");
-    let iceBlended_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-              iceBlended_drinks.push(query_res.rows[i]);
-            }
-            const data = {iceBlended_drinks: iceBlended_drinks};
-            console.log(iceBlended_drinks);
-            res.render('customer/iceBlended', data);
-        });
-});
-
-
-// Milky Page
-router.get('/milky', (req, res) => {
-  console.log(" /milky route HIT");
-    let milky_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                milky_drinks.push(query_res.rows[i]);
-            }
-            const data = {milky_drinks: milky_drinks};
-            console.log(milky_drinks);
-            res.render('customer/milky', data);
-        });
-});
-
-// Drink Modifications Page
-router.get('/drinkModifications', (req, res) => {
-  console.log(" /drinkModifications route HIT");
-  res.render('customer/drinkModifications');
-});
 
 // Order Summary Page
 router.get('/orderSummary', (req, res) => {
@@ -300,7 +158,7 @@ router.get('/orderSummary', (req, res) => {
   const tax = subtotal * 0.085; 
   const total = subtotal + tax;
 
-  res.render('customer/orderSummary', {
+  res.render('employee/orderSummary', {
     order: { drinks: cart },
     totals: { subtotal, tax, total }
   });
@@ -418,6 +276,8 @@ const orderResult = await pool.query(
     next(err);
   }
 });
+
+//db functions
 const db = {
   async getDrink(id) {
     const q = `
@@ -447,6 +307,10 @@ const db = {
     return rows;
   },
 };
+
+
+
+//customization page
 router.get('/:id/customize', async (req, res, next) => {
   try {
     const id = Number(req.params.id);
@@ -482,7 +346,7 @@ router.get('/:id/customize', async (req, res, next) => {
       action: 'add',
     };
 
-    res.render('customer/drinkModifications', {
+    res.render('employee/drinkModifications', {
       drink,
       iceLevels,
       sugarLevels,
@@ -520,7 +384,8 @@ router.post('/cart/add', (req, res) => {
     size,
     iceLevel,
     sweetnessLevel,
-    topping: topping || null,                   
+    topping: topping || null,
+    action,                    
     price: basePrice,
     toppingCharge,
     quantity: qty,
@@ -530,7 +395,7 @@ router.post('/cart/add', (req, res) => {
   return res.redirect('/customer/customerHome');
 });
 
-// FUNCTIONS
+
 
 
 
