@@ -1,0 +1,87 @@
+:root {
+    --moss : #CBDFCD;
+    --med-green:  #dbf3df;
+    --rose: #EFC7C2;
+    --yellow: #FFE5D4;
+    --mauve : #694F5D;
+    --cream-white:  #FFFEF9;
+    --green-header: #68A691;
+    --light-green: #f1faf2;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+    font-family: "Instrument Sans", sans-serif;
+    background-color:  var(--light-green);
+}
+
+h1 {
+    justify-self: center;
+    color: var(--green-header);
+    padding: 20px 0;
+}
+.navBarContainer{
+    background-color:  var(--green-header);
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px 20px 20px;  /* Top Right Bottom Left */    
+}
+.navBarContainer #left{
+    background-color:  var(--green-header);
+    display: flex;
+    gap: 20px;
+}
+
+
+.navBarContainer #left div a{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 30px;
+}
+
+.navBarContainer #left div a:hover{
+    transform: scale(1.1, 1.1);
+}
+
+
+.drinkContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--cream-white);
+    gap:20px;
+    justify-content: center;
+    padding: 10px 0 100px;
+    box-shadow: 0 -5px 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+.col {
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.drinkCard {
+    width: 100%; 
+    min-width: 0;      
+  
+    display: flex;
+
+    align-items: center;
+    background-color: var(--light-green);
+    padding: 10px;
+    border-radius: 5px;
+    border-color: var(--med-green);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.drinkCard:hover{
+    background-color: var(--med-green);
+}
