@@ -67,7 +67,7 @@ router.use((req, res, next) => {
 });
 
 
-
+//HOME PAGE--
 
 router.get('/employeeHome', async (req, res) => {
 
@@ -148,76 +148,6 @@ router.get('/employeeHome', async (req, res) => {
   }
 });
 
-// Fresh Brew Page
-router.get('/freshBrew', (req, res) => {
-    let freshBrew_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                freshBrew_drinks.push(query_res.rows[i]);
-            }
-            const data = {freshBrew_drinks: freshBrew_drinks};
-            console.log(freshBrew_drinks);
-            res.render('customer/freshBrew', data);
-        });
-});
-
-
-// Fruity Page
-router.get('/fruity', (req, res) => {
-    let fruity_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                fruity_drinks.push(query_res.rows[i]);
-            }
-            const data = {fruity_drinks: fruity_drinks};
-            console.log(fruity_drinks);
-            res.render('customer/fruity', data);
-        });
-});
-
-
-// Ice Blended Page
-router.get('/iceBlended', (req, res) => {
-  console.log("/iceBlended route HIT");
-    let iceBlended_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-              iceBlended_drinks.push(query_res.rows[i]);
-            }
-            const data = {iceBlended_drinks: iceBlended_drinks};
-            console.log(iceBlended_drinks);
-            res.render('customer/iceBlended', data);
-        });
-});
-
-
-// Milky Page
-router.get('/milky', (req, res) => {
-  console.log(" /milky route HIT");
-    let milky_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                milky_drinks.push(query_res.rows[i]);
-            }
-            const data = {milky_drinks: milky_drinks};
-            console.log(milky_drinks);
-            res.render('customer/milky', data);
-        });
-});
-
-// Drink Modifications Page
-router.get('/drinkModifications', (req, res) => {
-  console.log(" /drinkModifications route HIT");
-  res.render('customer/drinkModifications');
-});
 
 // Order Summary Page
 router.get('/orderSummary', (req, res) => {
@@ -228,7 +158,7 @@ router.get('/orderSummary', (req, res) => {
   const tax = subtotal * 0.085; 
   const total = subtotal + tax;
 
-  res.render('customer/orderSummary', {
+  res.render('employee/orderSummary', {
     order: { drinks: cart },
     totals: { subtotal, tax, total }
   });
@@ -346,6 +276,8 @@ const orderResult = await pool.query(
     next(err);
   }
 });
+
+//db functions
 const db = {
   async getDrink(id) {
     const q = `
@@ -375,6 +307,10 @@ const db = {
     return rows;
   },
 };
+
+
+
+//customization page
 router.get('/:id/customize', async (req, res, next) => {
   try {
     const id = Number(req.params.id);
@@ -410,7 +346,7 @@ router.get('/:id/customize', async (req, res, next) => {
       action: 'add',
     };
 
-    res.render('customer/drinkModifications', {
+    res.render('employee/drinkModifications', {
       drink,
       iceLevels,
       sugarLevels,
@@ -459,7 +395,7 @@ router.post('/cart/add', (req, res) => {
   return res.redirect('/customer/customerHome');
 });
 
-// FUNCTIONS
+
 
 
 

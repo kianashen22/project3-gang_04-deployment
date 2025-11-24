@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<head>
+   <title>Order Summary</title>
+</head>
+<body>
+  <%- include("../partials/customerNavBar") %>
+
+    <!--    this is the start of google translate code-->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!--    this is the end of google translate code-->
+
+   <h1>Order Summary</h1>
+
+   <% 
+   const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
+   const calcSubtotal = items.reduce((s, d) => {
+     const p = Number(d.price) || 0;
+     const t = Number(d.toppingCharge) || 0;
+     const q = Number(d.quantity) || 1;
+     return s + (p + t) * q;
+   }, 0);
+   const subtotal = (typeof totals !== 'undefined' && totals && typeof totals.subtotal !== 'undefined') ? totals.subtotal : calcSubtotal;
+   const tax = (typeof totals !== 'undefined' && totals && typeof totals.tax !== 'undefined') ? totals.tax : subtotal * 0.085;
+   const total = (typeof totals !== 'undefined' && totals && typeof totals.total !== 'undefined') ? totals.total : subtotal + tax;
+ %>
+
+ <% if (items.length === 0) { %>
+   <p>No items in the cart.</p>
+ <% } else { %>
+   <ol>
+     <% items.forEach(function(d, i) { 
+          const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
+          const qty = Number(d.quantity) || 1;
+          const line = unit * qty;
+     %>
+       <li>
+         <div><strong><%= d.name %></strong></div>
+         <div>Quantity: <%= qty %></div>
+         <div>Unit Price: $<%= unit.toFixed(2) %></div>
+         <% if (d.size) { %><div>Size: <%= d.size %></div><% } %>
+         <% if (d.iceLevel) { %><div>Ice: <%= d.iceLevel %></div><% } %>
+         <% if (d.sweetnessLevel) { %><div>Sweetness: <%= d.sweetnessLevel %></div><% } %>
+         <% if (d.topping) { %><div>Topping: <%= d.topping %></div><% } %>
+         <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
+         <div>Line Total: $<%= line.toFixed(2) %></div>
+       </li>
+     <% }); %>
+   </ol>
+
+   <h3>Totals</h3>
+   <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
+   <div>Tax: $<%= tax.toFixed(2) %></div>
+   <div>Total: $<%= total.toFixed(2) %></div>
+ <% } %>
+
+ <p><a href="/employee/orderConfirmation">Check out</a></p>
+ 
+</body>
