@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <head>
-    <title>Tea Inventory</title>
+   <link rel="stylesheet" href="/css/managerStyle.css">
+   <title>Tea Inventory</title>
 </head>
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+   <div class = "managerNavBarContainer">
+      <div id = "left">
+         <div>
+            <a href = "inventoryHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+         </div>
+         <div>
+            <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+         </div>
+      </div>
 
-    <a href = "inventoryHome">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Tea Inventory</h1>
+      <div id = "right">
+         <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+               function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+               }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+         </div>
+      </div>
+   </div>
 
-    <table>
-      <thread>
-         <tr>
-            <th>Item</th>
-            <th>Stock Level</th>
-         </tr>
-      </thread>
-      <tbody>
-         <% for (var i in inventoryTea) {%>
-            <tr>
-               <td><%=inventoryTea[i].name%></td>
-               <td><%=inventoryTea[i].stock_level%>%></td>
-            </tr>
-         <% } %>
-      </tbody>
-   </table>
+   <div class = "inventorySubPage">
+      <div id = "title">
+         <h1>Tea Inventory</h1>
+      </div>
 
-   <form action="/manager/updateTeaStock" method="post">
-        <button type="submit">Update Tea Stock</button>
-   </form>
+      <div id = "inventoryTable">
+         <table>
+            <thread>
+               <tr>
+                  <th>Item</th>
+                  <th>Stock Level</th>
+               </tr>
+            </thread>
+            <tbody>
+               <% for (var i in inventoryTea) {%>
+                  <tr>
+                     <td><%=inventoryTea[i].name%></td>
+                     <td><%=inventoryTea[i].stock_level%>%></td>
+                  </tr>
+               <% } %>
+            </tbody>
+         </table>
+      </div>
+
+      <div id = "restockButton">
+         <div>
+            <form action="/manager/updateTeaStock" method="post">
+               <button type="submit">Update Tea Stock</button>
+            </form>
+         </div>
+      </div>
+   </div>
 </body>
