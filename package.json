@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fontsource-variable/instrument-sans": "^5.2.8",
+    "@fontsource/inria-sans": "^5.2.8",
     "axios": "^1.13.2",
     "axois": "^0.0.1-security",
     "dotenv": "^17.2.3",

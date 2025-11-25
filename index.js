@@ -2,6 +2,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const axios = require('axios');
 
 const session = require("express-session");
 const { OAuth2Client } = require("google-auth-library");
@@ -63,9 +64,32 @@ app.use('/manager', requireManager, managerRoutes);
 app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     const user = req.session.user; 
-    res.render('index', { user: user });
+
+    const city = req.query.city || 'College Station';
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    console.log('OpenWeather key present:', !!apiKey);
+
+    const weatherResponse = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: 'imperial',
+        },
+      }
+    );
+
+    const data = {
+      city: weatherResponse.data.name,
+      temp: weatherResponse.data.main.temp,
+      feelsLike: weatherResponse.data.main.feels_like,
+      description: weatherResponse.data.weather[0].description,
+    };
+    res.render('index', { user: user, weather: data });
 });
 
 // Google Login
@@ -164,8 +188,36 @@ function requireEmployee(req, res, next) {
 
 
 
-app.get('/index', (req, res) => {
-    res.render('index', { user: req.session.user || null });
+// app.get('/index', (req, res) => {
+//     res.render('index', { user: req.session.user || null });
+// });
+
+app.get('/index', async(req, res) => {
+    const user = req.session.user; 
+
+    const city = req.query.city || 'College Station';
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    console.log('OpenWeather key present:', !!apiKey);
+
+    const weatherResponse = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: 'imperial',
+        },
+      }
+    );
+
+    const data = {
+      city: weatherResponse.data.name,
+      temp: weatherResponse.data.main.temp,
+      feelsLike: weatherResponse.data.main.feels_like,
+      description: weatherResponse.data.weather[0].description,
+    };
+    res.render('index', { user: user, weather: data });
 });
 
 

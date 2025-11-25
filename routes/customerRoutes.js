@@ -77,57 +77,6 @@ router.use((req, res, next) => {
 });
 
 
-// Routes for customer pages
-// router.get('/customerHome', (req, res) => {
-//     console.log("Customer homepage hit!");
-
-//     res.render('customer/customerHome');
-// });
-
-
-
-// router.get('/customerHome', async (req, res) => {
-//   try {
-//     console.log("Customer homepage hit!");
-
-//     const city = req.query.city || 'College Station';
-
-//     const apiKey = process.env.OPENWEATHER_API_KEY;
-//     console.log('OpenWeather key present:', !!apiKey);
-
-//     const weatherResponse = await axios.get(
-//       'https://api.openweathermap.org/data/2.5/weather',
-//       {
-//         params: {
-//           q: city,
-//           appid: apiKey,
-//           units: 'imperial',
-//         },
-//       }
-//     );
-
-//     const data = {
-//       city: weatherResponse.data.name,
-//       temp: weatherResponse.data.main.temp,
-//       feelsLike: weatherResponse.data.main.feels_like,
-//       description: weatherResponse.data.weather[0].description,
-//     };
-
-//     res.render('customer/customerHome', { weather: data, error: null });
-//   } catch (err) {
-//     if (err.response) {
-//       console.error('OpenWeather error:', err.response.status, err.response.data);
-//     } else {
-//       console.error('Unknown error:', err.message);
-//     }
-
-//     res.render('customer/customerHome', {
-//       weather: null,
-//       error: 'Error fetching weather.',
-//     });
-//   }
-// });
-
 router.get('/customerHome', async (req, res) => {
   try {
     console.log("Customer homepage hit!");
@@ -220,70 +169,9 @@ router.get('/customerHome', async (req, res) => {
 }
 });
 
-// Fresh Brew Page
-router.get('/freshBrew', (req, res) => {
-    let freshBrew_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                freshBrew_drinks.push(query_res.rows[i]);
-            }
-            const data = {freshBrew_drinks: freshBrew_drinks};
-            console.log(freshBrew_drinks);
-            res.render('customer/freshBrew', data);
-        });
-});
 
 
-// Fruity Page
-router.get('/fruity', (req, res) => {
-    let fruity_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                fruity_drinks.push(query_res.rows[i]);
-            }
-            const data = {fruity_drinks: fruity_drinks};
-            console.log(fruity_drinks);
-            res.render('customer/fruity', data);
-        });
-});
 
-
-// Ice Blended Page
-router.get('/iceBlended', (req, res) => {
-  console.log("/iceBlended route HIT");
-    let iceBlended_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-              iceBlended_drinks.push(query_res.rows[i]);
-            }
-            const data = {iceBlended_drinks: iceBlended_drinks};
-            console.log(iceBlended_drinks);
-            res.render('customer/iceBlended', data);
-        });
-});
-
-
-// Milky Page
-router.get('/milky', (req, res) => {
-  console.log(" /milky route HIT");
-    let milky_drinks = []
-    pool
-        .query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                milky_drinks.push(query_res.rows[i]);
-            }
-            const data = {milky_drinks: milky_drinks};
-            console.log(milky_drinks);
-            res.render('customer/milky', data);
-        });
-});
 
 // Drink Modifications Page
 router.get('/drinkModifications', (req, res) => {
@@ -493,6 +381,8 @@ router.get('/:id/customize', async (req, res, next) => {
     next(err);
   }
 });
+
+
 router.post('/cart/add', (req, res) => {
   if (!req.session.cart) req.session.cart = [];
 
