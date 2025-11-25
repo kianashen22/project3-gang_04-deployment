@@ -90,8 +90,6 @@ html, body {
 }
 
 
-
-
 .dropdown-content{
     flex-wrap: wrap;    
     position: absolute;
@@ -229,6 +227,8 @@ html, body {
     display:flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
 }
 
 #apiContainer{
@@ -242,6 +242,7 @@ html, body {
     border-radius: 10px;
     background-color: #D1DFCB;
     width: 340px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 .weather-widget{
     display:flex;
@@ -256,21 +257,4 @@ html, body {
   
 }
 
-
-
-/*
-.customerNavBarContainer #left div a{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none;
-    color: black;
-    text-align: center;
-    font-size: 30px;
-}
-
-.customerNavBarContainer #left div a:hover{
-    transform: scale(1.1, 1.1);
-}
-*/
 
