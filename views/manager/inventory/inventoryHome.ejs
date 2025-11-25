@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <head>
+   <link rel="stylesheet" href="/css/managerStyle.css">
    <title>Inventory Home</title>
 </head>
 <body>
-   <!--    this is the start of google translate code-->
-   <div id="google_translate_element"></div>
-   <script type="text/javascript">
-      function googleTranslateElementInit() {
-         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-   </script>
-   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-   <!--    this is the end of google translate code-->
 
-   <a href = "..\managerHome">Back</a>
-   <a href = "/logout"> Logout </a>
-   <h1> Inventory </h1>
+   <div class = "managerNavBarContainer">
+      <div id = "left">
+         <div>
+            <a href = "..\managerHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+         </div>
+         <div>
+            <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+         </div>
+      </div>
 
-   <a href = "baseInventory">Bases</a>
-   <a href = "disposablesInventory">Disposables</a>
-   <a href = "teaInventory">Teas</a>
-   <a href = "toppingsInventory">Toppings</a>
+      <div id = "right">
+         <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+               function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+               }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+         </div>
+      </div>
+   </div>
 
-   <br>
-   <a href = "modifyInventory">Modify</a>
 
-   <!-- <h2>Inventory Display</h2>
-   <% for (var i in inventory) {%>
-       <p>item: <%=inventory[i].name%>, id: <%=inventory[i].inventory_id%>, stock: <%=inventory[i].stock_level%><p>
-   <% } %> -->
+   <div class = "inventoryHomeNav">
+      <div id = "title">
+         <h1> Inventory </h1>
+      </div>
 
+      <div id = "mainInventoryChoices">
+         <div>
+            <a href = "baseInventory">Bases</a>
+         </div>
+         <div>
+            <a href = "teaInventory">Teas</a>
+         </div>
+         <div>
+            <a href = "toppingsInventory">Toppings</a>
+         </div>
+         <div>
+            <a href = "disposablesInventory">Disposables</a>
+         </div>
+         <div>
+            <a href = "modifyInventory">Modify</a>
+         </div>
+      </div>
+   </div>
 </body>

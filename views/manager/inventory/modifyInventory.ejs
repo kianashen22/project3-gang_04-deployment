@@ -1,45 +1,84 @@
 <!DOCTYPE html>
 <head>
+    <link rel="stylesheet" href="/css/managerStyle.css">
     <title>Modify Inventory</title>
 </head>
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+    <div class = "managerNavBarContainer">
+        <div id = "left">
+            <div>
+                <a href = "inventoryHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+            </div>
+            <div>
+                <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+            </div>
+        </div>
 
-    <a href = "inventoryHome">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Modify Inventory</h1>
-    <div class="inventory">
-        <% for (var i in inventory) { %>
-        <p>Inventory ID: <%=inventory[i].inventory_id%>, Name: <%=inventory[i].name%>, Stock: <%=inventory[i].stock_level%></p>
-        <% } %>
+        <div id = "right">
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+        </div>
     </div>
 
-    <form action="/manager/inventory/addItem" method="POST">
-<!--        consider auto-incrementing to prevent random numbers-->
-        <label>Inventory ID:</label>
-        <input type="number" name="id" required>
-        <label>Name:</label>
-        <input type="text" name="name" required>
-        <label>Stock Level:</label>
-        <input type="number" name="stock">
-        <button type="submit">Add to Inventory</button>
-    </form>
+    <div class = "inventorySubPage">
+        <div id = "title">
+            <h1>Modify Inventory</h1>
+        </div>
 
-    <form action="/manager/inventory/deleteItem" method="POST">
-        <Label>Inventory ID:</Label>
-        <select type="number" name="id" required>
-            <% for (var i in inventory) { %>
-                <option value="<%=inventory[i].inventory_id%>"><%=inventory[i].inventory_id%> - <%=inventory[i].name%></option>
-            <% } %>
-        </select>
-        <button type="submit">Delete from Inventory</button>
-    </form>
+        <div id = "inventoryTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% inventory.forEach(item => { %>
+                    <tr>
+                        <td><%= item.inventory_id %></td>
+                        <td><%= item.name %></td>
+                        <td><%= item.stock_level %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id = "invModOptions">
+        <div>
+            <form action="/manager/inventory/addItem" method="POST">
+                <!--consider auto-incrementing to prevent random numbers-->
+                <label>Inventory ID:</label>
+                <input type="number" name="id" required>
+                <label>Name:</label>
+                <input type="text" name="name" required>
+                <label>Stock Level:</label>
+                <input type="number" name="stock">
+                <button type="submit">Add to Inventory</button>
+            </form>
+        </div>
+
+        <div>
+            <form action="/manager/inventory/deleteItem" method="POST">
+                <Label>Inventory ID:</Label>
+                <select type="number" name="id" required>
+                    <% for (var i in inventory) { %>
+                        <option value="<%=inventory[i].inventory_id%>"><%=inventory[i].inventory_id%> - <%=inventory[i].name%></option>
+                    <% } %>
+                </select>
+                <button type="submit">Delete from Inventory</button>
+            </form>
+        </div>
+    </div>
 </body>

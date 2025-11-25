@@ -1,0 +1,182 @@
+/*
+FIGMA COLOR PALLET
+moss : #CBDFCD
+emerald : #68A691
+rose: #EFC7C2
+yellow: #FFE5D4
+mauve : #694F5D
+cream-white:  #FFFEF9
+
+light light green: #F8FFF9
+dark green text color: #3F7462
+
+FONTS:
+Instrument Sans
+
+FONT COLORS:
+green header: #68A691
+
+*/
+
+
+@import "@fontsource/instrument-sans";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+    font-family: "Instrument Sans", sans-serif;
+    background-color:  #FFFEF9;
+}
+
+/* ---- managerNavBar styling --- */
+.managerNavBarContainer{
+    background-color:  #68A691;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 20px 20px 20px;  /* Top Right Bottom Left */    
+}
+.managerNavBarContainer #left{
+    background-color:  #68A691;
+    display: flex;
+    gap: 20px;
+}
+
+.managerNavBarContainer #left div a{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 30px;
+}
+
+.managerNavBarContainer #left div a:hover{
+    transform: scale(1.1, 1.1);
+}
+
+
+/* ---- page styling ----*/
+
+/* inventory home */
+.inventoryHomeNav #title{
+    padding: 55px 20px 0 0;
+}
+.inventoryHomeNav #title h1{
+    text-align: center;
+    font-size: 65px;
+    color: #68A691;
+}
+
+.inventoryHomeNav #mainInventoryChoices{
+    display: flex;
+    justify-content: space-between;
+    padding: 90px 200px 20px 200px;
+}
+
+.inventoryHomeNav #mainInventoryChoices div a{
+    background-color: #CBDFCD;
+    display: flex;
+    gap: 20px;
+    padding: 20px 20px 20px 20px;
+    border-radius: 5px;
+
+    text-decoration: none;
+    color: #3F7462;
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inventoryHomeNav #mainInventoryChoices div a:hover{
+    transform: scale(1.1, 1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* inventory sub pages */
+.inventorySubPage {
+    padding-bottom: 20px;
+}
+
+.inventorySubPage #title{
+    padding: 45px 0 0 0;
+}
+
+.inventorySubPage #title h1{
+    text-align: center;
+    font-size: 50px;
+    color: #68A691;
+}
+
+.inventorySubPage #inventoryTable{
+    padding: 20px 0 0 0;
+    text-align: center;
+}
+
+.inventorySubPage #inventoryTable table{
+    border-collapse: collapse; /* Collapses cell borders into a single border */
+    width: 40%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+.inventorySubPage #inventoryTable th{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 8px; /* Adds padding inside cells */
+    text-align: center; /* Aligns text to the left */
+    background-color: #3F7462;;
+    color: #F8FFF9;
+    font-size: 35px;
+    width: 50%;
+}
+
+.inventorySubPage #inventoryTable td{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 8px; /* Adds padding inside cells */
+    text-align: center; /* Aligns text to the left */
+    background-color: #F8FFF9;
+    color: #3F7462;
+    font-size: 25px;
+}
+
+.inventorySubPage #restockButton{
+    padding: 45px 20px 0 0;
+    text-align: center;
+}
+
+
+.inventorySubPage #restockButton button{
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 27px;
+    background-color: #68A691;
+    color: #F8FFF9;
+    border-color: #68A691;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.inventorySubPage #restockButton button:hover{
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+/* modify inventory */
+.inventory {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.inventory p{
+    margin: 0;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3 columns */
+    border-bottom: 1px solid #ddd;
+}
+
+.inventory p:last-child {
+    border-bottom: none;
+}
