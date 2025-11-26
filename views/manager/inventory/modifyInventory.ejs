@@ -55,30 +55,34 @@
         </div>
     </div>
 
-    <div id = "invModOptions">
-        <div>
-            <form action="/manager/inventory/addItem" method="POST">
-                <!--consider auto-incrementing to prevent random numbers-->
-                <label>Inventory ID:</label>
-                <input type="number" name="id" required>
-                <label>Name:</label>
-                <input type="text" name="name" required>
-                <label>Stock Level:</label>
-                <input type="number" name="stock">
-                <button type="submit">Add to Inventory</button>
-            </form>
+    <div class = "invModOptions">
+        <div id = "top">
+            <div>
+                <form action="/manager/inventory/addItem" method="POST">
+                    <!--consider auto-incrementing to prevent random numbers-->
+                    <label>Inventory ID:</label>
+                    <input type="number" name="id" required>
+                    <label>Name:</label>
+                    <input type="text" name="name" required>
+                    <label>Stock Level:</label>
+                    <input type="number" name="stock">
+                    <button type="submit">Add to Inventory</button>
+                </form>
+            </div>
         </div>
 
-        <div>
-            <form action="/manager/inventory/deleteItem" method="POST">
-                <Label>Inventory ID:</Label>
-                <select type="number" name="id" required>
-                    <% for (var i in inventory) { %>
-                        <option value="<%=inventory[i].inventory_id%>"><%=inventory[i].inventory_id%> - <%=inventory[i].name%></option>
-                    <% } %>
-                </select>
-                <button type="submit">Delete from Inventory</button>
-            </form>
+        <div id = "bottom">
+            <div>
+                <form action="/manager/inventory/deleteItem" method="POST">
+                    <Label>Inventory ID:</Label>
+                    <select type="number" name="id" required>
+                        <% for (var i in inventory) { %>
+                            <option value="<%=inventory[i].inventory_id%>"><%=inventory[i].inventory_id%> - <%=inventory[i].name%></option>
+                        <% } %>
+                    </select>
+                    <button type="submit">Delete from Inventory</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
