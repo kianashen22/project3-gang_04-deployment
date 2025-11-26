@@ -1,35 +1,68 @@
 <!DOCTYPE html>
 <head>
-   <title>Z Report Page</title>
+    <link rel="stylesheet" href="/css/managerStyle.css">
+    <title>Z Report Page</title>
 </head>
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+    <div class = "managerNavBarContainer">
+        <div id = "left">
+            <div>
+                <a href = "analyticsOptions"> <img height = "55px" src="/img/skipBack.png">Back</a>
+            </div>
+            <div>
+                <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+            </div>
+        </div>
 
-    <a href = "analyticsOptions">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Z-Report</h1>
+        <div id = "right">
+            <div>
+                <!--    this is the start of google translate code-->
+                <div id="google_translate_element"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                    }
+                </script>
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <!--    this is the end of google translate code-->
+            </div>
+        </div>
+    </div>
 
-    <p>Current Date: <strong><%= zReportData[0].last_z_report %></strong></p>
+    <div class = "zReportPage">
+        <div id = "title">
+            <h1>Z-Report</h1>
+        </div>
 
-    <form action="/manager/generateZReport" method="post">
-        <button type="submit">Generate Z-Report</button>
-   </form>
+        <div id = "currDate">
+            <p>Current Date: <strong><%= zReportData[0].last_z_report %></strong></p>
+        </div>
 
-    <p>Daily Sales: <strong><%= zReportData[0].daily_sales %></strong></p>
+        <div id = "submitButton">
+            <form action="/manager/generateZReport" method="post">
+                <button type="submit">Generate Z-Report</button>
+            </form>
+        </div>
 
-    <p>Daily Tax: <strong><%= zReportData[0].daily_tax %></strong></p>
+        <div id = "row1">
+            <div>
+                <p>Daily Sales: <strong><%= zReportData[0].daily_sales %></strong></p>
+            </div>
+            <div>
+                <p>Daily Tax: <strong><%= zReportData[0].daily_tax %></strong></p>
+            </div>
+        </div>
 
-    <p>New Customers: <strong><%= zReportData[0].new_customers %></strong></p>
-
-    <p>Daily Customer Total: <strong><%= zReportData[0].customer_total %></strong></p>
-
-    <p>Daily Orders Total: <strong><%= zReportData[0].order_total %></strong></p>
+        <div id = "row2">
+            <div>
+                <p>New Customers: <strong><%= zReportData[0].new_customers %></strong></p>
+            </div>
+            <div>
+                <p>Daily Customer Total: <strong><%= zReportData[0].customer_total %></strong></p>
+            </div>
+            <div>
+                <p>Daily Orders Total: <strong><%= zReportData[0].order_total %></strong></p>
+            </div>
+        </div>
+    </div>
 </body>
