@@ -61,7 +61,7 @@ html, body {
 
 /* inventory home */
 .inventoryHomeNav #title{
-    padding: 55px 20px 0 0;
+    padding: 55px 0 0 0;
 }
 .inventoryHomeNav #title h1{
     text-align: center;
@@ -141,7 +141,7 @@ html, body {
 }
 
 .inventorySubPage #restockButton{
-    padding: 45px 20px 0 0;
+    padding: 45px 0 0 0;
     text-align: center;
 }
 
@@ -163,20 +163,42 @@ html, body {
 }
 
 /* modify inventory */
-.inventory {
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    overflow: hidden;
+.invModOptions {
+    padding: 25px 0 45px 0;
+    text-align: center;
 }
 
-.inventory p{
-    margin: 0;
-    padding: 10px 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 columns */
-    border-bottom: 1px solid #ddd;
+.invModOptions button {
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 18px;
+    background-color: #68A691;
+    color: #F8FFF9;
+    border-color: #68A691;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 3px;
 }
 
-.inventory p:last-child {
-    border-bottom: none;
+.invModOptions button:hover{
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
 }
+
+.invModOptions label {
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 22px;
+    color: #3F7462;
+    padding: 0 0 0 20px;
+}
+
+.invModOptions input, select {
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 15px;
+    color: #3F7462;
+}
+
+/* .inventorySubPage #top {
+    padding: 20px;
+} */
