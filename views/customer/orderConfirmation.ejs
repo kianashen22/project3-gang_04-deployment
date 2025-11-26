@@ -3,12 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <title>Order Confirmation</title>
+    <link rel="stylesheet" href="/css/customerStyle.css">
   </head>
   <body>
-    <h1>Thank you for your order!</h1>
-    <p>It will be ready shortly.</p>
+    <%- include("../partials/customerNavBar") %>
+    <div class = "pageContainer">
+      <div id = "thankYouCard">
+        <h1>Thank you for your order!</h1>
+        <p>It will be ready shortly</p>
+      </div>
 
-    <p><a href="../index">Back to Home</a></p>
-    <p><a href="customerHome">Order More</a></p>
+      <div id = "confirmButtonContainer">
+        <div class = "confirmPageButtons"><a href="../index">Back to Home</a></div>
+        <div class = "confirmPageButtons"><a href="customerHome">Next Order</a></div>
+      </div>
+
+    </div>
+
   </body>
 </html>
