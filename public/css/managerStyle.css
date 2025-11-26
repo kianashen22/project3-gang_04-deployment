@@ -63,7 +63,16 @@ html, body {
 .inventoryHomeNav #title{
     padding: 55px 0 0 0;
 }
+.analyticsHomeNav #title{
+    padding: 55px 0 0 0;
+}
+
 .inventoryHomeNav #title h1{
+    text-align: center;
+    font-size: 65px;
+    color: #68A691;
+}
+.analyticsHomeNav #title h1{
     text-align: center;
     font-size: 65px;
     color: #68A691;
@@ -74,12 +83,30 @@ html, body {
     justify-content: space-between;
     padding: 90px 200px 20px 200px;
 }
+.analyticsHomeNav #mainInventoryChoices{
+    display: flex;
+    justify-content: space-between;
+    padding: 90px 100px 20px 100px;
+}
 
 .inventoryHomeNav #mainInventoryChoices div a{
     background-color: #CBDFCD;
     display: flex;
     gap: 20px;
-    padding: 20px 20px 20px 20px;
+    padding: 20px;
+    border-radius: 5px;
+
+    text-decoration: none;
+    color: #3F7462;
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.analyticsHomeNav #mainInventoryChoices div a{
+    background-color: #CBDFCD;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
     border-radius: 5px;
 
     text-decoration: none;
@@ -90,6 +117,10 @@ html, body {
 }
 
 .inventoryHomeNav #mainInventoryChoices div a:hover{
+    transform: scale(1.1, 1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+.analyticsHomeNav #mainInventoryChoices div a:hover{
     transform: scale(1.1, 1.1);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
@@ -199,6 +230,72 @@ html, body {
     color: #3F7462;
 }
 
-/* .inventorySubPage #top {
-    padding: 20px;
-} */
+/* ordering trends */
+.orderingTrends #title{
+    padding: 45px 0 0 0;
+}
+
+.orderingTrends #title h1{
+    text-align: center;
+    font-size: 50px;
+    color: #68A691;
+}
+
+.orderingTrends #data {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.orderingTrends #data p{
+    font-size: 25px;
+    color: #3F7462;
+}
+
+.orderingTrends #dateInput{
+    display: flex;
+    justify-content: center;
+}
+
+.orderingTrends #dateInput label{
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 25px;
+    color: #3F7462;
+    padding: 0 0 0 20px;
+}
+
+.orderingTrends #dateInput input {
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 20px;
+    color: #3F7462;
+}
+
+.orderingTrends #dateInput button{
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #68A691;
+    color: #F8FFF9;
+    border-color: #68A691;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.orderingTrends #dateInput button:hover{
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.orderingTrends #graph {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.orderingTrends #graph #barChart {
+    height: 500px;
+    width: auto;
+}

@@ -1,78 +1,113 @@
 <!DOCTYPE html>
 <head>
-   <title>Ordering Trends Page</title>
-   <!-- using chart.js for bar chart -->
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/managerStyle.css">
+    <title>Ordering Trends Page</title>
+    <!-- using chart.js for bar chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+    <div class = "managerNavBarContainer">
+        <div id = "left">
+            <div>
+                <a href = "analyticsOptions"> <img height = "55px" src="/img/skipBack.png">Back</a>
+            </div>
+            <div>
+                <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+            </div>
+        </div>
 
-    <a href = "analyticsOptions">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Ordering Trends</h1>
-
-    <p>Peak Sales Week: <strong><%= peakWeek.week %></strong></p>
-
-    <p>Peak Sales Hour: <strong><%= peakHour.hour %></strong></p>
-
-    <form action="/manager/analytics/orderingTrends" method="GET">
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" value="<%= startDate || '' %>" required>
-
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" value="<%= endDate || '' %>" required>
-
-        <button type="submit">Filter</button>
-    </form>
-
-    
-    <canvas id="barChart"></canvas>
-
-    <script>
-        const drinkNames = <%- JSON.stringify(listTopDrink.map(d => d.beverage_name)) %>;
-        const drinkCounts = <%- JSON.stringify(listTopDrink.map(d => d.drink_count)) %>;
-
-        const ctx = document.getElementById('barChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: drinkNames,
-                datasets: [{
-                    label: 'Number of Orders',
-                    data: drinkCounts,
-                    // color for each column
-                    backgroundColor: [
-                        // 'rgba(54, 162, 235, 0.6)',
-                        // 'rgba(255, 99, 132, 0.6)',
-                        // 'rgba(255, 206, 86, 0.6)',
-                        // 'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)'
-                        // 'rgba(255, 159, 64, 0.6)'
-                    ],
-                    borderColor: 'rgba(0,0,0,0.1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    // axis names
-                    y: {
-                        beginAtZero: true,
-                        title: { display: true, text: 'Drink Count' }
-                    },
-                    x: {
-                        title: { display: true, text: 'Drink Name' }
+        <div id = "right">
+            <div>
+                <!--    this is the start of google translate code-->
+                <div id="google_translate_element"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
                     }
-                }
-            }
-        });
-    </script>
+                </script>
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <!--    this is the end of google translate code-->
+            </div>
+        </div>
+    </div>
+
+    <div class = "orderingTrends">
+        <div id = "title">
+            <h1>Ordering Trends</h1>
+        </div>
+
+        <div id = "data">
+            <div>
+                <p>Peak Sales Week: <strong><%= peakWeek.week %></strong></p>
+            </div>
+            <div>
+                <p>Peak Sales Hour: <strong><%= peakHour.hour %></strong></p>
+            </div>
+        </div>
+
+        <div id = "dateInput">
+            <div>
+                <form action="/manager/analytics/orderingTrends" method="GET">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" value="<%= startDate || '' %>" required>
+
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" value="<%= endDate || '' %>" required>
+
+                    <button type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
+
+        <div id = "graph">
+            <div>
+                <canvas id="barChart"></canvas>
+
+                <script>
+                    const drinkNames = <%- JSON.stringify(listTopDrink.map(d => d.beverage_name)) %>;
+                    const drinkCounts = <%- JSON.stringify(listTopDrink.map(d => d.drink_count)) %>;
+
+                    // global size and color
+                    Chart.defaults.color = '#000000';
+                    Chart.defaults.font.size = 16;
+
+                    const ctx = document.getElementById('barChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: drinkNames,
+                            datasets: [{
+                                label: 'Number of Orders',
+                                data: drinkCounts,
+                                // color for each column
+                                backgroundColor: [
+                                    // 'rgba(54, 162, 235, 0.6)',
+                                    // 'rgba(255, 99, 132, 0.6)',
+                                    // 'rgba(255, 206, 86, 0.6)',
+                                    // 'rgba(75, 192, 192, 0.6)',
+                                    // green from theme (title color)
+                                    'rgba(104, 166, 145, 0.6)'
+                                    // 'rgba(255, 159, 64, 0.6)'
+                                ],
+                                borderColor: 'rgba(0,0,0,0.1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                // axis names
+                                y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'Drink Count' }
+                                },
+                                x: {
+                                    title: { display: true, text: 'Drink Name' }
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </body>

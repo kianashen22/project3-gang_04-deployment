@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <head>
+   <link rel="stylesheet" href="/css/managerStyle.css">
    <title>Analytics Home</title>
 </head>
 <body>
-   <!--    this is the start of google translate code-->
-   <div id="google_translate_element"></div>
-   <script type="text/javascript">
-      function googleTranslateElementInit() {
-         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-   </script>
-   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-   <!--    this is the end of google translate code-->
+   <div class = "managerNavBarContainer">
+      <div id = "left">
+         <div>
+            <a href = "..\managerHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+         </div>
+         <div>
+            <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+         </div>
+      </div>
 
-   <a href = "..\managerHome">Back</a>
-   <a href = "/logout"> Logout </a>
-   <h1>Analytics Home</h1>
-   <a href = "orderingTrends">Ordering Trends</a>
-   <a href = "zReport">Z report</a>
-   <a href = "xReport">X report</a>
-   <a href = "salesReport">Sales Report</a>
-   <a href = "productUsageChart">Product Usage Chart</a>
+      <div id = "right">
+         <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+               function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+               }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+         </div>
+      </div>
+   </div>
+
+   <div class = "analyticsHomeNav">
+      <div id = "title">
+         <h1>Analytics Home</h1>
+      </div>
+
+      <div id = "mainInventoryChoices">
+         <div>
+            <a href = "orderingTrends">Ordering Trends</a>
+         </div>
+         <div>
+            <a href = "zReport">Z report</a>
+         </div>
+         <div>
+            <a href = "xReport">X report</a>
+         </div>
+         <div> 
+            <a href = "salesReport">Sales Report</a>
+         </div>
+         <div>
+            <a href = "productUsageChart">Product Usage Chart</a>
+         </div>
+      </div>
+   </div>
 </body>
