@@ -82,7 +82,7 @@ router.get('/customerHome', async (req, res) => {
     console.log("Customer homepage hit!");
     // WEATHER API INFORMATION
 
-      const city = req.query.city || 'College Station';
+    const city = req.query.city || 'College Station';
 
     const apiKey = process.env.OPENWEATHER_API_KEY;
     console.log('OpenWeather key present:', !!apiKey);
@@ -180,7 +180,31 @@ router.get('/drinkModifications', (req, res) => {
 });
 
 // Order Summary Page
-router.get('/orderSummary', (req, res) => {
+router.get('/orderSummary', async(req, res) => {
+
+  // Weather API
+    const city = req.query.city || 'College Station';
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    console.log('OpenWeather key present:', !!apiKey);
+
+    const weatherResponse = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: 'imperial',
+        },
+      }
+    );
+
+    const data = {
+      city: weatherResponse.data.name,
+      temp: weatherResponse.data.main.temp,
+      feelsLike: weatherResponse.data.main.feels_like,
+      description: weatherResponse.data.weather[0].description,
+    };
   const cart = req.session.cart || [];
 
   // totals
@@ -190,7 +214,7 @@ router.get('/orderSummary', (req, res) => {
 
   res.render('customer/orderSummary', {
     order: { drinks: cart },
-    totals: { subtotal, tax, total }
+    totals: { subtotal, tax, total }, weather:data
   });
 });
 
@@ -298,9 +322,33 @@ const orderResult = await pool.query(
     req.session.cart = [];
 
     // --- 4) render confirmation ---
+
+    // Weather API
+    const city = req.query.city || 'College Station';
+
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    console.log('OpenWeather key present:', !!apiKey);
+
+    const weatherResponse = await axios.get(
+      'https://api.openweathermap.org/data/2.5/weather',
+      {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: 'imperial',
+        },
+      }
+    );
+
+    const data = {
+      city: weatherResponse.data.name,
+      temp: weatherResponse.data.main.temp,
+      feelsLike: weatherResponse.data.main.feels_like,
+      description: weatherResponse.data.weather[0].description,
+    };
     res.render('customer/orderConfirmation', {
       orderId,
-      total
+      total, weather:data
     });
   } catch (err) {
     next(err);

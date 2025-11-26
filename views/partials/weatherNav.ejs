@@ -1,0 +1,24 @@
+
+<head>
+  <link rel="stylesheet" href="/css/customerStyle.css">
+</head>
+
+<% if (weather) { %>
+    <% 
+      const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
+      let main = (weather.main || '').toLowerCase();
+      let icon = validIcons.includes(main) ? main : 'clear';
+    %>
+  
+    <div class="weatherWidgetNav">
+        <p><%= weather.temp %>°F</p>
+        <img
+          src="/img/<%= icon %>.png"
+          alt="<%= weather.description %> icon"
+          class="weather-icon"
+        />
+      </div>
+    </div>
+  <% } else { %>
+    <p>No weather data available.</p>
+  <% } %>

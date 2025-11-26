@@ -1,10 +1,6 @@
 
-// let drinkId;
-// let drinkName;
-
-
-
-
+// // let drinkId;
+// // let drinkName;
 
 
 document.addEventListener("DOMContentLoaded", () => {

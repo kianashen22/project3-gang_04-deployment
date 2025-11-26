@@ -55,6 +55,49 @@ html, body {
     transform: scale(1.1, 1.1);
 }
 
+
+#right {
+    display: flex;
+    gap: 20px;
+}
+
+.rightItem {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+.translateButtonStyling{
+    background-color: #68A691;
+    border-style: none;
+    cursor: pointer;
+}
+
+.translateButtonStyling:hover{
+    transform: scale(1.1, 1.1);
+}
+
+
+
+/*--------- Weather Nav Bar ----------*/
+.weatherWidgetNav{
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+}
+
+.weatherWidgetNav p{
+    font-size: 30px;
+    color: black;
+
+}
+
+.weatherWidgetNav img{
+    width:48px;
+    height:48px;
+}
+
 /* ---- drinkNavBar Styling ---- */
 .drinkNavBar{
     background-color:  #CBDFCD;
@@ -255,6 +298,17 @@ html, body {
     font-family: "Instrument Sans", sans-serif;
     font-size: 24px;
   
+}
+
+.translateButtonHomeStyling{
+    background-color:#D1DFCB;
+    width: 340px;
+    height: 167px;
+    cursor: pointer;
+    border-style: none;
+    border-radius: 10px;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 24px;
 }
 
 
