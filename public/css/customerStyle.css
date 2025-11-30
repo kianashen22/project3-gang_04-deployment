@@ -366,6 +366,40 @@ html, body {
     font-weight: bold;
     font-size: 32px;;
 }
+.speechToTextContainer{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+    position: fixed;
+    bottom: 30px;   
+    right: 20px;    
+    z-index: 1000; 
+    padding: 15px 20px;
+}
+.speechButton {
+    height: 50px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: #68A691;
+    color: #FFFEF9;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.speechButton:hover{
+    transform: scale(1.1, 1.1);
+}
+
+#assistantImg{
+    display: none;
+}
+
 
 /*----------------------- SANTA ANIMATION ---------------------------*/
 #santaAnimation{
