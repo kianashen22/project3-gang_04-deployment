@@ -5,7 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ANIMATIONS
+    // // ANIMATIONS
     let numSanta = 1;
     const kiana = "/img/santa-kiana-gif.gif";
     const julian = "/img/santa-julian-gif.gif";
@@ -26,54 +26,62 @@ document.addEventListener("DOMContentLoaded", () => {
     } 
 
     // Speech to Text Assistant
-
     // TODO: use this logic to create the speech to text functionality
     const speechButton = document.getElementById("speechBtn");
     const assistantImg = document.getElementById("assistantImg");
 
-    const assistantImgArray = ["/img/santa-head-anna.png", "/img/santa-head-caiti.png", "/img/santa-head-emma.png", "/img/santa-head-julian.png" , "/img/santa-head-kiana.png"]
-    const randomAsst = Math.floor(Math.random() * 5);
-    let currentAsst = assistantImgArray[randomAsst];
-    let assistant = false;
+    // runs only when values are NOT NULL
+    if (speechButton && assistantImg){
+        const assistantImgArray = ["/img/santa-head-anna.png", "/img/santa-head-caiti.png", "/img/santa-head-emma.png", "/img/santa-head-julian.png" , "/img/santa-head-kiana.png"]
+        const randomAsst = Math.floor(Math.random() * 5);
+        let currentAsst = assistantImgArray[randomAsst];
+        let assistant = false;
 
-    assistantImg.src = currentAsst;
+        assistantImg.src = currentAsst;
 
-    speechButton.addEventListener("click", () =>{
-    assistant = !assistant;
-        if (assistant == true){
-            assistantImg.style.display= "block";
-        }
-        else{
-            assistantImg.style.display= "none";
-        }
-    });
-
-    // CUSTOMER MENU 
-    const allDropDownMenus = document.querySelectorAll(".dropdown-content");
-    allDropDownMenus.forEach(dropdown => {
-        dropdown.style.display = "none"; 
-    })
-        
-    // ALL Tab is default open screen drop down
-    const allContainer = document.querySelector(".allDropDown");
-    const dropdownContent = allContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "flex";
-    const allBtn = document.getElementById("all");
-    allBtn.style.backgroundColor = " #FFFEF9";
-    allBtn.style.color = "#68A691";
-
-    
-    const continueBtn = document.getElementById("continueButton");
-    if (continueBtn) {
-        continueBtn.addEventListener("click", () => {
-            window.location.href = "/customer/signIn";
+        speechButton.addEventListener("click", () =>{
+        assistant = !assistant;
+            if (assistant == true){
+                assistantImg.style.display= "block";
+            }
+            else{
+                assistantImg.style.display= "none";
+            }
         });
     }
 
-    const drinkButtons = document.querySelectorAll(".drinkButton");
-    drinkButtons.forEach(button => {
-        button.addEventListener("click",setDrinkNameIDPrice)
-    })
+
+
+    // CUSTOMER MENU 
+    const allDropDownMenus = document.querySelectorAll(".dropdown-content");
+    if (allDropDownMenus){
+
+        allDropDownMenus.forEach(dropdown => {
+            dropdown.style.display = "none"; 
+        })
+            
+        // ALL Tab is default open screen drop down
+        const allContainer = document.querySelector(".allDropDown");
+        const dropdownContent = allContainer.querySelector(".dropdown-content");
+        dropdownContent.style.display = "flex";
+        const allBtn = document.getElementById("all");
+        allBtn.style.backgroundColor = " #FFFEF9";
+        allBtn.style.color = "#68A691";
+
+        
+        const continueBtn = document.getElementById("continueButton");
+        if (continueBtn) {
+            continueBtn.addEventListener("click", () => {
+                window.location.href = "/customer/signIn";
+            });
+        }
+
+        const drinkButtons = document.querySelectorAll(".drinkButton");
+        drinkButtons.forEach(button => {
+            button.addEventListener("click",setDrinkNameIDPrice)
+        })
+    }
+
 
 });
 
