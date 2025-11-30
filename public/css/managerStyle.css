@@ -155,7 +155,7 @@ html, body {
 .inventorySubPage #inventoryTable th{
     border: 2px solid #68A691; /* Adds borders to header and data cells */
     padding: 8px; /* Adds padding inside cells */
-    text-align: center; /* Aligns text to the left */
+    text-align: center; 
     background-color: #3F7462;;
     color: #F8FFF9;
     font-size: 35px;
@@ -165,7 +165,7 @@ html, body {
 .inventorySubPage #inventoryTable td{
     border: 2px solid #68A691; /* Adds borders to header and data cells */
     padding: 8px; /* Adds padding inside cells */
-    text-align: center; /* Aligns text to the left */
+    text-align: center;
     background-color: #F8FFF9;
     color: #3F7462;
     font-size: 25px;
@@ -356,4 +356,112 @@ html, body {
 .zReportPage #row1, #row2 p {
     font-size: 20px;
     color: #68A691;
+}
+
+/* x-report */
+.xReportPage #title {
+    padding: 45px 0 0 0;
+}
+
+.xReportPage #title h1{
+    text-align: center;
+    font-size: 50px;
+    color: #68A691;
+    padding-bottom: 20px;
+}
+
+.xReportPage p{
+    text-align: center;
+    font-size: 25px;
+    color: #68A691;
+}
+
+.xReportPage h2{
+    text-align: center;
+    font-size: 35px;
+    color: #68A691;
+}
+
+.xReportPage #reportTable{
+    padding: 10px 0 20px 0;
+    text-align: center;
+}
+
+.xReportPage #reportTable table{
+    border-collapse: collapse; /* Collapses cell borders into a single border */
+    width: 40%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+.xReportPage #reportTable th{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 8px; /* Adds padding inside cells */
+    text-align: center;
+    background-color: #3F7462;;
+    color: #F8FFF9;
+    font-size: 35px;
+    width: 50%;
+}
+
+.xReportPage #reportTable td{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 8px; /* Adds padding inside cells */
+    text-align: center;
+    background-color: #F8FFF9;
+    color: #3F7462;
+    font-size: 25px;
+}
+
+.xReportPage #submitButton {
+    text-align: center;
+    padding-top: 30px;
+}
+
+.xReportPage #submitButton button{
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #68A691;
+    color: #F8FFF9;
+    border-color: #68A691;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.xReportPage #submitButton button:hover{
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+/* sales-report */
+.orderingTrends #salesTable{
+    padding: 20px 0 20px 0;
+    text-align: center;
+}
+
+.orderingTrends #salesTable table{
+    border-collapse: collapse; /* Collapses cell borders into a single border */
+    width: 70%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+.orderingTrends #salesTable th{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 8px; /* Adds padding inside cells */
+    text-align: center; 
+    background-color: #3F7462;;
+    color: #F8FFF9;
+    font-size: 35px;
+    width: 50%;
+}
+
+.orderingTrends #salesTable td{
+    border: 2px solid #68A691; /* Adds borders to header and data cells */
+    padding: 10px; /* Adds padding inside cells */
+    text-align: center;
+    background-color: #F8FFF9;
+    color: #3F7462;
+    font-size: 25px;
 }

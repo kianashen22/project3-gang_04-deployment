@@ -342,6 +342,7 @@ html, body {
     right: 20px;    
     z-index: 1000; 
     padding: 15px 20px;
+    align-items: flex-start;
 }
 .speechButton {
     height: 50px;
@@ -365,6 +366,9 @@ html, body {
 
 #assistantImg{
     display: none;
+    width: auto;
+    height: auto;
+    align-self: center;
 }
 
 
