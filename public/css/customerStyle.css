@@ -242,7 +242,6 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 100px;
     padding-bottom: 100px;
 
 }
@@ -367,4 +366,24 @@ html, body {
     font-weight: bold;
     font-size: 32px;;
 }
+
+/*----------------------- SANTA ANIMATION ---------------------------*/
+#santaAnimation{
+    animation-name: moveAcrossScreen;
+    animation-duration: 7s;
+    position: relative;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes moveAcrossScreen {
+    0%{
+        transform: translateX(-200%);
+    }
+    100%{
+        transform: translateX(100vw)
+    }
+    
+}
+
 

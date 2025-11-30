@@ -5,6 +5,27 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    // ANIMATIONS
+    let numSanta = 1;
+    const kiana = "/img/santa-kiana-gif.gif";
+    const julian = "/img/santa-julian-gif.gif";
+    const santaArray = [kiana, julian];
+    const currentSanta = document.getElementById("santaAnimation");
+
+    setInterval(changeSanta,7000);
+
+    function changeSanta(){
+        currentSanta.src = santaArray[numSanta]; 
+        
+        if (numSanta == santaArray.length - 1 ){
+            numSanta = 0;
+        }
+        else{    
+            numSanta++;
+        }
+    } 
+
+    // CUSTOMER MENU 
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");
     allDropDownMenus.forEach(dropdown => {
         dropdown.style.display = "none"; 
@@ -190,14 +211,34 @@ function setDrinkNameIDPrice(){
     window.location.href = url;
 }
 
-
-
-
-// let cart = JSON.parse(localStorage.getItem("cart"));  -> converts string to object
-// IDEAD: should price update when toppings is pressed?
+// ANIMATION FUNCTIONS
 
 
 
 
+//const currentSanta = document.getElementById("santaAnimation");
 
-           
+
+// function changeSanta(){
+
+
+//     const kiana = "/img/santa-kiana-gif.gif";
+//     const julian = "/img/santa-julian-gif.gif";
+
+//     const santaArray = [kiana, julian];
+
+//     const currentSanta = document.getElementById("santaAnimation");
+
+
+//     currentSanta.src = santaArray[numSanta]; 
+
+// } 
+     
+
+    // if (numSanta == santaArray.length - 1 ){
+    //     numSanta = 0;
+    // }
+    // else{    
+    //     numSanta++;
+    // }
+
