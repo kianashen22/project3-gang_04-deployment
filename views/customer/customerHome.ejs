@@ -155,15 +155,32 @@
          <div class = "searchDropDown">
             <button id = "search" class = "drinkCategoryButton"><img src="/img/search.png"></button>
             <div class = "dropdown-content">
+                <div class = "optionDisplay" id="optionDisplay">
+                    <h3>Search for items with:</h3>
+<!--                    <ul id="selectedIngredientsList">-->
+<!--                        &lt;!&ndash; Selected ingredients will be displayed here &ndash;&gt;-->
+<!--                    </ul>-->
+                </div>
+                <br>
 
+                <select id="ingredientSelect">
+                    <option value="" disabled selected>Select an ingredient</option>
+                    <% for (let ingredient of inventory) { %>
+                        <option value="<%= ingredient.inventory_id %>"><%= ingredient.name %></option>
+                    <% } %>
+                </select>
+
+                <br>
+                <button id="searchDrinksButton">search</button>
             </div>
          </div>
 
       </div>
    </div>
    <footer></footer>
-   <script src = "/js/customerHandler.js"></script> 
-   <script src = "/js/googleTranslateHandler.js"></script> 
+    <script src = "/js/customerHandler.js"></script>
+    <script src = "/js/googleTranslateHandler.js"></script>
+    <script src = "/js/selectHandler.js"></script>
 
 </body>
 
