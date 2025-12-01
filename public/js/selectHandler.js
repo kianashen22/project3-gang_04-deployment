@@ -7,7 +7,7 @@ const ingredientSelect = document.getElementById('ingredientSelect');
 const searchBtn = document.getElementById('searchDrinksButton');
 
 ingredientSelect.addEventListener('change', (e) => {
-    console.log("selected an option: ", ingredientSelect.value);
+    // console.log("selected an option: ", ingredientSelect.value);
     const value = ingredientSelect.value;
     const text = ingredientSelect.options[ingredientSelect.selectedIndex].text;
 
@@ -40,9 +40,9 @@ function renderOptions() {
 }
 
 searchBtn.addEventListener('click', async () => {
-    const ingredientIds = selectedOptions.map(opt => opt.id);
+    const ingredientIds = selectedOptions.map(opt => parseInt(opt.id));
 
-    const response = await fetch("/searchIngredient", {
+    const response = await fetch("/customer/searchIngredient", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients: ingredientIds })

@@ -454,16 +454,14 @@ router.post('/cart/add', (req, res) => {
 
 // for search
 router.post("/searchIngredient", async (req, res) => {
+    console.log("Request body:", req.body);
+
     const { ingredients } = req.body; // <-- array of ingredient IDs
 
-    const sql = `
-        SELECT *
-        FROM menu_inventory
-        WHERE inventory_id @> $1::jsonb
-    `;
+    const sql = `SELECT beverage_id FROM menu_inventory WHERE inventory_id = ANY($1::int[])`;
 
     try {
-        const result = await db.query(sql, [JSON.stringify(ingredients)]);
+        const result = await db.query(sql, [ingredients]);
         res.json({ success: true, rows: result.rows });
     } catch (err) {
         console.error(err);
