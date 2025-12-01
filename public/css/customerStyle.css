@@ -49,6 +49,7 @@ html, body {
     color: black;
     text-align: center;
     font-size: 30px;
+    transition: transform 0.2s ease
 }
 
 .customerNavBarContainer #left div a:hover{
@@ -71,6 +72,7 @@ html, body {
     background-color: #68A691;
     border-style: none;
     cursor: pointer;
+    transition: transform 0.2s ease
 }
 
 .translateButtonStyling:hover{
@@ -222,6 +224,10 @@ html, body {
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: transform 0.2s ease
+}
+#loginContainer a:hover{
+    transform: scale(1.1, 1.1);
 }
 
 #homeNavBarLeft{
@@ -236,14 +242,21 @@ html, body {
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: transform 0.2s ease
 }
+
+#homeNavBarLeft a:hover{
+    transform: scale(1.1, 1.1);
+}
+
+
 
 #bodyContainer{
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 100px;
     padding-bottom: 100px;
+    padding-top: 100px;
 
 }
 
@@ -271,7 +284,11 @@ html, body {
     align-items: center;
     justify-content: center;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+#orderNowButton:hover{
+    transform: scale(1.1, 1.1);
 }
 
 #apiContainer{
@@ -309,6 +326,50 @@ html, body {
     border-radius: 10px;
     font-family: "Instrument Sans", sans-serif;
     font-size: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.translateButtonHomeStyling:hover{
+    transform: scale(1.1, 1.1);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.speechToTextContainer{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+    position: fixed;
+    bottom: 30px;   
+    right: 20px;    
+    z-index: 1000; 
+    padding: 15px 20px;
+    align-items: flex-start;
+}
+.speechButton {
+    height: 50px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: #68A691;
+    color: #FFFEF9;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.speechButton:hover{
+    transform: scale(1.1, 1.1);
+}
+
+#assistantImg{
+    display: none;
+    width: auto;
+    height: auto;
+    align-self: center;
 }
 
 
@@ -331,7 +392,6 @@ html, body {
     border-radius: 10px;
     width: 500px;
     height: 320px;
-    margin-top: 150px;
     margin-bottom: 50px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
@@ -367,4 +427,50 @@ html, body {
     font-weight: bold;
     font-size: 32px;;
 }
+
+
+
+/*----------------------- SANTA ANIMATION ---------------------------*/
+#santaAnimation{
+    animation-name: moveAcrossScreen;
+    animation-duration: 7s;
+    position: relative;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes moveAcrossScreen {
+    0%{
+        transform: translateX(-200%);
+    }
+    100%{
+        transform: translateX(100vw)
+    }
+    
+}
+audio::-webkit-media-controls {
+  display: none;
+}
+
+
+/*-----------   MENU BOARD ----------- */
+#menuContainer{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100vw;
+    padding-left: 100px;
+    padding-right: 1000px;
+    row-gap: 30px;
+}
+
+.drinkMenuContainer{
+    width: 500px;
+}
+
+.largeDot{
+    font-size: 2em; /* Adjust as needed for desired size */
+    font-weight: bold; /* Optional: make it bolder */
+}
+
 

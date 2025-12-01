@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Home Page</title>
+    <link rel="stylesheet" href="/css/customerStyle.css">
 </head>
 <body>
 <!--    this is the start of google translate code-->
@@ -13,10 +14,69 @@
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!--    this is the end of google translate code-->
 
-<h1>Menu</h1>
-    <a href = "/index">Back</a>
-    <h1>Menu</h1>
-    <% for (var i in beverage_info) {%>
-        <p>Name: <%=beverage_info[i].name%>, Category: <%=beverage_info[i].category%>, Price: <%=beverage_info[i].price%><p>
-    <% } %>
+
+<!---------------   NAV BAR    --------------->
+<div id = "homeHeader">
+    <div id = "homeNavBarLeft">
+        <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
+        <a href = "/menu"><img src = "/img/drink.png">Menu</a>
+    </div>
+
+    <h1><u>Menu</u></h1>
+
+    <div id = "loginContainer">
+        <a href="/auth/google">
+            Admin Login
+            <img src = "/img/login.png" alt = "admin login">
+        </a>
+    </div>  
+    </div>
+
+<!---------------   MENU    --------------->
+    <div id = "menuContainer">
+        <div id = "milkySeriesContainer" class = "drinkMenuContainer">
+            <h1><u>MILKY SERIES</u></h1>
+            <% for (var i in milky_drinks) {%>
+                <p><%=milky_drinks[i].name%>..........<%=milky_drinks[i].price%><p>
+            <% } %>
+        </div>
+
+        <div id = "fruitBevContainer" class = "drinkMenuContainer">
+            <h1><u>FRUITY BEVERAGES</u></h1>
+            <% for (var i in fruity_drinks) {%>
+                <p><%=fruity_drinks[i].name%>..........<%=fruity_drinks[i].price%><p>
+            <% } %>
+        </div>
+
+        <div id = "freshBrewContainer" class = "drinkMenuContainer">
+            <h1><u>FRESH BREW</u></h1>
+            <% for (var i in freshBrew_drinks) {%>
+                <p><%=freshBrew_drinks[i].name%>..........<%=freshBrew_drinks[i].price%><p>
+            <% } %>
+        </div>
+
+        <div id = "iceBlendContainer" class = "drinkMenuContainer">
+            <h1><u>ICE BLENDED</u></h1>
+            <% for (var i in iceBlended_drinks) {%>
+                <p><%=iceBlended_drinks[i].name%>..........<%=iceBlended_drinks[i].price%><p>
+            <% } %>
+        </div>
+
+        <div id = "drinkModificationsContainer">
+            <h1><u>CHOOSE (OPTIONAL)</u></h1>
+            <p><b>ICE LEVEL</b> &nbsp; No Ice &bull; Light Ice   &bull;  Regular Ice  &bull; Extra Ice</p>
+            <p><b>SWEETNESS LEVEL</b> &nbsp; 0%     &bull; 30%   &bull;  50%    &bull;  80%     &bull;  100%    &bull;  120%</p>
+            <p><b>TOPPINGS +0.75</b> &nbsp; Tapioca Pearl &bull; Lychee Jelly   &bull;  Coffee Jelly    &bull;  Ice Cream
+                                    &bull;  Honey   &bull;  Passion Fruit</p>
+            <p><b>SIZE</b> &nbsp; Small &bull; Medium   &bull;  Large</p>    
+        </div>
+    </div>
+
+    <div class = "speechToTextContainer">
+        <img id = "assistantImg"src = "">
+        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
+    </div>
+
+    <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/googleTranslateHandler.js"></script> 
 </body>

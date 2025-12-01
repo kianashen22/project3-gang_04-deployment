@@ -7,6 +7,12 @@
   </head>
   <body>
     <%- include("../partials/customerNavBar") %>
+
+    <audio controls autoplay loop>
+        <source src = "/sound/santa-moving-sound.mp3" type = "audio/mpeg">
+    </audio>
+    <img id ="santaAnimation" src= "">
+
     <div class = "pageContainer">
       <div id = "thankYouCard">
         <h1>Thank you for your order!</h1>
@@ -14,11 +20,12 @@
       </div>
 
       <div id = "confirmButtonContainer">
-        <div class = "confirmPageButtons"><a href="../index">Back to Home</a></div>
+        <div class = "confirmPageButtons"><a href="../index">Exit</a></div>
         <div class = "confirmPageButtons"><a href="customerHome">Next Order</a></div>
       </div>
 
     </div>
 
+    <script src = "/js/customerHandler.js"></script> 
   </body>
 </html>

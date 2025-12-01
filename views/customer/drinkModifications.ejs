@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Modify <%= drink.name %></title>
+  <link rel="stylesheet" href="/css/customerStyle.css">
 
   <style>
     button.active {
@@ -91,6 +92,11 @@
 
   </form>
 
+    <div class = "speechToTextContainer">
+        <img id = "assistantImg"src = "">
+        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
+    </div>
+
   <script>
     function setupSingleSelect(groupId, dataAttr, hiddenId) {
       const group = document.getElementById(groupId);
@@ -178,5 +184,6 @@
       
     })();
   </script>
+   <script src = "/js/customerHandler.js"></script> 
 </body>
 </html>

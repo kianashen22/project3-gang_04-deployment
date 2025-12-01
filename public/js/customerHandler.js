@@ -5,31 +5,83 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const allDropDownMenus = document.querySelectorAll(".dropdown-content");
-    allDropDownMenus.forEach(dropdown => {
-        dropdown.style.display = "none"; 
-    })
-        
-    // ALL Tab is default open screen drop down
-    const allContainer = document.querySelector(".allDropDown");
-    const dropdownContent = allContainer.querySelector(".dropdown-content");
-    dropdownContent.style.display = "flex";
-    const allBtn = document.getElementById("all");
-    allBtn.style.backgroundColor = " #FFFEF9";
-    allBtn.style.color = "#68A691";
+    // // ANIMATIONS
+    let numSanta = 1;
+    const kiana = "/img/santa-kiana-gif.gif";
+    const julian = "/img/santa-julian-gif.gif";
+    const santaArray = [kiana, julian];
+    const currentSanta = document.getElementById("santaAnimation");
 
-    
-    const continueBtn = document.getElementById("continueButton");
-    if (continueBtn) {
-        continueBtn.addEventListener("click", () => {
-            window.location.href = "/customer/signIn";
+    setInterval(changeSanta,7000);
+
+    function changeSanta(){
+        currentSanta.src = santaArray[numSanta]; 
+        
+        if (numSanta == santaArray.length - 1 ){
+            numSanta = 0;
+        }
+        else{    
+            numSanta++;
+        }
+    } 
+
+    // Speech to Text Assistant
+    // TODO: use this logic to create the speech to text functionality
+    const speechButton = document.getElementById("speechBtn");
+    const assistantImg = document.getElementById("assistantImg");
+
+    // runs only when values are NOT NULL
+    if (speechButton && assistantImg){
+        const assistantImgArray = ["/img/santa-head-anna.png", "/img/santa-head-caiti.png", "/img/santa-head-emma.png", "/img/santa-head-julian.png" , "/img/santa-head-kiana.png"]
+        const randomAsst = Math.floor(Math.random() * 5);
+        let currentAsst = assistantImgArray[randomAsst];
+        let assistant = false;
+
+        assistantImg.src = currentAsst;
+
+        speechButton.addEventListener("click", () =>{
+        assistant = !assistant;
+            if (assistant == true){
+                assistantImg.style.display= "block";
+            }
+            else{
+                assistantImg.style.display= "none";
+            }
         });
     }
 
-    const drinkButtons = document.querySelectorAll(".drinkButton");
-    drinkButtons.forEach(button => {
-        button.addEventListener("click",setDrinkNameIDPrice)
-    })
+
+
+    // CUSTOMER MENU 
+    const allDropDownMenus = document.querySelectorAll(".dropdown-content");
+    if (allDropDownMenus){
+
+        allDropDownMenus.forEach(dropdown => {
+            dropdown.style.display = "none"; 
+        })
+            
+        // ALL Tab is default open screen drop down
+        const allContainer = document.querySelector(".allDropDown");
+        const dropdownContent = allContainer.querySelector(".dropdown-content");
+        dropdownContent.style.display = "flex";
+        const allBtn = document.getElementById("all");
+        allBtn.style.backgroundColor = " #FFFEF9";
+        allBtn.style.color = "#68A691";
+
+        
+        const continueBtn = document.getElementById("continueButton");
+        if (continueBtn) {
+            continueBtn.addEventListener("click", () => {
+                window.location.href = "/customer/signIn";
+            });
+        }
+
+        const drinkButtons = document.querySelectorAll(".drinkButton");
+        drinkButtons.forEach(button => {
+            button.addEventListener("click",setDrinkNameIDPrice)
+        })
+    }
+
 
 });
 
@@ -190,14 +242,34 @@ function setDrinkNameIDPrice(){
     window.location.href = url;
 }
 
-
-
-
-// let cart = JSON.parse(localStorage.getItem("cart"));  -> converts string to object
-// IDEAD: should price update when toppings is pressed?
+// ANIMATION FUNCTIONS
 
 
 
 
+//const currentSanta = document.getElementById("santaAnimation");
 
-           
+
+// function changeSanta(){
+
+
+//     const kiana = "/img/santa-kiana-gif.gif";
+//     const julian = "/img/santa-julian-gif.gif";
+
+//     const santaArray = [kiana, julian];
+
+//     const currentSanta = document.getElementById("santaAnimation");
+
+
+//     currentSanta.src = santaArray[numSanta]; 
+
+// } 
+     
+
+    // if (numSanta == santaArray.length - 1 ){
+    //     numSanta = 0;
+    // }
+    // else{    
+    //     numSanta++;
+    // }
+
