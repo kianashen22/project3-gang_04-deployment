@@ -453,3 +453,24 @@ audio::-webkit-media-controls {
 }
 
 
+/*-----------   MENU BOARD ----------- */
+#menuContainer{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100vw;
+    padding-left: 100px;
+    padding-right: 1000px;
+    row-gap: 30px;
+}
+
+.drinkMenuContainer{
+    width: 500px;
+}
+
+.largeDot{
+    font-size: 2em; /* Adjust as needed for desired size */
+    font-weight: bold; /* Optional: make it bolder */
+}
+
+
