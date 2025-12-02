@@ -159,6 +159,7 @@
                 <br>
                 <div class = "optionDisplay" id="optionDisplay">
                     <p>nothing is selected</p><br>
+                </div>
                 <br>
 
                 <select id="ingredientSelect">
@@ -169,10 +170,30 @@
                 </select>
 
                 <br>
-                <button id="searchDrinksButton">search</button>
+
+                <form id="searchForm" action="/customer/searchResults" method="POST">
+                    <input type="hidden" name="ingredients" id="hiddenIngredients">
+                    <button id="searchDrinksButton" type="button">search</button>
+                </form>
+
+<!--                <button id="searchDrinksButton">search</button>-->
 
                 <div class = "searchResults">
+<!--                    fill l8r -->
+                    <%for (drink of all_drinks) {
+                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
+                     %>
+                     <div class = "drinkCard searchResultCard" id="drink-<%= drink.beverage_info_id %>" style="display: none;">
+                        <button class = "drinkButton"
+                              data-drink-id = "<%= drink.beverage_info_id %>"
+                              data-drink-name = "<%= drink.name %>"
+                              data-drink-price="<%= drink.price%>" >
+                              <img src="<%= img_url %>">
+                        </button>
 
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                     </div>
+                    <%}%>
                 </div>
             </div>
          </div>
@@ -183,7 +204,6 @@
     <script src = "/js/customerHandler.js"></script>
     <script src = "/js/googleTranslateHandler.js"></script>
     <script src = "/js/selectHandler.js"></script>
-
 </body>
 
 <!--

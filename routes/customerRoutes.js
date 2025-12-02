@@ -121,6 +121,8 @@ router.get('/customerHome', async (req, res) => {
         const all_drinks =
             (await pool.query("SELECT * FROM beverage_info")).rows;
 
+        req.session.allDrinks = all_drinks
+
         const inventory =
             (await pool.query("SELECT * FROM inventory")).rows;
 
@@ -453,20 +455,51 @@ router.post('/cart/add', (req, res) => {
 // FUNCTIONS
 
 // for search
-router.post("/searchIngredient", async (req, res) => {
-    console.log("Request body:", req.body);
+// router.post("/searchIngredient", async (req, res) => {
+//     console.log("Request body:", req.body);
+//
+//     const { ingredients } = req.body; // <-- array of ingredient IDs
+//
+//     const sql = `SELECT beverage_id FROM menu_inventory WHERE inventory_id = ANY($1::int[])`;
+//
+//     try {
+//         const result = await db.query(sql, [ingredients]);
+//         res.json({ success: true, rows: result.rows });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: "Database error" });
+//     }
+// });
 
-    const { ingredients } = req.body; // <-- array of ingredient IDs
+router.post("/searchResults", (req, res) => {
+   let ingredients = [];
+   if(req.body.ingredients && req.body.ingredients.trim() !== "") {
+        try {
+            ingredients = JSON.parse(req.body.ingredients);
+        } catch (err) {
+            console.error("Invalid JSON:", req.body.ingredients);
+            ingredients = [];
+        }
+   }
+    const all = allDrinks;
 
-    const sql = `SELECT beverage_id FROM menu_inventory WHERE inventory_id = ANY($1::int[])`;
+    if(ingredients.length === 0) {
+        return res.render("customer/searchResults", {
+            drinks: all,
+            message: "Showing all drinks (no ingredients selected)"
+        });
+   }
 
-    try {
-        const result = await db.query(sql, [ingredients]);
-        res.json({ success: true, rows: result.rows });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Database error" });
-    }
+    const matchingDrinks = ingredients.length === 0
+        ? all
+        : all.filter(drink => ingredients.every(id => drink.ingredients.includes(id)));
+
+    res.render("customer/searchResults", {
+        drinks: matchingDrinks,
+        message: ingredients.length === 0
+            ? "Showing all drinks (no ingredients selected)"
+            : `Showing drinks containing: ${ingredients.join(", ")}`
+    });
 });
 
 // Export router

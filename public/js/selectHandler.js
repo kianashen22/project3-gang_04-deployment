@@ -39,15 +39,16 @@ function renderOptions() {
     });
 }
 
+// instead of form submit:
 searchBtn.addEventListener('click', async () => {
     const ingredientIds = selectedOptions.map(opt => parseInt(opt.id));
 
-    const response = await fetch("/customer/searchIngredient", {
+    const response = await fetch("/customer/searchResults", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients: ingredientIds })
     });
 
     const data = await response.json();
-    console.log(data);
+    renderDrinks(data.drinks); // update the page dynamically
 });
