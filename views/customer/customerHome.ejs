@@ -35,7 +35,7 @@
                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
                <!--    this is the end of google translate code-->
       </div>
-      <div classs = "rightItem">
+      <div class = "rightItem">
          <%- include('../partials/weatherNav', { weather: weather }) %>
       </div>
 
@@ -171,28 +171,27 @@
 
                 <br>
 
-                <form id="searchForm" action="/customer/searchResults" method="POST">
-                    <input type="hidden" name="ingredients" id="hiddenIngredients">
+                <form id="searchDrinksForm" action="/customer/search" method="post">
+                    <input type="hidden" id="selectedIngredients" name="selectedIngredients" value="">
                     <button id="searchDrinksButton" type="button">search</button>
+                    <br>
                 </form>
+                <br>
 
-<!--                <button id="searchDrinksButton">search</button>-->
-
-                <div class = "searchResults">
-<!--                    fill l8r -->
-                    <%for (drink of all_drinks) {
+                <div id = "searchResults">
+                    <%for (drink of filtered_drinks) {
                         const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
-                     %>
-                     <div class = "drinkCard searchResultCard" id="drink-<%= drink.beverage_info_id %>" style="display: none;">
+                    %>
+                    <div class = "drinkCard">
                         <button class = "drinkButton"
-                              data-drink-id = "<%= drink.beverage_info_id %>"
-                              data-drink-name = "<%= drink.name %>"
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
+                                data-drink-id = "<%= drink.beverage_info_id %>"
+                                data-drink-name = "<%= drink.name %>"
+                                data-drink-price="<%= drink.price%>" >
+                            <img src="<%= img_url %>">
                         </button>
 
                         <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
+                    </div>
                     <%}%>
                 </div>
             </div>

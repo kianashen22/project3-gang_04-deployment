@@ -1,5 +1,7 @@
 
 // routes/customerRoutes.js
+const ejs = require('ejs');
+const path = require('path');
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
@@ -121,6 +123,8 @@ router.get('/customerHome', async (req, res) => {
         const all_drinks =
             (await pool.query("SELECT * FROM beverage_info")).rows;
 
+        let filtered_drinks = all_drinks;
+
         req.session.allDrinks = all_drinks
 
         const inventory =
@@ -134,6 +138,7 @@ router.get('/customerHome', async (req, res) => {
             iceBlended_drinks,
             milky_drinks,
             all_drinks,
+            filtered_drinks,
             inventory
         });
 
@@ -453,53 +458,53 @@ router.post('/cart/add', (req, res) => {
 });
 
 // FUNCTIONS
+router.post('/search', async (req, res) => {
+    console.log("🔥 /search route HIT");
+    console.log(req.body);
 
-// for search
-// router.post("/searchIngredient", async (req, res) => {
-//     console.log("Request body:", req.body);
-//
-//     const { ingredients } = req.body; // <-- array of ingredient IDs
-//
-//     const sql = `SELECT beverage_id FROM menu_inventory WHERE inventory_id = ANY($1::int[])`;
-//
-//     try {
-//         const result = await db.query(sql, [ingredients]);
-//         res.json({ success: true, rows: result.rows });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ error: "Database error" });
-//     }
-// });
+    try {
+        console.log("LIST RECEIVED:", req.body.selectedIngredients);
+        let list = req.body.selectedIngredients;
+        list = list.map(Number);
 
-router.post("/searchResults", (req, res) => {
-   let ingredients = [];
-   if(req.body.ingredients && req.body.ingredients.trim() !== "") {
-        try {
-            ingredients = JSON.parse(req.body.ingredients);
-        } catch (err) {
-            console.error("Invalid JSON:", req.body.ingredients);
-            ingredients = [];
+        console.log(list, "TYPE ", typeof list);
+
+        let filtered_drinks = [];
+
+        if(list.length === 0){
+            filtered_drinks = req.session.allDrinks;
         }
-   }
-    const all = allDrinks;
+        else
+        {
+            const query = `SELECT * FROM beverage_info
+                                  WHERE beverage_info_id IN (
+                                  SELECT beverage_info_id 
+                                  FROM menu_inventory
+                                  WHERE inventory_id = ANY($1))`;
 
-    if(ingredients.length === 0) {
-        return res.render("customer/searchResults", {
-            drinks: all,
-            message: "Showing all drinks (no ingredients selected)"
-        });
-   }
+            const result = await pool.query(query, [list]);
+            filtered_drinks = result.rows;
 
-    const matchingDrinks = ingredients.length === 0
-        ? all
-        : all.filter(drink => ingredients.every(id => drink.ingredients.includes(id)));
+        }
 
-    res.render("customer/searchResults", {
-        drinks: matchingDrinks,
-        message: ingredients.length === 0
-            ? "Showing all drinks (no ingredients selected)"
-            : `Showing drinks containing: ${ingredients.join(", ")}`
-    });
+        console.log(filtered_drinks);
+
+        //TODO
+
+        const html = await ejs.renderFile(
+            path.join(__dirname, '../views/customer/_drinksList.ejs'),
+            {
+                filtered_drinks,
+                img_array: res.locals.img_array,
+            }
+        );
+
+        res.json({ html });
+
+    } catch (err) {
+        console.error('Search error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Export router

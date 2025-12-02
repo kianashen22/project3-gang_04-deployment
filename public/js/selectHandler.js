@@ -1,10 +1,17 @@
 console.log("JS file loaded");
 
 let selectedOptions = [];
+let selectedIndices = [];
 
 const optionList = document.getElementById('optionDisplay');
 const ingredientSelect = document.getElementById('ingredientSelect');
+const selectedIngredients = document.getElementById('selectedIngredients');
+
 const searchBtn = document.getElementById('searchDrinksButton');
+
+function updateHidden() {
+    selectedIngredients.value = JSON.stringify(selectedIndices);
+}
 
 ingredientSelect.addEventListener('change', (e) => {
     // console.log("selected an option: ", ingredientSelect.value);
@@ -14,11 +21,17 @@ ingredientSelect.addEventListener('change', (e) => {
     if (!value || selectedOptions.some(o => o.id === value)) return;
 
     selectedOptions.push({ id: value, name: text });
+    selectedIndices.push(Number(value));
+
+    updateHidden();
     renderOptions();
 });
 
 function removeOption(id) {
     selectedOptions = selectedOptions.filter(opt => opt.id !== id);
+    selectedIndices = selectedIndices.filter(index => index !== Number(id));
+
+    updateHidden();
     renderOptions();
 }
 
@@ -39,16 +52,18 @@ function renderOptions() {
     });
 }
 
-// instead of form submit:
-searchBtn.addEventListener('click', async () => {
-    const ingredientIds = selectedOptions.map(opt => parseInt(opt.id));
+searchBtn.addEventListener('click', async(e) => {
+    updateHidden();
+    console.log('click');
+    console.log("selected indices: ", selectedIndices);
 
-    const response = await fetch("/customer/searchResults", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ingredients: ingredientIds })
-    });
-
-    const data = await response.json();
-    renderDrinks(data.drinks); // update the page dynamically
+    const res = await fetch('/customer/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                selectedIngredients: selectedIndices
+            })
+        });
+    const data = await res.json();
+    document.getElementById('searchResults').innerHTML = data.html;
 });
