@@ -1,5 +1,4 @@
 
-// routes/customerRoutes.js
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
@@ -70,38 +69,9 @@ router.use((req, res, next) => {
 //HOME PAGE--
 
 router.get('/employeeHome', async (req, res) => {
+  user = req.session.user;
 
   console.log("Employee homepage hit!");
-  // WEATHER API INFORMATION
-  let data = null;
-  try {
-    const city = req.query.city || 'College Station';
-
-    const apiKey = process.env.OPENWEATHER_API_KEY;
-    console.log('OpenWeather key present:', !!apiKey);
-
-    const weatherResponse = await axios.get(
-      'https://api.openweathermap.org/data/2.5/weather',
-      {
-        params: {
-          q: city,
-          appid: apiKey,
-          units: 'imperial',
-        },
-      }
-    );
-
-    data = {
-      city: weatherResponse.data.name,
-      temp: weatherResponse.data.main.temp,
-      feelsLike: weatherResponse.data.main.feels_like,
-      description: weatherResponse.data.weather[0].description,
-    };
-  } catch {
-    console.error('Weather API error:', err.message);
-
-  }
-
 
   // LOADING DRINKS ON THE PAGE INFORMATION
   let freshBrew_drinks = []
@@ -123,7 +93,7 @@ router.get('/employeeHome', async (req, res) => {
 
 
     res.render('employee/employeeHome', {
-      weather: data, 
+      user: user,
       error: null ,
       freshBrew_drinks,
       fruity_drinks,
@@ -131,15 +101,13 @@ router.get('/employeeHome', async (req, res) => {
       milky_drinks
     });
   } catch (err) {
-      if (err.response) {
-        console.error('OpenWeather error:', err.response.status, err.response.data);
-      } else {
+      if (err) {
         console.error('Unknown error:', err.message);
       }
 
       res.render('employee/employeeHome', {
-        weather: null,
-        error: 'Error fetching weather.',
+        user: user,
+        error: 'Error.',
         freshBrew_drinks,
         fruity_drinks,
         iceBlended_drinks,
@@ -357,48 +325,49 @@ router.get('/:id/customize', async (req, res, next) => {
     next(err);
   }
 });
+
+
 router.post('/cart/add', (req, res) => {
-  if (!req.session.cart) req.session.cart = [];
+    if (!req.session.cart) req.session.cart = [];
 
-  const {
-    beverageInfoId,
-    name,
-    price,
-    size,
-    iceLevel,
-    sweetnessLevel,
-    topping,
-    action,
-    quantity
-  } = req.body;
+    const {
+        beverageInfoId,
+        name,
+        price,
+        size,
+        iceLevel,
+        sweetnessLevel,
+        topping,
+        action,
+        quantity
+    } = req.body;
 
 
-  const qty = Math.max(1, Number(quantity) || 1);
-  const basePrice = Number(price) || 0;
-  const toppingCharge = (action === 'add' && topping) ? 0.75 : 0; 
-  const lineTotal = (basePrice + toppingCharge) * qty;
+    const qty = Math.max(1, Number(quantity) || 1);
+    const basePrice = Number(price) || 0;
+    const toppingCharge = (action === 'add' && topping) ? 0.75 : 0;
+    const lineTotal = (basePrice + toppingCharge) * qty;
 
-  req.session.cart.push({
-    beverageInfoId: Number(beverageInfoId),
-    name,
-    size,
-    iceLevel,
-    sweetnessLevel,
-    topping: topping || null,
-    action,                    
-    price: basePrice,
-    toppingCharge,
-    quantity: qty,
-    lineTotal
-  });
-  console.log('CART NOW:', req.session.cart);
-  return res.redirect('/customer/customerHome');
+    req.session.cart.push({
+        beverageInfoId: Number(beverageInfoId),
+        name,
+        size,
+        iceLevel,
+        sweetnessLevel,
+        topping: topping || null,
+        price: basePrice,
+        toppingCharge,
+        quantity: qty,
+        lineTotal
+    });
+    console.log('CART NOW:', req.session.cart);
+    return res.redirect('/employee/employeeHome');
 });
-
-
 
 
 
 
 // Export router 
 module.exports = router;
+
+

@@ -223,6 +223,7 @@ app.get('/index', async(req, res) => {
 
 
 app.get('/menu', async(req, res) => {
+    const user = req.session.user; 
 
     try {
         // WEATHER API INFORMATION
@@ -291,6 +292,7 @@ app.get('/menu', async(req, res) => {
                     all_drinks.push(query_res5.rows[i]);
                 }
                 res.render('menu', {
+                user: user,
                 weather: data, 
                 error: null ,
                 freshBrew_drinks,
@@ -307,9 +309,10 @@ app.get('/menu', async(req, res) => {
         console.error('Unknown error:', err.message);
         }
 
-        res.render('menu', {
-        weather: null,
-        error: 'Error fetching weather.',
+        res.render('menu', { 
+            user: user,
+            weather: null,
+            error: 'Error fetching weather.',
         });
     }
 });

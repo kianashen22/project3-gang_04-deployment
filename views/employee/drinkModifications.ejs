@@ -22,7 +22,7 @@
   <h1>Modify: <%= drink.name %></h1>
   <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
 
-  <form method="POST" action="/employee/employee/add">
+  <form method="POST" action="/employee/cart/add">
 
     <!-- Hidden values sent to server -->
     <input type="hidden" name="beverageInfoId" value="<%= drink.id ?? drink.beverage_info_id %>" />

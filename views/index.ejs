@@ -13,10 +13,15 @@
         <h1>HTeaML</h1>
 
         <div id = "loginContainer">
-            <a href="/auth/google">
-                Admin Login
-                <img src = "/img/login.png" alt = "admin login">
-            </a>
+            <% if (user && user.role === 'manager') { %>
+                <a href="/manager/managerHome">Manager Home</a>
+            <% } else if (user && user.role === 'employee') { %>
+                <a href="/employee/employeeHome">Employee View</a>
+            <% }  else { %>
+                <a href="/auth/google">Admin Login
+                <img src = "/img/login.png" alt = "admin login"></a>
+            <% } %>
+
         </div>  
 
     </div>
