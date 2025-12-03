@@ -10,7 +10,6 @@
   </style>
 </head>
 <body>
-    <%- include('../partials/weather', { weather: weather }) %>
 <div class = "navBarContainer">
     <div id = "left">
 
@@ -41,7 +40,7 @@
         </div>
     </div>
 </div>
-    <h1>Welcome, Name </h1>
+    <h1>Welcome<% if (user) { %>, <%= user.name %><% } %></h1>
     <!-- search bar -->
     <div class = "drinkContainer">
         <div class = "col">
