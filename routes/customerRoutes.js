@@ -476,15 +476,19 @@ router.post('/search', async (req, res) => {
         }
         else
         {
-            const query = `SELECT * FROM beverage_info
-                                  WHERE beverage_info_id IN (
-                                  SELECT beverage_info_id 
-                                  FROM menu_inventory
-                                  WHERE inventory_id = ANY($1))`;
+            const query = `SELECT b.*
+                           FROM beverage_info b
+                           WHERE b.beverage_info_id IN (
+                               SELECT beverage_info_id
+                               FROM menu_inventory
+                               WHERE inventory_id = ANY($1)                         -- $1 is an array like [1,2,3]
+                               GROUP BY beverage_info_id
+                               HAVING COUNT(DISTINCT inventory_id) = cardinality($1)  -- MUST match ALL items
+                           );   
+            `;
 
             const result = await pool.query(query, [list]);
             filtered_drinks = result.rows;
-
         }
 
         console.log(filtered_drinks);
