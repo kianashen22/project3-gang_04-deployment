@@ -25,32 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     } 
 
-    // Speech to Text Assistant
-    // TODO: use this logic to create the speech to text functionality
-    const speechButton = document.getElementById("speechBtn");
-    const assistantImg = document.getElementById("assistantImg");
-
-    // runs only when values are NOT NULL
-    if (speechButton && assistantImg){
-        const assistantImgArray = ["/img/santa-head-anna.png", "/img/santa-head-caiti.png", "/img/santa-head-emma.png", "/img/santa-head-julian.png" , "/img/santa-head-kiana.png"]
-        const randomAsst = Math.floor(Math.random() * 5);
-        let currentAsst = assistantImgArray[randomAsst];
-        let assistant = false;
-
-        assistantImg.src = currentAsst;
-
-        speechButton.addEventListener("click", () =>{
-        assistant = !assistant;
-            if (assistant == true){
-                assistantImg.style.display= "block";
-            }
-            else{
-                assistantImg.style.display= "none";
-            }
-        });
-    }
-
-
 
     // CUSTOMER MENU 
     const allDropDownMenus = document.querySelectorAll(".dropdown-content");

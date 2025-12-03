@@ -171,6 +171,7 @@ html, body {
     width: 100%;
     padding: 0.5rem; 
     background-color:#CBDFCD;
+    cursor: pointer;
 }
 .drinkCard:hover .drinkButton{
     background-color: #A3B5A5;
@@ -334,6 +335,8 @@ html, body {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* -----------  Speech Implementation ---------- */
+
 .speechToTextContainer{
     display:flex;
     flex-direction: column;
@@ -349,6 +352,7 @@ html, body {
     height: 50px;
     display:flex;
     align-items: center;
+    align-self : center;
     justify-content: center;
     font-size: 18px;
     font-weight: bold;
@@ -372,6 +376,54 @@ html, body {
     align-self: center;
 }
 
+.speech-box {
+    display: none;
+    flex-direction: wrap;
+    position: relative;
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid #c9ddd5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+
+}
+
+.speech-box::after {
+    content: "";
+    position: absolute;
+    right: 45px;
+    bottom: -15px;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 2px solid #c9ddd5;
+    border-left: none;
+    border-top: none;
+    transform: rotate(45deg);
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.12);
+}
+
+#speechAssistantStartBtn{
+    background-color:  #68A691;
+    padding: 10px;
+    border-radius: 5px;
+    border-style:none;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 120px;
+}
+#speechAssistantStartBtn a{
+    text-decoration: none;
+    color: white;
+}
+
+#speechAssistantStartBtn:hover{
+    transform: scale(1.1, 1.1);
+}
 
 /*--------- Order Confirmation Page Styling -------------*/
 .pageContainer{
