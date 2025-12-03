@@ -4,7 +4,6 @@
       let main = (weather.main || '').toLowerCase();
       let icon = validIcons.includes(main) ? main : 'clear';
     %>
-  
     <div class="weather-widget">
       <h2>Weather for <%= weather.city %></h2>
   

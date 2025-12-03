@@ -216,6 +216,7 @@ app.get('/index', async(req, res) => {
       temp: weatherResponse.data.main.temp,
       feelsLike: weatherResponse.data.main.feels_like,
       description: weatherResponse.data.weather[0].description,
+      main: weatherResponse.data.weather[0].main,
     };
     res.render('index', { user: user, weather: data });
 });
