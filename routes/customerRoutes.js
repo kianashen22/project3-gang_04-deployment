@@ -105,6 +105,7 @@ router.get('/customerHome', async (req, res) => {
             temp: weatherResponse.data.main.temp,
             feelsLike: weatherResponse.data.main.feels_like,
             description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
         };
 
         // LOADING DRINKS ON THE PAGE INFORMATION
@@ -191,6 +192,7 @@ router.get('/orderSummary', async(req, res) => {
         temp: weatherResponse.data.main.temp,
         feelsLike: weatherResponse.data.main.feels_like,
         description: weatherResponse.data.weather[0].description,
+        main: weatherResponse.data.weather[0].main,
     };
     const cart = req.session.cart || [];
 
@@ -328,13 +330,18 @@ router.get('/orderConfirmation',async (req, res , next) => {
                 },
             }
         );
-
+        console.log(
+          'FULL WEATHER JSON:\n',
+          JSON.stringify(weatherResponse.data, null, 2)
+        );
         const data = {
             city: weatherResponse.data.name,
             temp: weatherResponse.data.main.temp,
             feelsLike: weatherResponse.data.main.feels_like,
             description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
         };
+        console.log('ICON SOURCE:', weatherResponse.data.weather[0].main);
         res.render('customer/orderConfirmation', {
             orderId,
             total, weather:data
