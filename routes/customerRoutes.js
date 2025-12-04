@@ -362,7 +362,7 @@ const db = {
     },
 
     async getIceLevels() {
-        return ['no ice', 'light ice', 'regular ice', 'extra ice'];
+        return ['no ice', 'light ice', 'regular', 'extra ice'];
     },
 
     async getSugarLevels() {
