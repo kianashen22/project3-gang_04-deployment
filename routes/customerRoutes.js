@@ -517,6 +517,15 @@ router.post('/search', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+router.post('/cart/remove', (req, res) => {
+  const index = Number(req.body.index);
 
+  if (!req.session.cart || isNaN(index)) {
+      return res.redirect('/customer/orderSummary');
+  }
+
+  req.session.cart.splice(index, 1);
+  return res.redirect('/customer/orderSummary');
+});
 // Export router
 module.exports = router;

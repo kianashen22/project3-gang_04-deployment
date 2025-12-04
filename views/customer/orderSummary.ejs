@@ -51,6 +51,10 @@
          <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
          <div>Line Total: $<%= line.toFixed(2) %></div>
        </li>
+       <form method="POST" action="/customer/cart/remove">
+        <input type="hidden" name="index" value="<%= i %>">
+        <button type="submit">x</button>
+      </form>
      <% }); %>
    </ol>
 
