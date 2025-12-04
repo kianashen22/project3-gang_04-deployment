@@ -59,7 +59,7 @@
     <!-- Ice Level -->
     <h3>Ice Level</h3>
     <div id="iceGroup">
-      <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular ice','extra ice']).forEach(function(i){ %>
+      <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
         <button type="button" data-ice="<%= i %>"><%= i %></button>
       <% }) %>
     </div>
@@ -116,12 +116,12 @@
 
         // add active to clicked button
         btn.classList.add('active');
+      });
 
         buttons.forEach(btn => {
           if (btn.dataset[dataAttr] == hidden.value) {
             btn.classList.add('active');
           }
-        });
       });
     }
 
