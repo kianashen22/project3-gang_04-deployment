@@ -77,7 +77,12 @@
             <p class = "Price "> $<%= line.toFixed(2) %></p>
           </div>
           <a> <img src = "/img/remove.png" alt = "remove item"> </a>
-          <a> <img src = "/img/edit.png" alt = "edit item"> </a>
+          <div>
+            <form action="/employee/editItem" method="POST">
+                <input type="hidden" name="itemIndex" value="<%= i %>">
+                <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+            </form>
+          </div>
     
         </div>
       <% }); %>
