@@ -386,8 +386,6 @@ html, body {
     border-radius: 16px;
     border: 2px solid #c9ddd5;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-
 }
 
 .speech-box::after {
@@ -524,5 +522,111 @@ audio::-webkit-media-controls {
     font-size: 2em; /* Adjust as needed for desired size */
     font-weight: bold; /* Optional: make it bolder */
 }
+
+
+/* ----------   FOOTER  ----------*/
+.footer{
+    height: 200px;
+}
+
+
+/* ----------   MENU ASSISTANT PAGE ----------*/
+#menuAndSpeechContainer{
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#menuAsstContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 75%;
+    padding-left: 100px;
+}
+.orderSpeechContainer{
+    width: 25%;
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid #c9ddd5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 30px;   
+    right: 20px;    
+    z-index: 1000; 
+    padding: 15px 20px;
+
+}
+/*
+    display: none;
+    flex-direction: wrap;
+*/
+
+
+#chatBox{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    align-items: flex-start;
+    justify-self: center;
+}
+
+
+
+#startButton, #endButton{
+    background-color:  #68A691;
+    padding: 10px;
+    border-radius: 5px;
+    border-style:none;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 120px;
+    text-decoration: none;
+    color: white;
+}
+
+#startButton:hover{
+    transform: scale(1.1, 1.1);
+}
+
+#endButton:hover{
+    transform: scale(1.1, 1.1);
+}
+
+#assistantImgMenu{
+    height: 100px;
+    width: auto;
+}
+
+#getStartedMessage {
+    display: block;
+    flex-direction: wrap;
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid #c9ddd5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: 200px;
+    width: auto;
+}
+
+#getStartedMessage::after {
+    content: "";
+    position: absolute;
+    left: 40px;
+    bottom: -15px;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 2px solid #c9ddd5;
+    border-left: none;
+    border-top: none;
+    transform: rotate(45deg);
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.12);
+}
+
 
 

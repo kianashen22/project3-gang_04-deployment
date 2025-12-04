@@ -1,93 +1,81 @@
 
 
-let usingAssistant = false;
-// localStorage.setItem("usingAssistant", usingAssistant);
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
     // Speech to Text Assistant
-    // TODO: use this logic to create the speech to text functionality
-    const speechButton = document.getElementById("speechBtn");
-    const assistantImg = document.getElementById("assistantImg");
-    const speechBox = document.getElementById("welcomeAssistantMessage");
-    const speechBoxMsg = speechBox.querySelector("p");
 
-    const emmaMessage = "Howdy! <br> <br> " + 
+    const emmaWelcomeMessage = "Howdy! <br> <br> " + 
                             "My name is Emma, your speech assistant! I'm here to help you place an order via your voice only! <br> <br>" +
                             "Whenever you're ready, just press the button below and we can get started! Thanks and Gig'em!";
 
-    const kianaMessage = "Howdy! <br> <br> " + 
+    const kianaWelcomeMessage = "Howdy! <br> <br> " + 
                             "My name is Kiana, your speech assistant! I'm here to help you place an order via your voice only! <br> <br>" +
                             "Whenever you're ready, just press the button below and we can get started! Thanks and Gig'em!";
 
-    const caitiMessage = "Hi Friend! <br> <br> " + 
+    const caitiWelcomeMessage = "Hi Friend! <br> <br> " + 
                             "My name is Caiti, your speech assistant! I'm here to help you place an order via your voice only! <br> <br>" +
                             "Whenever you're ready, just press the button below and we can get started! Thanks and Gig'em!";
                         
-    const annaMessage = "Howdy! <br> <br> " + 
+    const annaWelcomeMessage = "Howdy! <br> <br> " + 
                             "My name is Anna, your speech assistant! I'm here to help you place an order via your voice only! <br> <br>" +
                             "Whenever you're ready, just press the button below and we can get started! Thanks and Gig'em!";
 
-    const julianMessage = "Howdy! <br> <br> " + 
+    const julianWelcomeMessage = "Howdy! <br> <br> " + 
                             "My name is Julian, your speech assistant! I'm here to help you place an order via your voice only! <br> <br>" +
                             "Whenever you're ready, just press the button below and we can get started! Thanks and Gig'em!";
 
     const assistantImgArray =[
-            ["/img/santa-head-anna.png", annaMessage], 
-            ["/img/santa-head-caiti.png", caitiMessage], 
-            ["/img/santa-head-emma.png",emmaMessage],
-            ["/img/santa-head-julian.png",julianMessage], 
-            ["/img/santa-head-kiana.png", kianaMessage]
+            ["/img/santa-head-anna.png", annaWelcomeMessage], 
+            ["/img/santa-head-caiti.png", caitiWelcomeMessage], 
+            ["/img/santa-head-emma.png",emmaWelcomeMessage],
+            ["/img/santa-head-julian.png",julianWelcomeMessage], 
+            ["/img/santa-head-kiana.png", kianaWelcomeMessage]
         ];
 
+    const speechButton = document.getElementById("speechBtn");
+    const assistantImg = document.getElementById("assistantImg");
+    const speechBox = document.getElementsByClassName("speech-box")[0];
+    const welcomeAssistantMessage = document.getElementById("welcomeAssistantMessage");
 
-    /*
-    TODO: Create an if statement to check if page needs to be pre-loaded with the assistant
-    Logic -> if red button from home screen is pressed. Create an event for that
-                Store current assistant in local storage so that it can be retrieved when the red button redirects page 
-                to menu board so user can order
-                
 
-    */
+    let assignedAssistant = sessionStorage.getItem("assignedAssistant");
+    let assignedAsstIndex = sessionStorage.getItem("assignedAsstIndex");
 
-    usingAssistant = localStorage.getItem(usingAssistant);
-    // runs only when values are NOT NULL
-    if (usingAssistant == "false"){
+    if (assignedAssistant == null){
+        // assistant image
+        assignedAsstIndex = Math.floor(Math.random() * 5);
+        sessionStorage.setItem("assignedAsstIndex", assignedAsstIndex);
 
-        const randomAsst = Math.floor(Math.random() * 5);
-        let currentAsst = assistantImgArray[randomAsst][0];  // TODO: store this in local storage, set a variable to check if the assistnant has already been set
+        // assistant message
+        assignedAssistant = assistantImgArray[assignedAsstIndex][0];  
+        sessionStorage.setItem("assignedAssistant", assignedAssistant);
+    }
 
-        // store in local storage so assigned assistant can persist
-        localStorage.setItem("assignedAssistant", currentAsst);
 
-        let assistant = false;
+    // Set Assistant Image
+    assistantImg.src = assignedAssistant;
 
-        assistantImg.src = currentAsst;
-        speechBoxMsg.innerHTML = assistantImgArray[randomAsst][1];
+    // Type of messages
+    if (welcomeAssistantMessage){
+        const speechBoxMsg = welcomeAssistantMessage.querySelector("p");
+        speechBoxMsg.innerHTML = assistantImgArray[assignedAsstIndex][1];   
+    }
 
-        speechButton.addEventListener("click", () =>{
+
+    
+    let assistant = false;
+    speechButton.addEventListener("click", () =>{
         assistant = !assistant;
-            if (assistant == true){
-                assistantImg.style.display= "block";
-                speechBox.style.display = "block";
-            }
-            else{
-                assistantImg.style.display= "none";
-                speechBox.style.display = "none";
-            }
-        });
+        if (assistant == true){
+            assistantImg.style.display= "block";
+            speechBox.style.display = "block";
+        }
+        else{
+            assistantImg.style.display= "none";
+            speechBox.style.display = "none";
+        }
+    });
 
-
-        const usingSpeechAsst = document.getElementById("speechAssistantStartBtn");
-        usingSpeechAsst.addEventListener("click", function(){
-            localStorage.setItem("usingAssistant", "true");
-        });
-    }
-    else{
-        assistantImg.src = localStorage.getItem("assignedAssistant")
-        assistantImg.style.display= "block";
-
-    }
 });

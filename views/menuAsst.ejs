@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <head>
-    <title>Menu</title>
+    <title>Menu with Assistant</title>
     <link rel="stylesheet" href="/css/customerStyle.css">
 </head>
 <body>
+
+
 <!--    this is the start of google translate code-->
 <div id="google_translate_element"></div>
 <script type="text/javascript">
@@ -32,8 +34,11 @@
     </div>  
     </div>
 
-<!---------------   MENU    --------------->
-    <div id = "menuContainer">
+
+<div id = "menuAndSpeechContainer">
+
+    <!---------------   MENU    --------------->
+    <div id = "menuAsstContainer">
         <div id = "milkySeriesContainer" class = "drinkMenuContainer">
             <h1><u>MILKY SERIES</u></h1>
             <% for (var i in milky_drinks) {%>
@@ -72,15 +77,40 @@
         </div>
     </div>
 
+    <!---------------   SPEECH    --------------->
+    <div class = "orderSpeechContainer">
+        <div id = "chatBox">
+            <div id = "getStartedMessage" ><p>
+                                                    Great! To place an order, just press the "start recording"
+                                                    button, say your order, and then press "end recording". I will then 
+                                                    show you your order, and all you have to do is confirm it!
+            </p>
+                <button id="startButton">Start Recording</button>
+                <button id="endButton" disabled>Stop Recording</button>
+                <button id="playButton" disabled>Play Recording</button>
+
+                <audio id="audioPlayback" controls></audio>
+            </div>
+            <img id = "assistantImgMenu" src = "">
+            
+        </div>
+
+    </div>
+
+</div>
+
+
 
     <script src = "/js/customerHandler.js"></script> 
     <script src = "/js/googleTranslateHandler.js"></script> 
-    <script src = "/js/speechAssistantHandler.js"></script>
+    <script src = "/js/voiceAgentHandler.js"></script>
 
     <footer>
         <div class = "footer">
 
         </div>
     </footer>
+
+
 
 </body>
