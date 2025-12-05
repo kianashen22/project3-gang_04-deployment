@@ -13,19 +13,13 @@
 
         <h1>HTeaML</h1>
 
-        <div id = "loginContainer">
-            <% if (user && user.role === 'manager') { %>
-                <a href="/manager/managerHome">Manager Home</a>
-            <% } else if (user && user.role === 'employee') { %>
-                <a href="/employee/employeeHome">Employee View</a>
-            <% }  else { %>
-                <a href="/auth/google">Admin Login
-                <img src = "/img/login.png" alt = "admin login"></a>
-            <% } %>
-
-        </div>  
-
     </div>
+    <div class = "viewChoiceBar">
+        <a class = "viewchoice" href = employee/employeeHome >Employee</a>
+        <a class = "viewchoice" href = manager/managerHome >Manager</a>
+        <a class = "viewchoice" href = customer/customerHome >Customer</a>
+    </div>
+
 
 
 
@@ -33,9 +27,6 @@
 
     <div id = "bodyContainer">
         <div id = "container1">
-            <a href = "/customer/CustomerHome">
-                <div id = "orderNowButton"><h2>Order Now</h2></div>
-            </a>
             <div id = "apiContainer">
                 <div class = "container">
 

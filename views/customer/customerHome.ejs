@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <head>
-   <link rel="stylesheet" href="/css/customerStyle.css">
-   <title>Customer Home</title>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/customerStyle.css">
 </head>
 <body>
-          
 <div class = "customerNavBarContainer">
    <div id = "left">
         <div>
@@ -42,174 +41,64 @@
     </div>
 </div>
 
-   <div class = "drinkNavBar">
-      <div id = "titleContainer">
-         <h1>Make an Order</h1> 
-      </div>
 
-      <div id = "drinkContainer">
-         <div class = "allDropDown">
-            <button id = "all" class = "drinkCategoryButton">All</button>
-            <div class="dropdown-content">
-                  <% for (let drink of all_drinks) { 
-                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
-                     %>
 
-                     <div class = "drinkCard">
-                        <button class = "drinkButton" 
-                              data-drink-id = "<%= drink.beverage_info_id %>" 
-                              data-drink-name = "<%= drink.name %>" 
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
-                        </button>
-                     
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
-                     
-                  <% } %>
-            </div>
-         </div>
 
-         <div class = "freshBrewDropDown">
-            <button id = "freshBrew" class = "drinkCategoryButton">Fresh Brew Tea</button>
-            <div class="dropdown-content">
-                  <% for (let drink of freshBrew_drinks) { 
-                     const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
-                  %>
-                     <div class = "drinkCard">
-                        <button class = "drinkButton" 
-                              data-drink-id = "<%= drink.beverage_info_id %>" 
-                              data-drink-name = "<%= drink.name %>" 
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
-                        </button>
-                     
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
-               <% } %>
-            </div>
-         </div>
+    <div id = "bodyContainer">
+        <div id = "container1">
+            <a href = "/customer/customerOrder">
+                <div id = "orderNowButton"><h2>Order Now</h2></div>
+            </a>
+            <div id = "apiContainer">
+                <div class = "container">
 
-         <div class = "fruitTeaDropDown">
-            <button id = "fruitTea" class = "drinkCategoryButton">Fruit Tea</button>
-            <div class="dropdown-content">
-                  <% for (let drink of fruity_drinks) { 
-                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
-                     %>
-                     <div class = "drinkCard">
-                        <button class = "drinkButton" 
-                              data-drink-id = "<%= drink.beverage_info_id %>" 
-                              data-drink-name = "<%= drink.name %>" 
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
-                        </button>
-                     
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
-                  <% } %>
-            </div>
-         </div>
-
-         <div class = "iceBlendDropDown">
-            <button id = "iceBlended" class = "drinkCategoryButton">Ice Blended</button>
-            <div class="dropdown-content">
-                  <% for (let drink of iceBlended_drinks) { 
-                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
-                     %>
-
-                     <div class = "drinkCard">
-                        <button class = "drinkButton" 
-                              data-drink-id = "<%= drink.beverage_info_id %>" 
-                              data-drink-name = "<%= drink.name %>" 
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
-                        </button>
-                     
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
-
-                  <% } %>
-            </div>
-         </div>
-
-         <div class = "milkTeaDropDown">
-            <button id = "milkTea" class = "drinkCategoryButton">Milk Tea</button>
-            <div class="dropdown-content">
-                  <% for (let drink of milky_drinks) { 
-                     const img_url = img_array[drink.beverage_info_id] ?? img_array[0]; 
-                     %>
-                     <div class = "drinkCard">
-                        <button class = "drinkButton" 
-                              data-drink-id = "<%= drink.beverage_info_id %>" 
-                              data-drink-name = "<%= drink.name %>" 
-                              data-drink-price="<%= drink.price%>" >
-                              <img src="<%= img_url %>">
-                        </button>
-                     
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
-                     </div>
-                  <% } %>
-            </div>
-         </div>
-
-         <div class = "searchDropDown">
-            <button id = "search" class = "drinkCategoryButton"><img src="/img/search.png"></button>
-            <div class = "dropdown-content">
-                <h3>Search for items with:</h3>
-                <div class = "searchItemSection">
-                    <div class = "searchDropRow">
-                        <select id="ingredientSelect">
-                            <option value="" disabled selected>Select an ingredient</option>
-                            <% for (let ingredient of inventory) { %>
-                                <option value="<%= ingredient.inventory_id %>"><%= ingredient.name %></option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                    <div class = "pillContent">
-                        <form id="searchDrinksForm" action="/customer/search" method="post">
-                            <input type="hidden" id="selectedIngredients" name="selectedIngredients" value="">
-                            <button id="searchDrinksButton" type="button">search</button>
-                            <br>
-                        </form>
-                    </div>
-
-                    <div class = "optionDisplay" id="optionDisplay">
-                        <p>nothing is selected</p><br>
-                    </div>
-                </div>
-
-                <div id = "searchResults">
-                    <%for (drink of filtered_drinks) {
-                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
+                    <% if (weather) { %>
+                    <% 
+                    const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
+                    let main = (weather.main || '').toLowerCase();
+                    let icon = validIcons.includes(main) ? main : 'clear';
                     %>
-                    <div class = "drinkCard">
-                        <button class = "drinkButton"
-                                data-drink-id = "<%= drink.beverage_info_id %>"
-                                data-drink-name = "<%= drink.name %>"
-                                data-drink-price="<%= drink.price%>" >
-                            <img src="<%= img_url %>">
-                        </button>
-
-                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                
+                    <div class="weather-widget">        
+                        <img
+                            src="/img/<%= icon %>.png"
+                            alt="<%= weather.description %> icon"
+                            class="weather-icon"
+                        />
+                        <div class="weather-text">
+                            <p><%= weather.temp %>°F</p>
+                            <p><%= weather.description %></p>
+                        </div>
                     </div>
+                    <% } else { %>
+                        <p>No weather data available.</p>
                     <% } %>
                 </div>
-            </div>
-         </div>
 
-      </div>
-   </div>
-   <footer></footer>
+                <div class = "container">
+               <button id = "translateButton" class = "translateButtonHomeStyling">
+                  Change Language
+               </button>
+                    <!--    this is the start of google translate code-->
+                    <div id="google_translate_element"></div>
+                    <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                        }
+                    </script>
+                    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                    <!--    this is the end of google translate code-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class = "speechToTextContainer">
+        <img id = "assistantImg"src = "">
+        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
+    </div>
+
     <script src = "/js/customerHandler.js"></script>
-    <script src = "/js/googleTranslateHandler.js"></script>
-    <script src = "/js/selectHandler.js"></script>
     <script src = "/js/toggleFont.js"></script>
 </body>
-
-<!--
-    - Add Search Bar
-    - Add Nav Bar
-    - Add Buttons -- maybe reusable ones
--->
-
