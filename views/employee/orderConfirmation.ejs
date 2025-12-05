@@ -3,12 +3,48 @@
   <head>
     <meta charset="utf-8" />
     <title>Order Confirmation</title>
+   <link rel="stylesheet" href="/css/employeeStyle.css">
+
   </head>
   <body>
-    <h1>Thank you for your order!</h1>
-    <p>It will be ready shortly.</p>
+    <div class = "navBarContainer">
+      <div id = "left">
 
-    <p><a href="employeeHome.ejs">Back to Home</a></p>
-    <p><a href="/* sdasdas */">Order More</a></p>
+          <div>
+              <a href = "../index">
+                  <img src = "/img/skipBack.png">
+                  Back</a>
+          </div>
+
+          <div>
+              <a href = "orderSummary" >
+                  <img src = "/img/shoppingCart.png">
+                  Cart</a>
+          </div>
+      </div>
+
+      <div id = "right">
+          <div>
+              <!--    this is the start of google translate code-->
+              <div id="google_translate_element"></div>
+              <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                  }
+              </script>
+              <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+              <!--    this is the end of google translate code-->
+          </div>
+      </div>
+  </div>
+    <div class = "orderConfirmationContainer">
+      <h1>Thank you for your order!</h1>
+      <p>It will be ready shortly.</p>
+      <div class = "row">
+        <a href="employeeHome.ejs" class = "button">Back to Home</a>
+        <a href="/* sdasdas */" class = "button">Order More</a>
+      </div>
+    </div>
+
   </body>
 </html>
