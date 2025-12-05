@@ -209,6 +209,20 @@ h1 {
     margin: auto;
 }
 .button {
+
+    font-size: large;
+    display: inline-block; 
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 15px 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modifyDrink button.button {
+    
     font-size: large;
     display: inline-block; 
     padding: 10px 20px;
