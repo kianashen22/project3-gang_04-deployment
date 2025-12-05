@@ -79,7 +79,7 @@ router.use((req, res, next) => {
 });
 
 
-router.get('/customerHome', async (req, res) => {
+router.get('/customerOrder', async (req, res) => {
     try {
         console.log("Customer homepage hit!");
         // WEATHER API INFORMATION
@@ -131,7 +131,7 @@ router.get('/customerHome', async (req, res) => {
         const inventory =
             (await pool.query("SELECT * FROM inventory")).rows;
 
-        res.render("customer/customerHome", {
+        res.render("customer/customerOrder", {
             weather: data,
             error: null,
             freshBrew_drinks,
@@ -150,7 +150,7 @@ router.get('/customerHome', async (req, res) => {
             console.error('Unknown error:', err.message);
         }
 
-        res.render('customer/customerHome', {
+        res.render('customer/customerOrder', {
             weather: null,
             error: 'Error fetching weather.',
         });
@@ -550,7 +550,7 @@ router.post('/cart/add', (req, res) => {
         lineTotal
     });
     console.log('CART NOW:', req.session.cart);
-    return res.redirect('/customer/customerHome');
+    return res.redirect('/customer/customerOrder');
 });
 
 // FUNCTIONS
