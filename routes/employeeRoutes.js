@@ -3,7 +3,6 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 const session = require('express-session');
-const axios = require('axios');
 
 // create ORDER object
 function Order(customer_id, total_price, month, week, date, hour, year, combine_date){
@@ -222,6 +221,15 @@ router.get('/orderSummary', (req, res) => {
   });
 });
 
+
+
+
+// Tip Page
+router.get('/tip', (req, res) => {
+  res.render('employee/employeeTip');
+});
+
+
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
   try {
@@ -229,7 +237,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
 
     // if cart is empty, don't create a blank order
     if (cart.length === 0) {
-      return res.redirect('/customer/orderSummary');
+      return res.redirect('/employee/orderSummary');
     }
 
     // --- compute totals (same logic as orderSummary) ---
@@ -326,7 +334,7 @@ const orderResult = await pool.query(
     req.session.cart = [];
 
     // --- 4) render confirmation ---
-    res.render('customer/orderConfirmation', {
+    res.render('employee/orderConfirmation', {
       orderId,
       total
     });

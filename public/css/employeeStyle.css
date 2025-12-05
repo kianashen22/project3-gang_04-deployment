@@ -167,7 +167,7 @@ form button.active {
     margin: 2px 0;  /* small top/bottom margin */
     line-height: 1.2; /* tighter line spacing */
 }
-.totals, .orderCard {
+.totals, .orderCard, .tipContainer , .orderConfirmationContainer {
     border-radius: 10px;
     border: 1px solid var(--green-header);
     background-color: var(--light-green);
@@ -177,6 +177,24 @@ form button.active {
     align-items: flex-start;
     
 
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.orderConfirmationContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 5%;
+    gap: 20px;
+    width: 30%;
+    margin: auto;
+}
+.button {
+    padding: 5%;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 2%;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -221,13 +239,35 @@ form button.active {
 }
 
 
-.details {
+.details, .Quantity {
     font-size: 1em;
     color: var(--green-header);
 }
 
-.Quantity {
-    color: red;
+/* tip page */
+.tipContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    gap: 10px;
+    width: 40%;
+    margin: auto;
+}
+
+.tipContainer .row {
+    justify-content: center;
+    gap: 5%;
+    width: 100%;
+
+}
+.tipContainer a {
+    padding: 5%;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 2%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 #editButton button {
