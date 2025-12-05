@@ -4,29 +4,51 @@
     <link rel="stylesheet" href="/css/customerStyle.css">
 </head>
 <body>
-    <div id = "homeHeader">
-        <div id = "homeNavBarLeft">
-            <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
-            <a href = "/menu"><img src = "/img/drink.png">Menu</a>
-            <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+<div class = "customerNavBarContainer">
+   <div id = "left">
+        <div>
+            <a href = "../index">
+                <img src = "/img/skipBack.png">
+                Back</a>
         </div>
 
-        <h1>HTeaML</h1>
+        <div>
+            <a href = "orderSummary" >
+                <img src = "/img/shoppingCart.png">
+                Cart</a>
+        </div>
+
+       <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+    </div>
+
+    <div id = "right">
+      <div class = "rightItem">
+          <!--    this is the start of google translate code-->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+              function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+              }
+          </script>
+          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <!--    this is the end of google translate code-->
+
+      </div>
+      <div class = "rightItem">
+         <%- include('../partials/weatherNav', { weather: weather }) %>
+      </div>
 
     </div>
-    <div class = "viewChoiceBar">
-        <a class = "viewchoice" href = employee/employeeHome >Employee</a>
-        <a class = "viewchoice" href = manager/managerHome >Manager</a>
-        <a class = "viewchoice" href = customer/customerHome >Customer</a>
-    </div>
-
-
+</div>
 
 
 
 
     <div id = "bodyContainer">
         <div id = "container1">
+            <a href = "/customer/customerOrder">
+                <div id = "orderNowButton"><h2>Order Now</h2></div>
+            </a>
             <div id = "apiContainer">
                 <div class = "container">
 
