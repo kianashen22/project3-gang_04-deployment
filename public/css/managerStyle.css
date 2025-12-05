@@ -56,6 +56,51 @@ html, body {
     transform: scale(1.1, 1.1);
 }
 
+/* ---- manager Home Page --- */
+.managerMain #title{
+    padding: 55px 0 0 0;
+}
+
+.managerMain #title h1{
+    text-align: center;
+    font-size: 65px;
+    color: #68A691;
+}
+
+.managerMain #mainChoices{
+    display: flex;
+    justify-content: space-between;
+    padding: 70px 200px 40px 200px;
+}
+
+.managerMain #mainChoices div a{
+    background-color: #F8FFF9;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+
+    text-decoration: none;
+    color: #3F7462;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    box-shadow: 0 2px 5px rgb(63, 116, 98);
+}
+
+/* .managerMain #mainChoices div img{
+    text-align: center;
+    justify-content: center;
+} */
+
+.managerMain #mainChoices div a:hover{
+    transform: scale(1.1, 1.1);
+    box-shadow: 0 8px 15px rgb(63, 116, 98);
+}
 
 /* ---- page styling ----*/
 
@@ -465,3 +510,321 @@ html, body {
     color: #3F7462;
     font-size: 25px;
 }
+
+/*menu modification page styling*/
+.menu-mod-page h1 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 48px;
+  }
+  
+  /* Grid Layout */
+  .menu-mod-page .menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    margin: 50px auto;
+  }
+  
+  /* Card */
+  .menu-mod-page .menu-item-box {
+    background: #f4fbf4;
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Left text */
+  .menu-mod-page .item-details p {
+    margin: 0;
+  }
+  
+  .menu-mod-page .item-details p:first-child {
+    font-size: 26px;
+    font-weight: 800;
+    color: #000;
+  }
+  
+  .menu-mod-page .item-details p:last-child {
+    margin-top: 6px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #6ba89b;
+  }
+  
+  /* Right icons */
+  .menu-mod-page .item-actions {
+    display: flex;
+    gap: 22px;
+  }
+  
+  .menu-mod-page .edit-btn {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+  }
+  
+  .menu-mod-page .delete-btn {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+  }
+  
+  /* Optional hover polish */
+  .menu-mod-page .edit-btn:hover {
+    transform: scale(1.15);
+  }
+  
+  .menu-mod-page .delete-btn:hover {
+    transform: scale(1.15);
+  }
+  .menu-mod-page .add-title {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 36px;
+    font-weight: 800;
+  }
+  
+  .menu-mod-page .add-item-card {
+    max-width: 600px;
+    margin: 30px auto 100px;
+    background: #f4fbf4;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+  }
+  
+  .menu-mod-page .add-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .menu-mod-page .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu-mod-page .form-group label {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  
+  .menu-mod-page .form-group input,
+  .menu-mod-page .form-group select {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 15px;
+    outline: none;
+  }
+  
+  .menu-mod-page .form-group input:focus,
+  .menu-mod-page .form-group select:focus {
+    border-color: #6ba89b;
+  }
+  
+  .menu-mod-page .add-btn {
+    margin-top: 10px;
+    padding: 14px;
+    background: #6ba89b;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .menu-mod-page .add-btn:hover {
+    background: #558f84;
+    transform: scale(1.02);
+  }
+  .menu-mod-page .edit-btn,
+  .menu-mod-page .delete-btn {
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  
+ 
+  .menu-mod-page .edit-btn:hover {
+    background: rgba(107, 168, 155, 0.25); /* soft dark mint */
+    transform: scale(1.15);
+  }
+  
+  /* DELETE hover */
+  .menu-mod-page .delete-btn:hover {
+    background: rgba(220, 53, 69, 0.25); /* soft dark red */
+    transform: scale(1.15);
+  }
+/*employee edit styling */
+.employee-mod-page {
+    background: #faf8f3;
+    min-height: 100vh;
+    padding-top: 50px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .employee-mod-page h1 {
+    text-align: center;
+    font-size: 46px;
+    margin-bottom: 40px;
+  }
+  
+  /* GRID */
+  .employee-mod-page .employee-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  /* CARD */
+  .employee-mod-page .employee-card {
+    background: #f4fbf4;
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  
+  /* INFO */
+  .employee-mod-page .employee-name {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .employee-mod-page .employee-id {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6ba89b;
+    margin-top: 6px;
+  }
+  
+  .employee-mod-page .employee-email {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  
+  /* ACTIONS */
+  .employee-mod-page .employee-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .employee-mod-page .employee-input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 2px solid #ccc;
+    font-size: 14px;
+  }
+  
+  /* EDIT */
+  .employee-mod-page .employee-edit-btn {
+    background: #6ba89b;
+    border: none;
+    color: white;
+    font-weight: 800;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .employee-mod-page .employee-edit-btn:hover {
+    background: #558f84;
+  }
+  
+  /* DELETE */
+  .employee-mod-page .employee-delete-btn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    font-weight: 900;
+    color: #dc3545;
+    cursor: pointer;
+  }
+  
+  .employee-mod-page .employee-delete-btn:hover {
+    background: rgba(220, 53, 69, 0.2);
+    border-radius: 6px;
+  }
+  .employee-mod-page .employee-add-title {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 36px;
+    font-weight: 800;
+  }
+  
+  .employee-mod-page .employee-add-card {
+    max-width: 600px;
+    margin: 30px auto 120px;
+    background: #f4fbf4;
+    padding: 35px 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+  }
+  
+  .employee-mod-page .employee-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .employee-mod-page .employee-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .employee-mod-page .employee-form-group label {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  
+  .employee-mod-page .employee-form-group input {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 15px;
+    outline: none;
+  }
+  
+  .employee-mod-page .employee-form-group input:focus {
+    border-color: #6ba89b;
+  }
+  
+  .employee-mod-page .employee-add-btn {
+    margin-top: 12px;
+    padding: 14px;
+    background: #6ba89b;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .employee-mod-page .employee-add-btn:hover {
+    background: #558f84;
+    transform: scale(1.02);
+  }
+  .employee-mod-page {
+    min-height: 100vh;
+    background: #faf8f3;   /* SAME color as the rest of the page */
+    padding-bottom: 140px; /* ensures bottom never cuts off early */
+  }

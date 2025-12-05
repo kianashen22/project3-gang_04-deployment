@@ -105,6 +105,7 @@ router.get('/customerHome', async (req, res) => {
             temp: weatherResponse.data.main.temp,
             feelsLike: weatherResponse.data.main.feels_like,
             description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
         };
 
         // LOADING DRINKS ON THE PAGE INFORMATION
@@ -166,6 +167,95 @@ router.get('/drinkModifications', (req, res) => {
     res.render('customer/drinkModifications');
 });
 
+
+// edit drink from order summary
+router.post('/editItem', async(req, res) => {
+    const itemIndex = req.body.itemIndex;
+    console.log("Received index:", itemIndex);
+
+    return res.redirect(`/customer/modifyOrder?index=${itemIndex}`);
+    // res.redirect('/employee/modifyOrder');
+});
+
+router.get('/modifyOrder', async (req, res) => {
+  try {
+    const itemIndex = Number(req.query.index);
+    const cart = req.session.cart || [];
+
+    if (itemIndex < 0 || itemIndex >= cart.length) {
+      return res.redirect('/customer/orderSummary');
+    }
+
+    const drinkToEdit = cart[itemIndex];
+
+    // Load needed lists
+    const [iceLevels, sugarLevels, toppingsRaw] = await Promise.all([
+      db.getIceLevels(),
+      db.getSugarLevels(),
+      db.getToppings()
+    ]);
+
+    // Remove duplicate toppings (same logic as customize)
+    const seen = new Set();
+    const toppings = [];
+    for (const t of toppingsRaw) {
+      const name = t.topping_name || t.name;
+      if (!seen.has(name)) {
+        seen.add(name);
+        toppings.push(t);
+      }
+    }
+
+    return res.render('customer/modifyOrder', { 
+      drink: drinkToEdit, 
+      index: itemIndex,
+      iceLevels,
+      sugarLevels,
+      toppings
+    });
+
+    } catch (err) {
+      next (err);
+    }
+});
+
+router.post('/updateCartItem', (req, res) => {
+    const itemIndex = Number(req.body.itemIndex);
+    const newQuantity = Number(req.body.quantity);
+    const newSize = req.body.size;
+    const newTopping = req.body.topping;
+    const newIce = req.body.iceLevel;
+    const newSweetness = req.body.sweetnessLevel;
+    const cart = req.session.cart || [];
+
+    if (
+        Number.isInteger(itemIndex) &&
+        itemIndex >= 0 &&
+        itemIndex < cart.length &&
+        newQuantity > 0
+    ) {
+        const item = cart[itemIndex];
+        item.quantity = newQuantity;
+        item.size = newSize;
+        item.topping = newTopping;
+        item.iceLevel = newIce;
+        item.sweetnessLevel = newSweetness;
+
+        // Recalculate line total
+        const price = Number(item.price) || 0;
+        const toppingCharge = Number(item.toppingCharge || 0);
+        item.lineTotal = (price + toppingCharge) * newQuantity;
+
+        req.session.cart[itemIndex] = item;
+
+        req.session.save(() => {
+            res.redirect('/customer/orderSummary');
+        });
+    } else {
+        res.redirect('/customer/orderSummary');
+    }
+});
+
 // Order Summary Page
 router.get('/orderSummary', async(req, res) => {
 
@@ -191,6 +281,7 @@ router.get('/orderSummary', async(req, res) => {
         temp: weatherResponse.data.main.temp,
         feelsLike: weatherResponse.data.main.feels_like,
         description: weatherResponse.data.weather[0].description,
+        main: weatherResponse.data.weather[0].main,
     };
     const cart = req.session.cart || [];
 
@@ -266,7 +357,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
     EXTRACT(DAY   FROM NOW())::int,
     EXTRACT(HOUR  FROM NOW())::int,
     EXTRACT(YEAR  FROM NOW())::int,
-    CURRENT_DATE
+    NOW()
   )
   RETURNING order_id
   `,
@@ -328,13 +419,18 @@ router.get('/orderConfirmation',async (req, res , next) => {
                 },
             }
         );
-
+        console.log(
+          'FULL WEATHER JSON:\n',
+          JSON.stringify(weatherResponse.data, null, 2)
+        );
         const data = {
             city: weatherResponse.data.name,
             temp: weatherResponse.data.main.temp,
             feelsLike: weatherResponse.data.main.feels_like,
             description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
         };
+        console.log('ICON SOURCE:', weatherResponse.data.weather[0].main);
         res.render('customer/orderConfirmation', {
             orderId,
             total, weather:data
@@ -355,7 +451,7 @@ const db = {
     },
 
     async getIceLevels() {
-        return ['no ice', 'light ice', 'regular ice', 'extra ice'];
+        return ['no ice', 'light ice', 'regular', 'extra ice'];
     },
 
     async getSugarLevels() {
@@ -476,15 +572,19 @@ router.post('/search', async (req, res) => {
         }
         else
         {
-            const query = `SELECT * FROM beverage_info
-                                  WHERE beverage_info_id IN (
-                                  SELECT beverage_info_id 
-                                  FROM menu_inventory
-                                  WHERE inventory_id = ANY($1))`;
+            const query = `SELECT b.*
+                           FROM beverage_info b
+                           WHERE b.beverage_info_id IN (
+                               SELECT beverage_info_id
+                               FROM menu_inventory
+                               WHERE inventory_id = ANY($1)                         -- $1 is an array like [1,2,3]
+                               GROUP BY beverage_info_id
+                               HAVING COUNT(DISTINCT inventory_id) = cardinality($1)  -- MUST match ALL items
+                           );   
+            `;
 
             const result = await pool.query(query, [list]);
             filtered_drinks = result.rows;
-
         }
 
         console.log(filtered_drinks);
@@ -506,6 +606,15 @@ router.post('/search', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+router.post('/cart/remove', (req, res) => {
+  const index = Number(req.body.index);
 
+  if (!req.session.cart || isNaN(index)) {
+      return res.redirect('/customer/orderSummary');
+  }
+
+  req.session.cart.splice(index, 1);
+  return res.redirect('/customer/orderSummary');
+});
 // Export router
 module.exports = router;

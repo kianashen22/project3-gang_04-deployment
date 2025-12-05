@@ -111,6 +111,9 @@ form button {
     margin: 2px;
 
 }
+form button:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
 form .submit {
     background-color: var(--green-header);
     color: var(--cream-white);
@@ -266,3 +269,21 @@ form button.active {
     margin: 2%;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
+
+#editButton button {
+    background: transparent;
+    border: none;
+    padding: 5px, 0px, 5px, 0px;
+    margin: 0;
+}
+
+#editButton img {
+    width: 35px;
+    height: auto;
+    cursor: pointer;
+}
+
+#editButton img:hover {
+    transform: scale(1.1);
+}
+

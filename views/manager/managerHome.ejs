@@ -1,26 +1,61 @@
 <!DOCTYPE html>
 <head>
+   <link rel="stylesheet" href="/css/managerStyle.css">
    <title>Manager Home</title>
 </head>
 <body>
-   <!--    this is the start of google translate code-->
-   <div id="google_translate_element"></div>
-   <script type="text/javascript">
-      function googleTranslateElementInit() {
-         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-   </script>
-   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-   <!--    this is the end of google translate code-->
-   <nav>
+   <div class = "managerNavBarContainer">
+      <div id = "left">
+         <div>
+            <a href = "/index"> <img height = "55px" src="/img/skipBack.png">Back</a>
+         </div>
+         <div>
+            <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+         </div>
+      </div>
+
+      <div id = "right">
+         <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+               function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+               }
+            </script>
+            <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+         </div>
+      </div>
+   </div>
+   
+   <!-- <nav>
       <h3>Welcome, <%= user.name %>!</h3>
-   </nav>
-   <a href = "/index">Back</a>
-   <a href = "/logout"> Logout </a>
-   <h1>Manager Home</h1>
-   <a href = "employeeModification">Edit Employees</a>
-   <a href = "inventory/inventoryHome">Inventory</a>
-   <a href = "analytics/analyticsOptions" >Analytics</a>
-   <a href = "menuModification" >Menu Modification</a>
-   <a href = "/employee/employeeHome" >Employee View</a>
+   </nav> -->
+   <!-- <h1>Manager Home</h1> -->
+
+   <div class = "managerMain">
+      <div id = "title">
+         <h1>Welcome, <%= user.name %>!</h1>
+      </div>
+
+      <div id = "mainChoices">
+         <div>
+            <a href = "employeeModification"> <img height = "60px" width = "65px" src="/img/modifyEmpIcon.png">Edit Employees</a>
+         </div>
+         <div>
+            <a href = "inventory/inventoryHome"> <img height = "60px" width = "60px" src="/img/inventoryIcon.png">Inventory</a>
+         </div>
+         <div>
+            <a href = "analytics/analyticsOptions" > <img height = "60px" width = "90px" src="/img/analyticsIcon.png">Analytics</a>
+         </div>
+         <div>
+            <a href = "menuModification" > <img height = "65px" width = "65px" src="/img/modifyMenuIcon.png">Menu Modification</a>
+         </div>
+         <div>
+            <a href = "/employee/employeeHome" > <img height = "65px" width = "65px" src="/img/emplViewIcon.png">Employee View</a>
+         </div>
+      </div>
+   </div>
+
 </body>
