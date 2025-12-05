@@ -42,56 +42,15 @@
 </div>
 
 
+    <h1>Start a new order</h1>
 
-
-    <div id = "bodyContainer">
-        <div id = "container1">
-            <a href = "/customer/customerOrder">
-                <div id = "orderNowButton"><h2>Order Now</h2></div>
-            </a>
-            <div id = "apiContainer">
-                <div class = "container">
-
-                    <% if (weather) { %>
-                    <% 
-                    const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
-                    let main = (weather.main || '').toLowerCase();
-                    let icon = validIcons.includes(main) ? main : 'clear';
-                    %>
-                
-                    <div class="weather-widget">        
-                        <img
-                            src="/img/<%= icon %>.png"
-                            alt="<%= weather.description %> icon"
-                            class="weather-icon"
-                        />
-                        <div class="weather-text">
-                            <p><%= weather.temp %>°F</p>
-                            <p><%= weather.description %></p>
-                        </div>
-                    </div>
-                    <% } else { %>
-                        <p>No weather data available.</p>
-                    <% } %>
-                </div>
-
-                <div class = "container">
-               <button id = "translateButton" class = "translateButtonHomeStyling">
-                  Change Language
-               </button>
-                    <!--    this is the start of google translate code-->
-                    <div id="google_translate_element"></div>
-                    <script type="text/javascript">
-                        function googleTranslateElementInit() {
-                            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-                        }
-                    </script>
-                    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                    <!--    this is the end of google translate code-->
-                </div>
-
-            </div>
-        </div>
+    <div id = "customerChoice">
+            <a id = "orderNowButton" href = "/customer/customerLogin">
+                <h2 >Log In</h2>
+            </a> 
+            <a id = "orderNowButton" href = "/customer/customerOrder">
+                <h2 >Order as Guest</h2>
+            </a> 
     </div>
 
     <div class = "speechToTextContainer">

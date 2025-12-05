@@ -5,13 +5,31 @@
 </head>
 <body>
     <div id = "homeHeader">
-        <div id = "homeNavBarLeft">
-            <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
             <a href = "/menu"><img src = "/img/drink.png">Menu</a>
             <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
-        </div>
+ 
 
         <h1>HTeaML</h1>
+        <div id = "right">
+            <div class = "rightItem">
+                <!--    this is the start of google translate code-->
+                <div id="google_translate_element"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                    }
+                </script>
+                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <!--    this is the end of google translate code-->
+
+            </div>
+            <div class = "rightItem">
+                <%- include('./partials/weatherNav', { weather: weather }) %>
+            </div>
+
+            </div>
+        
+
 
     </div>
     <div class = "viewChoiceBar">
@@ -25,53 +43,7 @@
 
 
 
-    <div id = "bodyContainer">
-        <div id = "container1">
-            <div id = "apiContainer">
-                <div class = "container">
-
-                    <% if (weather) { %>
-                    <% 
-                    const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
-                    let main = (weather.main || '').toLowerCase();
-                    let icon = validIcons.includes(main) ? main : 'clear';
-                    %>
-                
-                    <div class="weather-widget">        
-                        <img
-                            src="/img/<%= icon %>.png"
-                            alt="<%= weather.description %> icon"
-                            class="weather-icon"
-                        />
-                        <div class="weather-text">
-                            <p><%= weather.temp %>°F</p>
-                            <p><%= weather.description %></p>
-                        </div>
-                    </div>
-                    <% } else { %>
-                        <p>No weather data available.</p>
-                    <% } %>
-                </div>
-
-                <div class = "container">
-               <button id = "translateButton" class = "translateButtonHomeStyling">
-                  Change Language
-               </button>
-                    <!--    this is the start of google translate code-->
-                    <div id="google_translate_element"></div>
-                    <script type="text/javascript">
-                        function googleTranslateElementInit() {
-                            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-                        }
-                    </script>
-                    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                    <!--    this is the end of google translate code-->
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+    
     <div class = "speechToTextContainer">
         <img id = "assistantImg"src = "">
         <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
