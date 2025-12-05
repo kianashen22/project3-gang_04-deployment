@@ -436,7 +436,7 @@ router.post('/updateTeaStock', async (req, res) => {
 router.get('/inventory/disposablesInventory', (req, res) => {
   inventoryDisposables = []
     pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Regular Cups', 'Large Cups', 'Straws', 'Plastic Lid');")
+        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Small Cups', 'Regular Cups', 'Large Cups', 'Straws', 'Plastic Lid');")
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventoryDisposables.push(query_res.rows[i]);
@@ -450,7 +450,7 @@ router.get('/inventory/disposablesInventory', (req, res) => {
 // update disposable inventory stock
 router.post('/updateDisposableStock', async (req, res) => {
   console.log('Updating disposable stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (19, 20, 21, 22);");
+  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (19, 20, 21, 22, 23);");
   res.redirect('/manager/inventory/disposablesInventory');
 });
 
@@ -459,7 +459,7 @@ router.get('/inventory/toppingsInventory', (req, res) => {
     pool
         .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name " +
                 "IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', " +
-                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream');")
+                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream', 'Pudding');")
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventoryToppings.push(query_res.rows[i]);
@@ -473,7 +473,7 @@ router.get('/inventory/toppingsInventory', (req, res) => {
 // update toppings inventory stock
 router.post('/updateToppingsStock', async (req, res) => {
   console.log('Updating toppings stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (8, 9, 10, 11, 12, 13, 14, 15, 16, 17);");
+  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);");
   res.redirect('/manager/inventory/toppingsInventory');
 });
 
