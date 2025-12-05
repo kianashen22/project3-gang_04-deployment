@@ -433,6 +433,29 @@ form button.active {
     font-size: 32px;;
 }
 
+.searchDropDown .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchItemSection {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.searchDropRow {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+#searchResults {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 60px;
+}
 
 
 /*----------------------- SANTA ANIMATION ---------------------------*/
@@ -474,9 +497,11 @@ audio::-webkit-media-controls {
     width: 500px;
 }
 
-.largeDot{
+.largeDot {
     font-size: 2em; /* Adjust as needed for desired size */
     font-weight: bold; /* Optional: make it bolder */
 }
 
-
+.largeFont p {
+    font-size: 40px;
+}

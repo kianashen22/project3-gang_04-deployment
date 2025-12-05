@@ -18,6 +18,8 @@
                 <img src = "/img/shoppingCart.png">
                 Cart</a>
         </div>
+
+       <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
     </div>
 
     <div id = "right">
@@ -154,27 +156,28 @@
             <button id = "search" class = "drinkCategoryButton"><img src="/img/search.png"></button>
             <div class = "dropdown-content">
                 <h3>Search for items with:</h3>
-                <br>
-                <div class = "optionDisplay" id="optionDisplay">
-                    <p>nothing is selected</p><br>
+                <div class = "searchItemSection">
+                    <div class = "searchDropRow">
+                        <select id="ingredientSelect">
+                            <option value="" disabled selected>Select an ingredient</option>
+                            <% for (let ingredient of inventory) { %>
+                                <option value="<%= ingredient.inventory_id %>"><%= ingredient.name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class = "pillContent">
+                        <form id="searchDrinksForm" action="/customer/search" method="post">
+                            <input type="hidden" id="selectedIngredients" name="selectedIngredients" value="">
+                            <button id="searchDrinksButton" type="button">search</button>
+                            <br>
+                        </form>
+                    </div>
+
+                    <div class = "optionDisplay" id="optionDisplay">
+                        <p>nothing is selected</p><br>
+                    </div>
                 </div>
-                <br>
-
-                <select id="ingredientSelect">
-                    <option value="" disabled selected>Select an ingredient</option>
-                    <% for (let ingredient of inventory) { %>
-                        <option value="<%= ingredient.inventory_id %>"><%= ingredient.name %></option>
-                    <% } %>
-                </select>
-
-                <br>
-
-                <form id="searchDrinksForm" action="/customer/search" method="post">
-                    <input type="hidden" id="selectedIngredients" name="selectedIngredients" value="">
-                    <button id="searchDrinksButton" type="button">search</button>
-                    <br>
-                </form>
-                <br>
 
                 <div id = "searchResults">
                     <%for (drink of filtered_drinks) {
@@ -201,6 +204,7 @@
     <script src = "/js/customerHandler.js"></script>
     <script src = "/js/googleTranslateHandler.js"></script>
     <script src = "/js/selectHandler.js"></script>
+    <script src = "/js/toggleFont.js"></script>
 </body>
 
 <!--
