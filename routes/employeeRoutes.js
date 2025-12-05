@@ -117,12 +117,6 @@ router.get('/employeeHome', async (req, res) => {
 });
 
 // edit drink from order summary
-// function editDrink(itemIndex) {
-//   // redirect to mod page
-//   window.location.href = '/modifyOrder?index=' + itemIndex;
-// }
-
-// In your .js file
 router.post('/editItem', async(req, res) => {
     const itemIndex = req.body.itemIndex;
     console.log("Received index:", itemIndex);

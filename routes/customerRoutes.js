@@ -167,6 +167,95 @@ router.get('/drinkModifications', (req, res) => {
     res.render('customer/drinkModifications');
 });
 
+
+// edit drink from order summary
+router.post('/editItem', async(req, res) => {
+    const itemIndex = req.body.itemIndex;
+    console.log("Received index:", itemIndex);
+
+    return res.redirect(`/customer/modifyOrder?index=${itemIndex}`);
+    // res.redirect('/employee/modifyOrder');
+});
+
+router.get('/modifyOrder', async (req, res) => {
+  try {
+    const itemIndex = Number(req.query.index);
+    const cart = req.session.cart || [];
+
+    if (itemIndex < 0 || itemIndex >= cart.length) {
+      return res.redirect('/customer/orderSummary');
+    }
+
+    const drinkToEdit = cart[itemIndex];
+
+    // Load needed lists
+    const [iceLevels, sugarLevels, toppingsRaw] = await Promise.all([
+      db.getIceLevels(),
+      db.getSugarLevels(),
+      db.getToppings()
+    ]);
+
+    // Remove duplicate toppings (same logic as customize)
+    const seen = new Set();
+    const toppings = [];
+    for (const t of toppingsRaw) {
+      const name = t.topping_name || t.name;
+      if (!seen.has(name)) {
+        seen.add(name);
+        toppings.push(t);
+      }
+    }
+
+    return res.render('customer/modifyOrder', { 
+      drink: drinkToEdit, 
+      index: itemIndex,
+      iceLevels,
+      sugarLevels,
+      toppings
+    });
+
+    } catch (err) {
+      next (err);
+    }
+});
+
+router.post('/updateCartItem', (req, res) => {
+    const itemIndex = Number(req.body.itemIndex);
+    const newQuantity = Number(req.body.quantity);
+    const newSize = req.body.size;
+    const newTopping = req.body.topping;
+    const newIce = req.body.iceLevel;
+    const newSweetness = req.body.sweetnessLevel;
+    const cart = req.session.cart || [];
+
+    if (
+        Number.isInteger(itemIndex) &&
+        itemIndex >= 0 &&
+        itemIndex < cart.length &&
+        newQuantity > 0
+    ) {
+        const item = cart[itemIndex];
+        item.quantity = newQuantity;
+        item.size = newSize;
+        item.topping = newTopping;
+        item.iceLevel = newIce;
+        item.sweetnessLevel = newSweetness;
+
+        // Recalculate line total
+        const price = Number(item.price) || 0;
+        const toppingCharge = Number(item.toppingCharge || 0);
+        item.lineTotal = (price + toppingCharge) * newQuantity;
+
+        req.session.cart[itemIndex] = item;
+
+        req.session.save(() => {
+            res.redirect('/customer/orderSummary');
+        });
+    } else {
+        res.redirect('/customer/orderSummary');
+    }
+});
+
 // Order Summary Page
 router.get('/orderSummary', async(req, res) => {
 

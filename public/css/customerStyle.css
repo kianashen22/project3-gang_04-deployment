@@ -372,6 +372,10 @@ html, body {
     align-self: center;
 }
 
+/* ---- drink customization ---- */
+form button.active {
+    background-color: #BED9C1;
+}
 
 /*--------- Order Confirmation Page Styling -------------*/
 .pageContainer{
