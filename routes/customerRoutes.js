@@ -346,6 +346,7 @@ router.get('/orderSummary', async(req, res) => {
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
     try {
+        console.log("ORDER CONFIRMATION CUSTOMER ROUTER LOADED");
         const cart = req.session.cart || [];
 
         // if cart is empty, don't create a blank order
@@ -363,6 +364,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
         );
         const tax = subtotal * 0.085;
         const total = subtotal + tax;
+
+        const cupInventoryIds = {
+            small: 23,
+            regular: 19,
+            large: 20
+        };
 
         // --- time breakdown for analytics columns ---
         const now = new Date();
@@ -425,6 +432,71 @@ router.get('/orderConfirmation',async (req, res , next) => {
         ($1,          $2,       $3,              $4,
      $5,          $6,       $7,              $8,   $9)
     `;
+
+
+        // removing stock level from inventory for items in
+        for (const item of cart) {
+            const qty = Number(item.quantity);
+
+            if (!Number.isFinite(qty) || qty <= 0) {
+                console.error("Invalid quantity for item:", item);
+                continue;  // or throw an error
+            }
+
+            await pool.query(
+                "UPDATE inventory " +
+                "SET stock_level = inventory.stock_level - $1 " +
+                "FROM menu_inventory " +
+                "WHERE menu_inventory.inventory_id = inventory.inventory_id " +
+                "AND menu_inventory.beverage_info_id = $2;",
+                [qty, item.beverageInfoId]
+            );
+
+            // cups
+            const cupId = cupInventoryIds[item.size] || cupInventoryIds['regular'];
+            await pool.query(
+                `UPDATE inventory SET stock_level = stock_level - $1 WHERE inventory_id = $2`,
+                [qty, cupId]
+            );
+
+            await pool.query(
+                "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+                "WHERE inventory_id = 21;",
+                [qty]
+            );
+
+            await pool.query (
+                "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+                "WHERE inventory_id = 22;",
+                [qty]
+            );
+            if (item.topping) {
+                const toppingName = item.topping;
+
+                // get inventory_id for the topping
+                const result = await pool.query(
+                    `SELECT inventory_id 
+                    FROM inventory
+                    WHERE name = $1`,
+                    [toppingName]
+                );
+
+                if (result.rows.length > 0) {
+                    const toppingInvId = result.rows[0].inventory_id;
+
+                    // decrease topping stock
+                    await pool.query(
+                    `UPDATE inventory 
+                    SET stock_level = stock_level - $1 
+                    WHERE inventory_id = $2`,
+                    [qty, toppingInvId]
+                    );
+                } else {
+                    console.error("Topping not found in inventory table:", toppingName);
+                }
+            }
+        }
+
 
         for (const item of cart) {
             const unitPrice =

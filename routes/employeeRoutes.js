@@ -231,6 +231,8 @@ router.get('/tip', (req, res) => {
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
   try {
+    console.log("ORDER CONFIRMATION EMPLOYEE ROUTE REACHED");
+    
     const cart = req.session.cart || [];
 
     // if cart is empty, don't create a blank order
@@ -248,6 +250,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
     );
     const tax = subtotal * 0.085;
     const total = subtotal + tax;
+
+    const cupInventoryIds = {
+            small: 23,
+            regular: 19,
+            large: 20
+      };
 
     // --- time breakdown for analytics columns ---
     const now = new Date();
@@ -309,6 +317,45 @@ const orderResult = await pool.query(
      $5,          $6,       $7,              $8,   $9)
     `;
 
+    // removing stock level from inventory for items in
+    for (const item of cart) {
+      const qty = Number(item.quantity);
+
+      if (!Number.isFinite(qty) || qty <= 0) {
+        console.error("Invalid quantity for item:", item);
+        continue;  // or throw an error
+      }
+
+      await pool.query(
+        "UPDATE inventory " +
+        "SET stock_level = inventory.stock_level - $1 " +
+        "FROM menu_inventory " +
+        "WHERE menu_inventory.inventory_id = inventory.inventory_id " +
+        "AND menu_inventory.beverage_info_id = $2;",
+        [qty, item.beverageInfoId]
+      );
+
+      // cups
+      const cupId = cupInventoryIds[item.size] || cupInventoryIds['regular'];
+      await pool.query(
+        `UPDATE inventory SET stock_level = stock_level - $1 WHERE inventory_id = $2`,
+        [qty, cupId]
+      );
+
+      await pool.query(
+        "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+        "WHERE inventory_id = 21;",
+        [qty]
+      );
+
+      await pool.query (
+        "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+         "WHERE inventory_id = 22;",
+         [qty]
+      );
+    }
+
+    // adding to database
     for (const item of cart) {
       const unitPrice =
         Number(item.price) + Number(item.toppingCharge || 0);
