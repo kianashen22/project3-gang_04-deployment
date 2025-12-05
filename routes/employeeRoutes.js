@@ -70,8 +70,6 @@ router.use((req, res, next) => {
 router.get('/employeeHome', async (req, res) => {
   user = req.session.user;
 
-  console.log("Employee homepage hit!");
-
   // LOADING DRINKS ON THE PAGE INFORMATION
   let freshBrew_drinks = []
   let fruity_drinks = []
@@ -118,7 +116,7 @@ router.get('/employeeHome', async (req, res) => {
 // edit drink from order summary
 router.post('/editItem', async(req, res) => {
     const itemIndex = req.body.itemIndex;
-    console.log("Received index:", itemIndex);
+    // console.log("Received index:", itemIndex);
 
     return res.redirect(`/employee/modifyOrder?index=${itemIndex}`);
     // res.redirect('/employee/modifyOrder');
@@ -458,7 +456,7 @@ router.post('/cart/add', (req, res) => {
         quantity: qty,
         lineTotal
     });
-    console.log('CART NOW:', req.session.cart);
+    // console.log('CART NOW:', req.session.cart);
     return res.redirect('/employee/employeeHome');
 });
 
