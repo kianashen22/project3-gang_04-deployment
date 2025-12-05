@@ -132,8 +132,8 @@ html, body {
     height: 80px;
     width: 250px;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
-
 
 .dropdown-content{
     flex-wrap: wrap;    
@@ -144,7 +144,7 @@ html, body {
     background-color: #FFFEF9;
     margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
     gap: 60px;   
-
+    padding-bottom: 50px;
 }
 
 .drinkCard {
@@ -181,6 +181,7 @@ html, body {
   width: 100%;
   height: auto;
   object-fit: contain;
+  cursor: pointer;
 }
 
 .drinkTextContainer {
@@ -465,6 +466,7 @@ audio::-webkit-media-controls {
     width: 100vw;
     padding-left: 100px;
     padding-right: 1000px;
+    padding-bottom: 50px;
     row-gap: 30px;
 }
 
