@@ -357,7 +357,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
     EXTRACT(DAY   FROM NOW())::int,
     EXTRACT(HOUR  FROM NOW())::int,
     EXTRACT(YEAR  FROM NOW())::int,
-    CURRENT_DATE
+    NOW()
   )
   RETURNING order_id
   `,
