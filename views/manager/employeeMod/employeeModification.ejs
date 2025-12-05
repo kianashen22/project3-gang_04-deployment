@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <head>
    <title>Employee Modification</title>
+   <link rel="stylesheet" href="/css/managerStyle.css">
 </head>
 <body>
-<!--    this is the start of google translate code-->
+   <div class="managerNavBarContainer">
+      <div id="left">
+        <div>
+          <a href=".\managerHome">
+            <img height="55px" src="/img/skipBack.png">Back
+          </a>
+        </div>
+        <div>
+          <a href="/logout">
+            <img height="55px" src="/img/logInOrOut.png">Logout
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+   <div class="employee-mod-page">
+      <!--    this is the start of google translate code-->
 <div id="google_translate_element"></div>
 <script type="text/javascript">
    function googleTranslateElementInit() {
@@ -13,46 +31,80 @@
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!--    this is the end of google translate code-->
 
-   <a href = "managerHome">Back</a>
-   <a href = "/logout"> Logout </a>
-   <h1> Employees </h1>
+      <h2 class="employee-add-title">Add New Employee</h2>
 
-   <% for (var i in employees) {%>
-       <p>Employee: <%=employees[i].first_name%> <%=employees[i].last_name%>, id: <%=employees[i].employee_id%>%><p>
-   <% } %>
+<div class="employee-add-card">
+  <form action="/manager/insertEmployee" method="POST" class="employee-add-form">
 
-   <br>
+    <div class="employee-form-group">
+      <label>First Name</label>
+      <input type="text" name="first" required>
+    </div>
 
-   <form action="/manager/removeEmployee" method="POST">
-      <label>Employee ID:</label>
-      <select name="id">
-         <% for (var i in employees) { %>
-            <option value="<%=employees[i].employee_id%>"><%=employees[i].employee_id%> - <%=employees[i].first_name%> <%=employees[i].last_name%></option>
-         <% } %>
-      </select>
-      <button type="submit">Delete Employee</button>
-   </form>
+    <div class="employee-form-group">
+      <label>Last Name</label>
+      <input type="text" name="last" required>
+    </div>
 
-   <br>
+    <div class="employee-form-group">
+      <label>Email</label>
+      <input type="email" name="email" required>
+    </div>
 
-   <form action="/manager/updateEmployee" method="POST">
-      <label>Employee ID:</label>
-      <select name="id">
-         <% for (var i in employees) { %>
-         <option value="<%=employees[i].employee_id%>"><%=employees[i].employee_id%> - <%=employees[i].first_name%> <%=employees[i].last_name%></option>
-         <% } %>
-      </select>
-        <input type="email" name="email" placeholder="employee@example.com">
-        <button type="submit">Update Employee Email</button>
-   </form>
+    <div class="employee-form-group">
+      <label>Employee ID</label>
+      <input type="number" name="id" required>
+    </div>
 
-   <br>
-   <form action="/manager/insertEmployee" method="POST">
-      <input type="text" name="first" placeholder="First Name">
-      <input type="text" name="last" placeholder="Last Name">
-      <input type="email" name="email" placeholder="employee@example.com">
-      <input type="number" name="id" placeholder="ID">
-      <button type="submit">Insert Employee</button>
-    </form>
-    
+    <button type="submit" class="employee-add-btn">Add Employee</button>
+
+  </form>
+</div>
+      <h1>Employees</h1>
+
+      <div class="employee-grid">
+        <% for (var i in employees) { %>
+      
+          <div class="employee-card">
+      
+            <div class="employee-info">
+              <p class="employee-name">
+                <%= employees[i].first_name %> <%= employees[i].last_name %>
+              </p>
+              <p class="employee-id">
+                ID: <%= employees[i].employee_id %>
+              </p>
+              <p class="employee-email">
+                <%= employees[i].email %>
+              </p>
+            </div>
+      
+            <div class="employee-actions">
+      
+              <!-- EDIT EMAIL -->
+              <form action="/manager/updateEmployee" method="POST">
+                <input type="hidden" name="id" value="<%= employees[i].employee_id %>">
+                <input 
+                  type="email"
+                  name="email"
+                  placeholder="new email"
+                  required
+                  class="employee-input"
+                >
+                <button type="submit" class="employee-edit-btn">Edit</button>
+              </form>
+      
+              <!-- DELETE EMPLOYEE -->
+              <form action="/manager/removeEmployee" method="POST">
+                <input type="hidden" name="id" value="<%= employees[i].employee_id %>">
+                <button type="submit" class="employee-delete-btn">X</button>
+              </form>
+      
+            </div>
+      
+          </div>
+      
+        <% } %>
+      </div>
+   </div>
 </body>
