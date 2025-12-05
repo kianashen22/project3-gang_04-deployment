@@ -1,0 +1,32 @@
+agenda: discuss final big tasks before project completion (get this to an MVP with our beyond features)
+
+emma:
+    - Y: css for inventory and analytics pages
+    - T: adding icons for accessibility
+    - B: last assignments for other classes
+
+caiti:
+    - Y: started employee interface
+    - T: finish employee interface
+    - B: other class assignments
+
+kiana:
+    - Y: home page, order confirmation page, menu board
+    - T: speech to action functionality (this is sick!)
+    - B: assignments for other classes
+
+julian:
+    - Y: front end planning
+    - T: frontend for modify menu and manage employees pages
+    - B: none
+
+anna:
+    - Y: frontend functionality for search by ingredient
+    - T: finishing backend for search by ingredient to be functional
+    - B: big project for another class
+
+discussing pivoting on certain beyond features to integrate better with our existing interface,
+had a good laugh about kiana's fantastic frontend improvements (they are awesome),
+everyone is on track to make this functional, we're pulling together to make it presentable by our internal deadline
+internal deadline set to friday
+CSS TIME!

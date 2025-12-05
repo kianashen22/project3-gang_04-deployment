@@ -1,0 +1,19 @@
+<%for (drink of filtered_drinks) {
+    const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
+%>
+    <div class = "drinkCard">
+        <button class = "drinkButton"
+                data-drink-id = "<%= drink.beverage_info_id %>"
+                data-drink-name = "<%= drink.name %>"
+                data-drink-price="<%= drink.price%>" >
+            <img src="<%= img_url %>">
+        </button>
+
+        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+    </div>
+<%}%>
+
+<% if (filtered_drinks.length === 0 ) { %>
+    <br>
+    <p>No drinks found.</p>
+<%}%>

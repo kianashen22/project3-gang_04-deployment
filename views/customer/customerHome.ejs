@@ -22,20 +22,18 @@
 
     <div id = "right">
       <div class = "rightItem">
-               <!--    this is the start of google translate code-->
-               <button id = "translateButton" class = "translateButtonStyling">
-                  <img src = "/img/globe.png">
-               </button>
-               <div id="google_translate_element" style="display: none;""></div>
-               <script type="text/javascript">
-                  function googleTranslateElementInit() {
-                     new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-                  }
-               </script>
-               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-               <!--    this is the end of google translate code-->
+          <!--    this is the start of google translate code-->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+              function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+              }
+          </script>
+          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <!--    this is the end of google translate code-->
+
       </div>
-      <div classs = "rightItem">
+      <div class = "rightItem">
          <%- include('../partials/weatherNav', { weather: weather }) %>
       </div>
 
@@ -155,16 +153,54 @@
          <div class = "searchDropDown">
             <button id = "search" class = "drinkCategoryButton"><img src="/img/search.png"></button>
             <div class = "dropdown-content">
+                <h3>Search for items with:</h3>
+                <br>
+                <div class = "optionDisplay" id="optionDisplay">
+                    <p>nothing is selected</p><br>
+                </div>
+                <br>
 
+                <select id="ingredientSelect">
+                    <option value="" disabled selected>Select an ingredient</option>
+                    <% for (let ingredient of inventory) { %>
+                        <option value="<%= ingredient.inventory_id %>"><%= ingredient.name %></option>
+                    <% } %>
+                </select>
+
+                <br>
+
+                <form id="searchDrinksForm" action="/customer/search" method="post">
+                    <input type="hidden" id="selectedIngredients" name="selectedIngredients" value="">
+                    <button id="searchDrinksButton" type="button">search</button>
+                    <br>
+                </form>
+                <br>
+
+                <div id = "searchResults">
+                    <%for (drink of filtered_drinks) {
+                        const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
+                    %>
+                    <div class = "drinkCard">
+                        <button class = "drinkButton"
+                                data-drink-id = "<%= drink.beverage_info_id %>"
+                                data-drink-name = "<%= drink.name %>"
+                                data-drink-price="<%= drink.price%>" >
+                            <img src="<%= img_url %>">
+                        </button>
+
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+                    </div>
+                    <% } %>
+                </div>
             </div>
          </div>
 
       </div>
    </div>
    <footer></footer>
-   <script src = "/js/customerHandler.js"></script> 
-   <script src = "/js/googleTranslateHandler.js"></script> 
-
+    <script src = "/js/customerHandler.js"></script>
+    <script src = "/js/googleTranslateHandler.js"></script>
+    <script src = "/js/selectHandler.js"></script>
 </body>
 
 <!--

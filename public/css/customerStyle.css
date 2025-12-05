@@ -132,8 +132,8 @@ html, body {
     height: 80px;
     width: 250px;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }
-
 
 .dropdown-content{
     flex-wrap: wrap;    
@@ -144,7 +144,7 @@ html, body {
     background-color: #FFFEF9;
     margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
     gap: 60px;   
-
+    padding-bottom: 50px;
 }
 
 .drinkCard {
@@ -182,6 +182,7 @@ html, body {
   width: 100%;
   height: auto;
   object-fit: contain;
+  cursor: pointer;
 }
 
 .drinkTextContainer {
@@ -422,6 +423,10 @@ html, body {
 #speechAssistantStartBtn:hover{
     transform: scale(1.1, 1.1);
 }
+/* ---- drink customization ---- */
+form button.active {
+    background-color: #BED9C1;
+}
 
 /*--------- Order Confirmation Page Styling -------------*/
 .pageContainer{
@@ -511,6 +516,7 @@ audio::-webkit-media-controls {
     width: 100vw;
     padding-left: 100px;
     padding-right: 1000px;
+    padding-bottom: 50px;
     row-gap: 30px;
 }
 
@@ -554,6 +560,8 @@ audio::-webkit-media-controls {
     right: 20px;    
     z-index: 1000; 
     padding: 15px 20px;
+    height: 500px;
+    overflow: auto;
 
 }
 /*
@@ -599,7 +607,7 @@ audio::-webkit-media-controls {
     width: auto;
 }
 
-#getStartedMessage {
+.messageStyling {
     display: block;
     flex-direction: wrap;
     position: relative;
@@ -608,11 +616,11 @@ audio::-webkit-media-controls {
     border-radius: 16px;
     border: 2px solid #c9ddd5;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    height: 200px;
+    height: auto;
     width: auto;
 }
 
-#getStartedMessage::after {
+.messageStyling::after {
     content: "";
     position: absolute;
     left: 40px;

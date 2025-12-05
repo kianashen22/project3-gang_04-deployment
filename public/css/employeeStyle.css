@@ -111,6 +111,9 @@ form button {
     margin: 2px;
 
 }
+form button:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
 form .submit {
     background-color: var(--green-header);
     color: var(--cream-white);
@@ -120,3 +123,127 @@ form .submit {
 form button.active {
     background-color: var(--button-selected);   
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.orderInfoCol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+
+.checkout {
+    text-decoration: none;
+    border-radius: 20px;
+    background-color: var(--med-green);
+    color: var(--light-green);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.checkout:hover {
+    background-color: var(--moss);
+}
+
+.orders {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 2%;
+    width: 45%;
+}
+
+.orderCard p, 
+.orderCard h1,
+.totals p, 
+.Price, 
+.Quantity {
+    margin: 2px 0;  /* small top/bottom margin */
+    line-height: 1.2; /* tighter line spacing */
+}
+.totals, .orderCard {
+    border-radius: 10px;
+    border: 1px solid var(--green-header);
+    background-color: var(--light-green);
+    padding: 10px;
+    
+    display: flex;
+    align-items: flex-start;
+    
+
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.totals {
+    padding: 2%;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
+    height: fit-content;
+    margin: 2.5%;
+}
+
+.orderCard {
+    flex-direction: row;
+    gap: 0px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.orderCard a {
+    width: 20%;
+    padding: 1px;
+}
+
+
+.orderCard h1 {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+} 
+.Price, .subtotal {
+    color: var(--green-header);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.totalText {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+}
+
+
+.details {
+    font-size: 1em;
+    color: var(--green-header);
+}
+
+.Quantity {
+    color: red;
+}
+
+#editButton button {
+    background: transparent;
+    border: none;
+    padding: 5px, 0px, 5px, 0px;
+    margin: 0;
+}
+
+#editButton img {
+    width: 35px;
+    height: auto;
+    cursor: pointer;
+}
+
+#editButton img:hover {
+    transform: scale(1.1);
+}
+

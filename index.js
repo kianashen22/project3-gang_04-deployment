@@ -57,12 +57,15 @@ app.use(express.static('public'));
 const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
+const audioRoutes = require("./routes/audioRoutes");
+
 
 
 // Mount them with base paths
 app.use('/manager', requireManager, managerRoutes);
 app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
+app.use("/api", audioRoutes);
 
 app.get('/', async(req, res) => {
     const user = req.session.user; 
@@ -88,6 +91,7 @@ app.get('/', async(req, res) => {
       temp: weatherResponse.data.main.temp,
       feelsLike: weatherResponse.data.main.feels_like,
       description: weatherResponse.data.weather[0].description,
+      main: weatherResponse.data.weather[0].main,
     };
     res.render('index', { user: user, weather: data });
 });
@@ -216,6 +220,7 @@ app.get('/index', async(req, res) => {
       temp: weatherResponse.data.main.temp,
       feelsLike: weatherResponse.data.main.feels_like,
       description: weatherResponse.data.weather[0].description,
+      main: weatherResponse.data.weather[0].main,
     };
     res.render('index', { user: user, weather: data });
 });
@@ -223,6 +228,7 @@ app.get('/index', async(req, res) => {
 
 
 app.get('/menu', async(req, res) => {
+    const user = req.session.user; 
 
     try {
         // WEATHER API INFORMATION
@@ -248,6 +254,7 @@ app.get('/menu', async(req, res) => {
         temp: weatherResponse.data.main.temp,
         feelsLike: weatherResponse.data.main.feels_like,
         description: weatherResponse.data.weather[0].description,
+        main: weatherResponse.data.weather[0].main,
         };
 
         // LOADING DRINKS ON THE PAGE INFORMATION
@@ -291,6 +298,7 @@ app.get('/menu', async(req, res) => {
                     all_drinks.push(query_res5.rows[i]);
                 }
                 res.render('menu', {
+                user: user,
                 weather: data, 
                 error: null ,
                 freshBrew_drinks,
@@ -307,14 +315,17 @@ app.get('/menu', async(req, res) => {
         console.error('Unknown error:', err.message);
         }
 
-        res.render('menu', {
-        weather: null,
-        error: 'Error fetching weather.',
+        res.render('menu', { 
+            user: user,
+            weather: null,
+            error: 'Error fetching weather.',
         });
     }
 });
 
 
+
+// --------------------------------     ADD API ROUTE HERE ---------------------------------------- >
 app.get('/menuAsst', async(req, res) => {
 
     try {
@@ -408,9 +419,7 @@ app.get('/menuAsst', async(req, res) => {
 });
 
 
-
-
-
+module.exports = { app, pool };
 
 
 app.listen(port, () => {

@@ -2,64 +2,105 @@
 <!DOCTYPE html>
 <head>
    <title>Order Summary</title>
+   <link rel="stylesheet" href="/css/employeeStyle.css">
 </head>
 <body>
-  <%- include("../partials/customerNavBar") %>
+<div class = "navBarContainer">
+    <div id = "left">
 
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+        <div>
+            <a href = "./employeeHome">
+                <img src = "/img/skipBack.png">
+                Back</a>
+        </div>
 
-   <h1>Order Summary</h1>
+        <div>
+            <a href = "orderSummary" >
+                <img src = "/img/shoppingCart.png">
+                Cart</a>
+        </div>
+    </div>
 
-   <% 
-   const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
-   const calcSubtotal = items.reduce((s, d) => {
-     const p = Number(d.price) || 0;
-     const t = Number(d.toppingCharge) || 0;
-     const q = Number(d.quantity) || 1;
-     return s + (p + t) * q;
-   }, 0);
-   const subtotal = (typeof totals !== 'undefined' && totals && typeof totals.subtotal !== 'undefined') ? totals.subtotal : calcSubtotal;
-   const tax = (typeof totals !== 'undefined' && totals && typeof totals.tax !== 'undefined') ? totals.tax : subtotal * 0.085;
-   const total = (typeof totals !== 'undefined' && totals && typeof totals.total !== 'undefined') ? totals.total : subtotal + tax;
- %>
+    <div id = "right">
+        <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                }
+            </script>
+            <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+        </div>
+    </div>
+  </div>
+  <div class = "row">
+    <% 
+    const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
+    const calcSubtotal = items.reduce((s, d) => {
+      const p = Number(d.price) || 0;
+      const t = Number(d.toppingCharge) || 0;
+      const q = Number(d.quantity) || 1;
+      return s + (p + t) * q;
+    }, 0);
+    const subtotal = (typeof totals !== 'undefined' && totals && typeof totals.subtotal !== 'undefined') ? totals.subtotal : calcSubtotal;
+    const tax = (typeof totals !== 'undefined' && totals && typeof totals.tax !== 'undefined') ? totals.tax : subtotal * 0.085;
+    const total = (typeof totals !== 'undefined' && totals && typeof totals.total !== 'undefined') ? totals.total : subtotal + tax;
+  %>
 
- <% if (items.length === 0) { %>
-   <p>No items in the cart.</p>
- <% } else { %>
-   <ol>
-     <% items.forEach(function(d, i) { 
-          const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
-          const qty = Number(d.quantity) || 1;
-          const line = unit * qty;
-     %>
-       <li>
-         <div><strong><%= d.name %></strong></div>
-         <div>Quantity: <%= qty %></div>
-         <div>Unit Price: $<%= unit.toFixed(2) %></div>
-         <% if (d.size) { %><div>Size: <%= d.size %></div><% } %>
-         <% if (d.iceLevel) { %><div>Ice: <%= d.iceLevel %></div><% } %>
-         <% if (d.sweetnessLevel) { %><div>Sweetness: <%= d.sweetnessLevel %></div><% } %>
-         <% if (d.topping) { %><div>Topping: <%= d.topping %></div><% } %>
-         <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
-         <div>Line Total: $<%= line.toFixed(2) %></div>
-       </li>
-     <% }); %>
-   </ol>
+  <% if (items.length === 0) { %>
+    <div class = "orders">
+      <div class = "orderCard"><p>No items in the cart.</p></div>
+      
+    </div>
+  <% } else { %>
+    <div class = "orders">
+      <% items.forEach(function(d, i) { 
+            const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
+            const qty = Number(d.quantity) || 1;
+            const line = unit * qty;
+      %>
+        <div class = "orderCard">
+          <div class = "orderInfoCol">
+            <h1><%= d.name %></h1>
+            <p class = "Quantity">Quantity: <%= qty %></p>
+            <div class = "details">
+              <p>
+                <% if (d.size) { %><%= d.size %>, <% } %>
+                <% if (d.iceLevel) { %> <%= d.iceLevel %>, <% } %>
+                <% if (d.sweetnessLevel) { %> <%= d.sweetnessLevel %> Sweet, <% } %>
+                <!-- TODO: add all toppings -->
+                <% if (d.topping) { %><%= d.topping %><% } %>
+              </p>
+            </div>
+            <p class = "Price "> $<%= line.toFixed(2) %></p>
+          </div>
+          <a> <img src = "/img/remove.png" alt = "remove item"> </a>
+          <div id = "editButton">
+            <form action="/employee/editItem" method="POST">
+                <input type="hidden" name="itemIndex" value="<%= i %>">
+                <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+            </form>
+          </div>
+    
+        </div>
+      <% }); %>
 
-   <h3>Totals</h3>
-   <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
-   <div>Tax: $<%= tax.toFixed(2) %></div>
-   <div>Total: $<%= total.toFixed(2) %></div>
- <% } %>
+    </div>
+    <div class = "totals">
+      <p class = "totalText">Totals</p>
+      <p class = "subtotal">Subtotal: $<%= subtotal.toFixed(2) %></p>
+      <p class = "subtotal">Tax: $<%= tax.toFixed(2) %></p>
+      <p class = "totalText">Total: $<%= total.toFixed(2) %></p>
+    </div>
+  <% } %>
+  </div>
 
- <p><a href="/employee/orderConfirmation">Check out</a></p>
+
+
+
+
+ <a class = "checkout" href="/employee/orderConfirmation">Check out</a>
  
 </body>

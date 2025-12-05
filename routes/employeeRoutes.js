@@ -1,5 +1,4 @@
 
-// routes/customerRoutes.js
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
@@ -70,38 +69,9 @@ router.use((req, res, next) => {
 //HOME PAGE--
 
 router.get('/employeeHome', async (req, res) => {
+  user = req.session.user;
 
   console.log("Employee homepage hit!");
-  // WEATHER API INFORMATION
-  let data = null;
-  try {
-    const city = req.query.city || 'College Station';
-
-    const apiKey = process.env.OPENWEATHER_API_KEY;
-    console.log('OpenWeather key present:', !!apiKey);
-
-    const weatherResponse = await axios.get(
-      'https://api.openweathermap.org/data/2.5/weather',
-      {
-        params: {
-          q: city,
-          appid: apiKey,
-          units: 'imperial',
-        },
-      }
-    );
-
-    data = {
-      city: weatherResponse.data.name,
-      temp: weatherResponse.data.main.temp,
-      feelsLike: weatherResponse.data.main.feels_like,
-      description: weatherResponse.data.weather[0].description,
-    };
-  } catch {
-    console.error('Weather API error:', err.message);
-
-  }
-
 
   // LOADING DRINKS ON THE PAGE INFORMATION
   let freshBrew_drinks = []
@@ -123,7 +93,7 @@ router.get('/employeeHome', async (req, res) => {
 
 
     res.render('employee/employeeHome', {
-      weather: data, 
+      user: user,
       error: null ,
       freshBrew_drinks,
       fruity_drinks,
@@ -131,21 +101,108 @@ router.get('/employeeHome', async (req, res) => {
       milky_drinks
     });
   } catch (err) {
-      if (err.response) {
-        console.error('OpenWeather error:', err.response.status, err.response.data);
-      } else {
+      if (err) {
         console.error('Unknown error:', err.message);
       }
 
       res.render('employee/employeeHome', {
-        weather: null,
-        error: 'Error fetching weather.',
+        user: user,
+        error: 'Error.',
         freshBrew_drinks,
         fruity_drinks,
         iceBlended_drinks,
         milky_drinks
       });
   }
+});
+
+// edit drink from order summary
+router.post('/editItem', async(req, res) => {
+    const itemIndex = req.body.itemIndex;
+    console.log("Received index:", itemIndex);
+
+    return res.redirect(`/employee/modifyOrder?index=${itemIndex}`);
+    // res.redirect('/employee/modifyOrder');
+});
+
+
+router.get('/modifyOrder', async (req, res) => {
+  try {
+    const itemIndex = Number(req.query.index);
+    const cart = req.session.cart || [];
+
+    if (itemIndex < 0 || itemIndex >= cart.length) {
+      return res.redirect('/employee/orderSummary');
+    }
+
+    const drinkToEdit = cart[itemIndex];
+
+    // Load needed lists
+    const [iceLevels, sugarLevels, toppingsRaw] = await Promise.all([
+      db.getIceLevels(),
+      db.getSugarLevels(),
+      db.getToppings()
+    ]);
+
+    // Remove duplicate toppings (same logic as customize)
+    const seen = new Set();
+    const toppings = [];
+    for (const t of toppingsRaw) {
+      const name = t.topping_name || t.name;
+      if (!seen.has(name)) {
+        seen.add(name);
+        toppings.push(t);
+      }
+    }
+
+    return res.render('employee/modifyOrder', { 
+      drink: drinkToEdit, 
+      index: itemIndex,
+      iceLevels,
+      sugarLevels,
+      toppings
+    });
+
+    } catch (err) {
+      next (err);
+    }
+});
+
+router.post('/updateCartItem', (req, res) => {
+    const itemIndex = Number(req.body.itemIndex);
+    const newQuantity = Number(req.body.quantity);
+    const newSize = req.body.size;
+    const newTopping = req.body.topping;
+    const newIce = req.body.iceLevel;
+    const newSweetness = req.body.sweetnessLevel;
+    const cart = req.session.cart || [];
+
+    if (
+        Number.isInteger(itemIndex) &&
+        itemIndex >= 0 &&
+        itemIndex < cart.length &&
+        newQuantity > 0
+    ) {
+        const item = cart[itemIndex];
+        item.quantity = newQuantity;
+        item.size = newSize;
+        item.topping = newTopping;
+        item.iceLevel = newIce;
+        item.sweetnessLevel = newSweetness;
+
+        // Recalculate line total
+        const price = Number(item.price) || 0;
+        const toppingCharge = Number(item.toppingCharge || 0);
+        item.lineTotal = (price + toppingCharge) * newQuantity;
+
+        req.session.cart[itemIndex] = item;
+
+        req.session.save(() => {
+            res.redirect('/employee/orderSummary');
+        });
+    } else {
+        res.redirect('/employee/orderSummary');
+    }
 });
 
 
@@ -157,6 +214,7 @@ router.get('/orderSummary', (req, res) => {
   const subtotal = cart.reduce((s, d) => s + (Number(d.price) + Number(d.toppingCharge || 0)) * Number(d.quantity), 0);
   const tax = subtotal * 0.085; 
   const total = subtotal + tax;
+
 
   res.render('employee/orderSummary', {
     order: { drinks: cart },
@@ -290,7 +348,7 @@ const db = {
   },
 
   async getIceLevels() {
-    return ['no ice', 'light ice', 'regular ice', 'extra ice'];
+    return ['no ice', 'light ice', 'regular', 'extra ice'];
   },
 
   async getSugarLevels() {
@@ -357,48 +415,49 @@ router.get('/:id/customize', async (req, res, next) => {
     next(err);
   }
 });
+
+
 router.post('/cart/add', (req, res) => {
-  if (!req.session.cart) req.session.cart = [];
+    if (!req.session.cart) req.session.cart = [];
 
-  const {
-    beverageInfoId,
-    name,
-    price,
-    size,
-    iceLevel,
-    sweetnessLevel,
-    topping,
-    action,
-    quantity
-  } = req.body;
+    const {
+        beverageInfoId,
+        name,
+        price,
+        size,
+        iceLevel,
+        sweetnessLevel,
+        topping,
+        action,
+        quantity
+    } = req.body;
 
 
-  const qty = Math.max(1, Number(quantity) || 1);
-  const basePrice = Number(price) || 0;
-  const toppingCharge = (action === 'add' && topping) ? 0.75 : 0; 
-  const lineTotal = (basePrice + toppingCharge) * qty;
+    const qty = Math.max(1, Number(quantity) || 1);
+    const basePrice = Number(price) || 0;
+    const toppingCharge = (action === 'add' && topping) ? 0.75 : 0;
+    const lineTotal = (basePrice + toppingCharge) * qty;
 
-  req.session.cart.push({
-    beverageInfoId: Number(beverageInfoId),
-    name,
-    size,
-    iceLevel,
-    sweetnessLevel,
-    topping: topping || null,
-    action,                    
-    price: basePrice,
-    toppingCharge,
-    quantity: qty,
-    lineTotal
-  });
-  console.log('CART NOW:', req.session.cart);
-  return res.redirect('/customer/customerHome');
+    req.session.cart.push({
+        beverageInfoId: Number(beverageInfoId),
+        name,
+        size,
+        iceLevel,
+        sweetnessLevel,
+        topping: topping || null,
+        price: basePrice,
+        toppingCharge,
+        quantity: qty,
+        lineTotal
+    });
+    console.log('CART NOW:', req.session.cart);
+    return res.redirect('/employee/employeeHome');
 });
-
-
 
 
 
 
 // Export router 
 module.exports = router;
+
+

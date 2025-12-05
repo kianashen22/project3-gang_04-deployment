@@ -6,7 +6,6 @@
 <body>
 
 
-<!--    this is the start of google translate code-->
 <div id="google_translate_element"></div>
 <script type="text/javascript">
     function googleTranslateElementInit() {
@@ -14,10 +13,6 @@
     }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!--    this is the end of google translate code-->
-
-
-<!---------------   NAV BAR    --------------->
 <div id = "homeHeader">
     <div id = "homeNavBarLeft">
         <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
@@ -37,7 +32,6 @@
 
 <div id = "menuAndSpeechContainer">
 
-    <!---------------   MENU    --------------->
     <div id = "menuAsstContainer">
         <div id = "milkySeriesContainer" class = "drinkMenuContainer">
             <h1><u>MILKY SERIES</u></h1>
@@ -69,36 +63,48 @@
 
         <div id = "drinkModificationsContainer">
             <h1><u>CHOOSE (OPTIONAL)</u></h1>
-            <p><b>ICE LEVEL</b> &nbsp; No Ice &bull; Light Ice   &bull;  Regular Ice  &bull; Extra Ice</p>
-            <p><b>SWEETNESS LEVEL</b> &nbsp; 0%     &bull; 30%   &bull;  50%    &bull;  80%     &bull;  100%    &bull;  120%</p>
-            <p><b>TOPPINGS +0.75</b> &nbsp; Tapioca Pearl &bull; Lychee Jelly   &bull;  Coffee Jelly    &bull;  Ice Cream
-                                    &bull;  Honey   &bull;  Passion Fruit</p>
-            <p><b>SIZE</b> &nbsp; Small &bull; Medium   &bull;  Large</p>    
+            <p><b>ICE LEVEL</b> &nbsp; No Ice &bull; Light Ice &bull; Regular Ice &bull; Extra Ice</p>
+            <p><b>SWEETNESS LEVEL</b> &nbsp; 0% &bull; 30% &bull; 50% &bull; 80% &bull; 100% &bull; 120%</p>
+            <p><b>TOPPINGS +0.75</b> &nbsp; Tapioca Pearl &bull; Lychee Jelly &bull; Coffee Jelly &bull; Ice Cream
+                                    &bull; Honey &bull; Passion Fruit</p>
+            <p><b>SIZE</b> &nbsp; Small &bull; Medium &bull; Large</p>    
         </div>
     </div>
 
-    <!---------------   SPEECH    --------------->
     <div class = "orderSpeechContainer">
         <div id = "chatBox">
-            <div id = "getStartedMessage" ><p>
-                                                    Great! To place an order, just press the "start recording"
-                                                    button, say your order, and then press "end recording". I will then 
-                                                    show you your order, and all you have to do is confirm it!
-            </p>
+            <div id = "getStartedMessage" class = "messageStyling" >
+                <p>
+                    Great! To place an order, just press the "start recording"
+                    button, say your order, and then press "stop recording". I will then 
+                    show you your order, and all you have to do is confirm it!
+                </p>
                 <button id="startButton">Start Recording</button>
                 <button id="endButton" disabled>Stop Recording</button>
                 <button id="playButton" disabled>Play Recording</button>
 
                 <audio id="audioPlayback" controls></audio>
             </div>
-            <img id = "assistantImgMenu" src = "">
+            
+            <div id="orderConfirmationBox"  class = "messageStyling" margin-top: 20px;">
+                <h2>Order Confirmation</h2>
+                
+                <div id="parsedOrderDetails" style="margin-bottom: 10px;">
+                </div>
+                
+                <div id="orderSummary">
+                </div>
+                
+                <button id="confirmOrderButton">Confirm and Place Order</button>
+                <button id="cancelOrderButton">Cancel</button>
+            </div>
+            <img id="assistantImgMenu" src="">
             
         </div>
 
     </div>
 
 </div>
-
 
 
     <script src = "/js/customerHandler.js"></script> 
