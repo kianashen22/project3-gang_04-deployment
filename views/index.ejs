@@ -2,84 +2,47 @@
 <head>
     <title>Home Page</title>
     <link rel="stylesheet" href="/css/customerStyle.css">
+    <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 </head>
 <body>
     <div id = "homeHeader">
-        <div id = "homeNavBarLeft">
-            <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
             <a href = "/menu"><img src = "/img/drink.png">Menu</a>
-        </div>
+            <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+ 
 
         <h1>HTeaML</h1>
-
-        <div id = "loginContainer">
-            <% if (user && user.role === 'manager') { %>
-                <a href="/manager/managerHome">Manager Home</a>
-            <% } else if (user && user.role === 'employee') { %>
-                <a href="/employee/employeeHome">Employee View</a>
-            <% }  else { %>
-                <a href="/auth/google">Admin Login
-                <img src = "/img/login.png" alt = "admin login"></a>
-            <% } %>
-
-        </div>  
-
-    </div>
-
-
-
-
-
-    <div id = "bodyContainer">
-        <div id = "container1">
-            <a href = "/customer/CustomerHome">
-                <div id = "orderNowButton"><h2>Order Now</h2></div>
-            </a>
-            <div id = "apiContainer">
-                <div class = "container">
-
-                    <% if (weather) { %>
-                    <% 
-                    const validIcons = ['mist', 'rain', 'snow', 'clear', 'clouds', 'drizzle'];
-                    let main = (weather.main || '').toLowerCase();
-                    let icon = validIcons.includes(main) ? main : 'clear';
-                    %>
-                
-                    <div class="weather-widget">        
-                        <img
-                            src="/img/<%= icon %>.png"
-                            alt="<%= weather.description %> icon"
-                            class="weather-icon"
-                        />
-                        <div class="weather-text">
-                            <p><%= weather.temp %>°F</p>
-                            <p><%= weather.description %></p>
-                        </div>
-                    </div>
-                    <% } else { %>
-                        <p>No weather data available.</p>
-                    <% } %>
-                </div>
-
-                <div class = "container">
-               <button id = "translateButton" class = "translateButtonHomeStyling">
-                  Change Language
-               </button>
-                    <!--    this is the start of google translate code-->
-                    <div id="google_translate_element"></div>
-                    <script type="text/javascript">
-                        function googleTranslateElementInit() {
-                            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-                        }
-                    </script>
-                    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                    <!--    this is the end of google translate code-->
-                </div>
+        <div id = "right">
+            <div class = "rightItem">
+                <!--    this is the start of google translate code-->
+                <div id="google_translate_element"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                    }
+                </script>
+                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <!--    this is the end of google translate code-->
 
             </div>
+            <div class="rightItem">
+                <button id="colorblindToggle" class="toggleFont">
+                  Colorblind Mode
+                </button>
+              </div>
+            <div class = "rightItem">
+                <%- include('./partials/weatherNav', { weather: weather }) %>
+            </div>
+
         </div>
     </div>
 
+    <div class = "viewChoiceBar">
+        <a class = "viewchoice" href = /auth/google?role=employee> Cashier</a>
+        <a class = "viewchoice" href = /auth/google?role=manager >Manager</a>
+        <a class = "viewchoice" href = customer/customerHome>Customer Kiosk</a>
+    </div>
+
+    
     <div class = "speechToTextContainer">
         <div id = "welcomeAssistantMessage" class = "speech-box"><p>Howdy! <br> <br>
                                                 My name is Emma, your speech assistant! I'm here to help you
@@ -94,8 +57,27 @@
         <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
     </div>
 
-
-   <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/toggleFont.js"></script>
+    <script>
+        const cbToggle = document.getElementById("colorblindToggle");
+        const cbSheet = document.getElementById("colorblindStylesheet");
+      
+        // Load saved preference
+        if (localStorage.getItem("colorblind") === "on") {
+          cbSheet.disabled = false;
+        }
+      
+        // Toggle on click
+        cbToggle.addEventListener("click", () => {
+          cbSheet.disabled = !cbSheet.disabled;
+      
+          localStorage.setItem(
+            "colorblind",
+            cbSheet.disabled ? "off" : "on"
+          );
+        });
+      </script>
     <script src = "/js/googleTranslateHandler.js"></script> 
     <script src = "/js/speechAssistantHandler.js"></script>
 </body>

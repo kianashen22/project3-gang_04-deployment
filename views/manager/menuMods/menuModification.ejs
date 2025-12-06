@@ -1,29 +1,106 @@
 <!DOCTYPE html>
 <head>
     <title>Menu Modification</title>
+    <link rel="stylesheet" href="/css/managerStyle.css">
 
 </head>
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
-
-    <a href = "managerHome">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Menu Items</h1>
-    <div class="menu">
-        <% for (var i in beverage_info) {%>
-        <p>Item ID: <%=beverage_info[i].beverage_info_id%>, Name: <%=beverage_info[i].name%>, Price: <%=beverage_info[i].price%>, Category: <%=beverage_info[i].category%></p>
-        <% } %>
+  <div class = "managerNavBarContainer">
+    <div id = "left">
+       <div>
+          <a href = "..\managerHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+       </div>
+       <div>
+          <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+       </div>
     </div>
 
+    <div id = "right">
+       <div>
+          <!--    this is the start of google translate code-->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+             function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+             }
+          </script>
+          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <!--    this is the end of google translate code-->
+       </div>
+    </div>
+ </div>
+    <div class="menu-mod-page">
+    <h2 class="add-title">Add New Menu Item</h2>
+
+    <div class="add-item-card">
+      <form action="/manager/insertMenuItem" method="POST" class="add-item-form">
+    
+        <div class="form-group">
+          <label>Menu Item ID</label>
+          <!--consider making automatic increment-->
+          <input type="number" id="beverage_info_id" name="id" required>
+        </div>
+    
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+    
+        <div class="form-group">
+          <label>Price</label>
+          <input type="number" step="0.01" id="price" name="price" required>
+        </div>
+    
+        <div class="form-group">
+          <label>Category</label>
+          <select id="category" name="category" required>
+            <option value="Fresh Brew Tea">Fresh Brew Tea</option>
+            <option value="Fruit Tea">Fruit Tea</option>
+            <option value="Ice Blended">Ice Blended</option>
+            <option value="Milk Tea">Milk Tea</option>
+            <option value="Seasonal">Seasonal</option>
+          </select>
+        </div>
+    
+        <button type="submit" class="add-btn">Add Item</button>
+    
+      </form>
+    </div>
+    <h1>Menu Items</h1>
+    <div class="menu">
+        <% for (var i in beverage_info) { %>
+          <div class="menu-item-box">
+      
+            <div class="item-details">
+                <p><strong>Name:</strong> <%= beverage_info[i].name %></p>
+              <p><strong>ID:</strong> <%= beverage_info[i].beverage_info_id %></p>
+
+              <p><strong>Price:</strong> $<%= beverage_info[i].price %></p>
+              <p><strong>Category:</strong> <%= beverage_info[i].category %></p>
+            </div>
+      
+            <div class="item-actions">
+      
+              <!-- EDIT BUTTON -->
+              <form action="/manager/updateMenuItem" method="POST">
+                <input type="hidden" name="id" value="<%= beverage_info[i].beverage_info_id %>">
+                <button type="submit" class="edit-btn">Edit</button>
+              </form>
+      
+              <!-- REMOVE BUTTON -->
+              <form action="/manager/removeMenuItem" method="POST">
+                <input type="hidden" name="id" value="<%= beverage_info[i].beverage_info_id %>">
+                <button type="submit" class="delete-btn">X</button>
+              </form>
+      
+            </div>
+      
+          </div>
+        <% } %>
+      </div>
+
     <div class="modification-options">
+        <!--
         <h2>Remove Menu Item</h2>
         <form action="/manager/removeMenuItem" method="POST">
             <label>Menu Item Index:</label>
@@ -34,30 +111,10 @@
             </select>
             <button type="submit">Remove Item</button>
         </form>
+    -->
 
-        <h2>Add New Menu Item</h2>
-        <form action="/manager/insertMenuItem" method="POST">
-            <label>Menu Item Index:</label>
-<!--             consider changing to automatically increment to prevent random numbers-->
-            <input type="number" id="beverage_info_id" name="id" required>
 
-            <label>Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label>Price:</label>
-            <input type="number" step="0.01" id="price" name="price" required>
-
-            <label>Category:</label>
-            <select id="category" name="category" required>
-                <option value="Fresh Brew Tea">Fresh Brew Tea</option>
-                <option value="Fruit Tea">Fruit Tea</option>
-                <option value="Ice Blended">Ice Blended</option>
-                <option value="Milk Tea">Milk Tea</option>
-                <option value="Seasonal">Seasonal</option>
-            </select>
-
-            <button type="submit">Add Item</button>
-        </form>
-
+        <!--
         <h2>Edit Menu Item</h2>
         <form action="/manager/updateMenuItem" method="POST">
             <label>Menu Item Index:</label>
@@ -68,5 +125,7 @@
             </select>
             <button type="submit">Go To Item</button>
         </form>
+    -->
     </div>
+</div>
 </body>

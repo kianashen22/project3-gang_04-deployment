@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Modify <%= drink.name %></title>
   <link rel="stylesheet" href="/css/customerStyle.css">
+  <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 
   <!-- <style>
     button.active {
@@ -24,7 +25,11 @@
 </script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!--    this is the end of google translate code-->
-
+<div class="rightItem">
+  <button id="colorblindToggle" class="toggleFont">
+    Colorblind Mode
+  </button>
+</div>
   <h1>Modify: <%= drink.name %></h1>
   <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
 
@@ -51,7 +56,7 @@
     <!-- Size -->
     <h3>Size</h3>
     <div id="sizeGroup">
-      <% ['small','medium','large'].forEach(function(size){ %>
+      <% ['small','regular','large'].forEach(function(size){ %>
         <button type="button" data-size="<%= size %>"><%= size %></button>
       <% }) %>
     </div>
@@ -185,5 +190,24 @@
     })();
   </script>
    <script src = "/js/customerHandler.js"></script> 
+   <script>
+    const cbToggle = document.getElementById("colorblindToggle");
+    const cbSheet = document.getElementById("colorblindStylesheet");
+  
+    // Load saved preference
+    if (localStorage.getItem("colorblind") === "on") {
+      cbSheet.disabled = false;
+    }
+  
+    // Toggle on click
+    cbToggle.addEventListener("click", () => {
+      cbSheet.disabled = !cbSheet.disabled;
+  
+      localStorage.setItem(
+        "colorblind",
+        cbSheet.disabled ? "off" : "on"
+      );
+    });
+  </script>
 </body>
 </html>

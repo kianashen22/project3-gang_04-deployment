@@ -52,6 +52,36 @@ function renderOptions() {
     });
 }
 
+// Helper to attach click listeners to drink buttons inside a container
+function attachDrinkButtonListeners(container) {
+    if (!container) return;
+    const buttons = container.querySelectorAll('.drinkButton');
+    // If `setDrinkNameIDPrice` is available globally (from customerHandler.js), use it.
+    buttons.forEach(btn => {
+        // Remove any existing listener to avoid duplicate handlers
+        btn.replaceWith(btn.cloneNode(true));
+    });
+    // Re-query after cloning
+    const freshButtons = container.querySelectorAll('.drinkButton');
+    freshButtons.forEach(btn => {
+        if (typeof window.setDrinkNameIDPrice === 'function') {
+            btn.addEventListener('click', window.setDrinkNameIDPrice);
+        } else if (typeof setDrinkNameIDPrice === 'function') {
+            btn.addEventListener('click', setDrinkNameIDPrice);
+        } else {
+            // Fallback: delegate action using dataset and window location
+            btn.addEventListener('click', function () {
+                const drinkId = this.dataset.drinkId;
+                const url = "/customer/" + drinkId + "/customize";
+                localStorage.setItem('drinkId', this.dataset.drinkId);
+                localStorage.setItem('drinkName', this.dataset.drinkName);
+                localStorage.setItem('drinkPrice', this.dataset.drinkPrice);
+                window.location.href = url;
+            });
+        }
+    });
+}
+
 searchBtn.addEventListener('click', async(e) => {
     updateHidden();
     console.log('click');
@@ -66,4 +96,8 @@ searchBtn.addEventListener('click', async(e) => {
         });
     const data = await res.json();
     document.getElementById('searchResults').innerHTML = data.html;
+
+    // Re-attach click listeners for newly injected drink buttons
+    const searchResultsContainer = document.getElementById('searchResults');
+    attachDrinkButtonListeners(searchResultsContainer);
 });

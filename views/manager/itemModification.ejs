@@ -1,61 +1,98 @@
 <!DOCTYPE html>
 <head>
     <title>Item Modification</title>
+    <link rel="stylesheet" href="/css/managerStyle.css">
 </head>
 
 <body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+    <div class = "managerNavBarContainer">
+        <div id = "left">
+           <div>
+              <a href = "./menuModification"> <img height = "55px" src="/img/skipBack.png">Back</a>
+           </div>
+           <div>
+              <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+           </div>
+        </div>
+    
+        <div id = "right">
+           <div>
+              <!--    this is the start of google translate code-->
+              <div id="google_translate_element"></div>
+              <script type="text/javascript">
+                 function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                 }
+              </script>
+              <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+              <!--    this is the end of google translate code-->
+           </div>
+        </div>
+     </div>
+    <div class="item-mod-page">
+        <h1>Item Modification</h1>
 
-    <a href = "managerHome">Back</a>
-    <a href = "/logout"> Logout </a>
-    <h1>Item Modification</h1>
-    <p><strong>ID:</strong> <%= item.beverage_info_id %></p>
-    <p><strong>Name:</strong> <%= item.name %></p>
-    <p><strong>Price:</strong> <%= item.price %></p>
-
-    <div>
-        <% for (var i in bev_items) { %>
-        <p><%= bev_items[i].inventory_name, bev_items[i].quantity, bev_items[i].unit %></p>
-        <% } %>
-    </div>
-
-    <div>
-<!--        form for now, buttons will be added later to improve UX-->
-        <form action="/manager/addToMenuItem" method="POST">
-            <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
-
-            <label>Inventory Id:</label>
-            <input type="number" id="inventory_id" name = "inv_id" required>
-            <label>Quantity:</label>
-            <input type="number" id="quantity" name = "qt" required>
-
-            <label>Unit:</label>
-            <select id="unit" name = "unit" required>
+        <div class="item-info-card">
+          <p><strong>ID:</strong> <%= item.beverage_info_id %></p>
+          <p><strong>Name:</strong> <%= item.name %></p>
+          <p><strong>Price:</strong> $<%= item.price %></p>
+        </div>
+        
+        <h2 class="section-title">Current Ingredients</h2>
+        
+        <div class="ingredient-list">
+          <% for (var i in bev_items) { %>
+            <div class="ingredient-row">
+              <span><%= bev_items[i].inventory_name %></span>
+              <span><%= bev_items[i].quantity %></span>
+              <span><%= bev_items[i].unit %></span>
+            </div>
+          <% } %>
+        </div>
+        
+        <div class="item-form-grid">
+        
+          <!-- ADD INGREDIENT -->
+          <div class="item-form-card">
+            <h3>Add to Item</h3>
+        
+            <form action="/manager/addToMenuItem" method="POST">
+              <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
+        
+              <label>Inventory ID</label>
+              <input type="number" name="inv_id" required>
+        
+              <label>Quantity</label>
+              <input type="number" name="qt" required>
+        
+              <label>Unit</label>
+              <select name="unit" required>
                 <option value="grams">grams</option>
                 <option value="ml">ml</option>
                 <option value="pieces">pieces</option>
                 <option value="oz">oz</option>
-            </select>
-
-            <button type="submit">Add to Item</button>
-        </form>
-
-        <form action="/manager/removeFromMenuItem" method="POST">
-            <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
-
-            <label>Inventory ID:</label>
-            <input type="number" id="inventory_id" name = "inv_id" required>
-            <button type="submit">Remove from Item</button>
-        </form>
-    </div>
-
-    <a href="/manager/menuModification"> DONE </a>
+              </select>
+        
+              <button type="submit" class="primary-btn">Add</button>
+            </form>
+          </div>
+        
+          <!-- REMOVE INGREDIENT -->
+          <div class="item-form-card danger">
+            <h3>Remove from Item</h3>
+        
+            <form action="/manager/removeFromMenuItem" method="POST">
+              <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
+        
+              <label>Inventory ID</label>
+              <input type="number" name="inv_id" required>
+        
+              <button type="submit" class="danger-btn">Remove</button>
+            </form>
+          </div>
+        
+        </div>
+        
+        <a href="/manager/menuModification" class="done-btn">Done</a>
+</div>
 </body>

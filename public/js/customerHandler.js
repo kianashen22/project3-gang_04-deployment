@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const drinkButtons = document.querySelectorAll(".drinkButton");
         drinkButtons.forEach(button => {
-            button.addEventListener("click",setDrinkNameIDPrice)
+            button.addEventListener("click", setDrinkNameIDPrice)
         })
     }
 

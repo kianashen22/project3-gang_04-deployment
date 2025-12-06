@@ -58,6 +58,7 @@ const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const audioRoutes = require("./routes/audioRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 
 
@@ -66,6 +67,7 @@ app.use('/manager', requireManager, managerRoutes);
 app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 app.use("/api", audioRoutes);
+app.use("/api", orderRoutes);
 
 app.get('/', async(req, res) => {
     const user = req.session.user; 
@@ -98,10 +100,12 @@ app.get('/', async(req, res) => {
 
 // Google Login
 app.get('/auth/google', (req, res) => {
+    const role = req.query.role;
     const url = oauth2Client.generateAuthUrl({
         access_type: "offline",
         scope: ["openid", "profile", "email"],
-        prompt: "select_account"
+        prompt: "select_account",
+        state: role 
     });
 
     res.redirect(url);
@@ -110,6 +114,8 @@ app.get('/auth/google', (req, res) => {
 
 app.get('/auth/google/callback', async (req, res) => {
     const code = req.query.code;
+    const role = req.query.state;
+    console.log("Role from state:", role);
 
     try {
 
@@ -122,39 +128,46 @@ app.get('/auth/google/callback', async (req, res) => {
 
 
         const user = ticket.getPayload();
+        console.log("Google User:", user);
+
+        //reroute based on role
+        let tableName;
+        let redirectUrl;
+
+        if (role === 'manager') {
+            tableName = 'managerlogin';
+            redirectUrl = '/manager/managerHome';
+        } else if (role === 'employee') {
+            tableName = 'employee';
+            redirectUrl = '/employee/employeeHome';
+        } else {
+            tableName = 'customer';
+            redirectUrl = '/customer/customerOrder';
+        }
+        console.log("Using table:", tableName);
+        console.log("Redirecting to:", redirectUrl);
 
         // VERIFY USER IN MANGAGER TABLE
         const result = await pool.query(
-            'SELECT * FROM managerlogin WHERE email = $1',
+            `SELECT * FROM ${tableName} WHERE email = $1`,
             [user.email]
         );
-        //no manager found
+
+        console.log("Database query result:", result);  
+        //no user found found
         if (result.rowCount === 0) {
-            const result = await pool.query(
-                'SELECT * FROM employee WHERE email = $1',
-                [user.email]
-            );
-
-            if (result.rowCount === 0) {
-                return res.status(403).send('Access denied: not an authorized manager');
-            }
-
-            req.session.user = {
-                email: result.rows[0].email,
-                name: result.rows[0].name,
-                role: 'employee'
-            };
-            res.redirect('/employee/employeeHome');    
-
-        } else {
-            // saves user
-            req.session.user = {
-                email: result.rows[0].email,
-                name: result.rows[0].name,
-                role: 'manager'
-            };
-            res.redirect('/manager/managerHome');    
+            console.log("No user found with email:", user.email);  
+            return res.redirect('/'); // TODO: create a page that indicates that access was denied
         }
+        console.log("session info:", result.rows[0].email, result.rows[0].name ||result.rows[0].first_name)
+        // saves user
+        req.session.user = {
+            email: result.rows[0].email,
+            name: result.rows[0].name ||result.rows[0].first_name,
+            id: result.rows[0].customer_id || result.rows[0].id || result.rows[0].employee_id,
+            role: role
+        };
+        res.redirect(redirectUrl);    
 
     } catch (err) {
         console.error("OAuth Error", err);

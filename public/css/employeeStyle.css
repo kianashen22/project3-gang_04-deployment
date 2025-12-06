@@ -96,31 +96,51 @@ h1 {
 }
 
 /* customization */
-form {
+.modifyDrink {
     padding: 20px;
+    width: 60%;
+    align-self: center;
+    display: flex;
+    margin: 20px auto; /*center*/
+    background-color: var(--cream-white);
+    border: solid 2px var(--green-header);
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+
 }
-form input {
-    background-color: var(--light-green);
-    border-color: var(--green-header);
+
+.modifyDrink h1 {
+    align-self: center;
 }
-form button {
+
+.modifyDrink input {
+    background-color: var(--button);
+    border: 2px solid var(--button-selected);
+    border-radius: 20px;
+    padding: 3px 15px;
+    width: fit-content;
+    /* flex: 1; */
+
+}
+.modifyDrink button {
     background-color: var(--button);   
     border: none;
     border-radius: 20px;
     padding: 5px 15px;
     margin: 2px;
+    flex: 1;
 
 }
-form button:hover {
+.modifyDrink button:hover {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
-form .submit {
+.modifyDrink .submit {
     background-color: var(--green-header);
     color: var(--cream-white);
     border-radius: 6px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
-form button.active {
+.modifyDrink button.active {
     background-color: var(--button-selected);   
 }
 
@@ -167,7 +187,7 @@ form button.active {
     margin: 2px 0;  /* small top/bottom margin */
     line-height: 1.2; /* tighter line spacing */
 }
-.totals, .orderCard {
+.totals, .orderCard, .tipContainer , .orderConfirmationContainer {
     border-radius: 10px;
     border: 1px solid var(--green-header);
     background-color: var(--light-green);
@@ -177,6 +197,40 @@ form button.active {
     align-items: flex-start;
     
 
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.orderConfirmationContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 5%;
+    gap: 20px;
+    width: 30%;
+    margin: auto;
+}
+.button {
+
+    font-size: large;
+    display: inline-block; 
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 15px 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modifyDrink button.button {
+    
+    font-size: large;
+    display: inline-block; 
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 15px 20px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -221,13 +275,35 @@ form button.active {
 }
 
 
-.details {
+.details, .Quantity {
     font-size: 1em;
     color: var(--green-header);
 }
 
-.Quantity {
-    color: red;
+/* tip page */
+.tipContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+    gap: 10px;
+    width: 40%;
+    margin: 50px auto;
+}
+
+.tipContainer .row {
+    justify-content: center;
+    gap: 5%;
+    width: 100%;
+
+}
+.tipContainer a {
+    padding: 5%;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 2%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 #editButton button {
@@ -245,5 +321,15 @@ form button.active {
 
 #editButton img:hover {
     transform: scale(1.1);
+}
+
+
+.modifyDrink {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    padding: 0 50px;
+    /* gap: 20px; */
+
 }
 
