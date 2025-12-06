@@ -67,7 +67,9 @@
         </div>
 
         <div id = "submitButton">
-            <button onclick="/generateXReport">Refresh</button>
+            <form action="/manager/generateXReport" method="POST">
+                <button type="submit">Refresh</button>
+            </form>
         </div>
     </div>
 </body>
