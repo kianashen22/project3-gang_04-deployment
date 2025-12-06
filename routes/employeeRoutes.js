@@ -507,6 +507,16 @@ router.post('/cart/add', (req, res) => {
     return res.redirect('/employee/employeeHome');
 });
 
+router.post('/cart/remove', (req, res) => {
+  const index = Number(req.body.index);
+
+  if (!req.session.cart || isNaN(index)) {
+      return res.redirect('/employee/orderSummary');
+  }
+
+  req.session.cart.splice(index, 1);
+  return res.redirect('/employee/orderSummary');
+});
 
 
 
