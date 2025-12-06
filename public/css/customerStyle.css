@@ -67,6 +67,13 @@ html, body {
     transform: scale(1.1, 1.1);
 }
 
+#google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 
 #right {
     display: flex;
