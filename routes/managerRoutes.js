@@ -132,6 +132,8 @@ router.get('/analytics/xReport', async (req, res) => {
         'WHERE combine_date::date = CURRENT_DATE; '
         );
 
+        console.log(result.rows);
+        console.log(dailyTotal.rows[0].total_sales_today);
         res.render('manager/analytics/xReport', {
             hourly: result.rows,
             daily: dailyTotal.rows[0].total_sales_today
