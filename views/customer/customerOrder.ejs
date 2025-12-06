@@ -13,10 +13,11 @@
                 <img src = "/img/skipBack.png">
                 Back</a>
         </div>
-         <% if (user) { %>
-            <a href="customerProfile">Profile</a>
-         <% } %>
-
+        <div>
+            <% if (user) { %>
+               <a href="customerProfile">Profile</a>
+            <% } %>
+        </div>
         <div>
             <a href = "orderSummary" >
                 <img src = "/img/shoppingCart.png">
@@ -53,6 +54,11 @@
 
    <div class = "drinkNavBar">
       <div id = "titleContainer">
+         <% if (user) { %>
+            <h1>Welcome, <%= user.name%>! </h1>
+         <% } %>
+
+         
          <h1>Make an Order</h1> 
       </div>
 
