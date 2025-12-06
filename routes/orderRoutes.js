@@ -117,6 +117,12 @@ router.post("/confirm-order", async (req, res) => {
                     item.drinkPrice
                 ]
             );
+            
+            const maxResult = await pool.query(
+                'SELECT COALESCE(MAX(beverage_id), 0) AS max_id FROM beverage'
+            );
+
+            nextBeverageId = maxResult.rows[0].max_id + 1;
 
             savedItems.push(result.rows[0]);
 

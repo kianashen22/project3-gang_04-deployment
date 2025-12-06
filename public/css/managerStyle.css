@@ -172,7 +172,7 @@ html, body {
 
 /* inventory sub pages */
 .inventorySubPage {
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 
 .inventorySubPage #title{
@@ -276,6 +276,10 @@ html, body {
 }
 
 /* ordering trends */
+.orderingTrends{
+    padding-bottom: 20px;
+}
+
 .orderingTrends #title{
     padding: 45px 0 0 0;
 }
@@ -404,6 +408,10 @@ html, body {
 }
 
 /* x-report */
+.xReportPage {
+    padding-bottom: 20px;
+}
+
 .xReportPage #title {
     padding: 45px 0 0 0;
 }
