@@ -36,12 +36,13 @@
  <% if (items.length === 0) { %>
    <p>No items in the cart.</p>
  <% } else { %>
+  <div class = "cartList">
    <ol>
-     <% items.forEach(function(d, i) { 
-          const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
-          const qty = Number(d.quantity) || 1;
-          const line = unit * qty;
-     %>
+             <% items.forEach(function(d, i) {
+                  const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
+                  const qty = Number(d.quantity) || 1;
+                  const line = unit * qty;
+             %>
        <div class = "cartItem">
            <li>
                <div><strong><%= d.name %></strong></div>
@@ -54,19 +55,21 @@
                <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
                <div>Line Total: $<%= line.toFixed(2) %></div>
            </li>
+          <div id = "editButton">
+            <form action="/customer/editItem" method="POST">
+                <input type="hidden" name="itemIndex" value="<%= i %>">
+                <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+            </form>
+          </div>
+
+           <form method="POST" action="/customer/cart/remove">
+               <input type="hidden" name="index" value="<%= i %>">
+               <button type="submit">x</button>
+           </form>
        </div>
-       <form method="POST" action="/customer/cart/remove">
-        <input type="hidden" name="index" value="<%= i %>">
-        <button type="submit">x</button>
-      </form>
-      <div id = "editButton">
-        <form action="/customer/editItem" method="POST">
-            <input type="hidden" name="itemIndex" value="<%= i %>">
-            <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
-        </form>
-      </div>
-     <% }); %>
+       <% }); %>
    </ol>
+  </div>
 
    <h3>Totals</h3>
    <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
@@ -74,7 +77,7 @@
    <div>Total: $<%= total.toFixed(2) %></div>
  <% } %>
 
- <a class = "button" href="/customer/orderConfirmation">Check out</a>
+ <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
 
   <script src = "/js/toggleFont.js"></script>
 
