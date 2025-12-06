@@ -194,57 +194,80 @@ html, body {
 }
 
 .inventorySubPage #inventoryTable{
-    padding: 20px 0 0 0;
-    text-align: center;
+    padding: 20px;
+    width: 80%;
+    align-self: center;
+    display: flex;
+    margin: 20px auto;
+    background-color: #558f84;
+    border: solid 2px #558f84;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .inventorySubPage #inventoryTable table{
-    border-collapse: collapse; /* Collapses cell borders into a single border */
-    width: 40%;
-    margin: 0 auto;
-    table-layout: fixed;
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 0 10px;
 }
 
 .inventorySubPage #inventoryTable th{
-    border: 2px solid #68A691; /* Adds borders to header and data cells */
-    padding: 8px; /* Adds padding inside cells */
-    text-align: center; 
-    background-color: #3F7462;;
-    color: #F8FFF9;
-    font-size: 35px;
-    width: 50%;
+    text-align: left;
+    padding: 12px;
+    background: #F8FFF9;
+    font-weight: bold;
+    font-size: 20px;
+    color: #3F7462;
 }
 
 .inventorySubPage #inventoryTable td{
-    border: 2px solid #68A691; /* Adds borders to header and data cells */
-    padding: 8px; /* Adds padding inside cells */
-    text-align: center;
-    background-color: #F8FFF9;
+    padding: 12px;
+    background: #F8FFF9;
+    font-size: 20px;
     color: #3F7462;
-    font-size: 25px;
 }
 
-.inventorySubPage #restockButton{
-    padding: 45px 0 0 0;
-    text-align: center;
+.inventorySubPage #inventoryTable tr:hover td {
+    background: #CBDFCD;
 }
 
+.inventorySubPage #inventoryTable button{
+    padding: 5px 12px;
+    background: none;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #3F7462;
+    color: #3F7462;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-.inventorySubPage #restockButton button{
-    margin: 0 auto;
-    text-decoration: none;
-    font-size: 27px;
-    background-color: #68A691;
+.inventorySubPage #inventoryTable button:hover{
+    background: #3F7462;
     color: #F8FFF9;
-    border-color: #68A691;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    border-radius: 3px;
 }
 
-.inventorySubPage #restockButton button:hover{
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+.stockBar {
+    width: 100px;
+    height: 8px;
+    background: #7dd7b8;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 4px;
 }
+
+.stockFill {
+    height: 100%;
+    background: #3F7462;
+    border-radius: 5px;
+}
+
+.stockText {
+    font-size: 15px;
+    color: #3F7462;
+}
+
 
 /* modify inventory */
 .invModOptions {
