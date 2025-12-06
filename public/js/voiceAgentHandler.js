@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetUI = (message) => {
         confirmationBox.style.display = "none";
         getStartedMessage.style.display = "block";
+        loadingContainer.style.display - "none";
         
         startButton.disabled = false;
         stopButton.disabled = true; // Ensure stop is disabled
@@ -54,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
         orderDetailsDiv.innerHTML = "";
         orderSummaryDiv.innerHTML = "";
         currentOrderData = null;
-        alert(message); 
+        
+        //alert(message); 
     };
 
 

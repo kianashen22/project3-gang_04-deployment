@@ -50,9 +50,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Order ID</th>
+                        <!-- <th>Order ID</th> -->
                         <th>Date</th>
-                        <!-- <th>Items</th> -->
+                        <th>Items</th>
                         <th>Total</th>
                         <th>Action</th>
                     </tr>
@@ -60,8 +60,22 @@
                 <tbody>
                     <% past_orders.forEach(order => { %>
                         <tr>
-                            <td><%= order.order_id %></td>
+                            <!-- <td><%= order.order_id %></td> -->
                             <td><%= new Date(order.combine_date).toLocaleString() %></td>
+
+
+
+                            <td>
+                                <% if (order.beverages.length > 0) { %>
+                                    <ul>
+                                        <% order.beverages.forEach(bev => { %>
+                                            <li><%= bev.beverage_name %></li>
+                                        <% }) %>
+                                    </ul>
+                                <% } else { %>
+                                    <span>No items</span>
+                                <% } %>
+                            </td>
 
                             <td>$<%= order.total_price.toFixed(2) %></td>
                             <td>

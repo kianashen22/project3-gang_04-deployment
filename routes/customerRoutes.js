@@ -786,7 +786,22 @@ router.get('/customerProfile', async (req, res) => {
             main: weatherResponse.data.weather[0].main,
         };
         const past_orders =
-            (await pool.query(`SELECT * FROM "order" WHERE customer_id = $1`, [user.id])).rows;
+            (await pool.query(
+                `SELECT 
+                o.*,
+                COALESCE(
+                    json_agg(b.*) FILTER (WHERE b.beverage_id IS NOT NULL),
+                    '[]'
+                ) AS beverages
+                FROM "order" o 
+                LEFT JOIN beverage b 
+                ON o.order_id = b.order_id
+
+                WHERE customer_id = $1
+                GROUP BY o.order_id
+                ORDER BY o.order_id;`, 
+                [user.id]
+            )).rows;
 
 
 
