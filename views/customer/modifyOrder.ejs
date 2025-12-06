@@ -7,15 +7,22 @@
     <link rel="stylesheet" href="/css/colorblind.css" id="colorblindStylesheet" disabled>
   </head>
 <body>
-  <!--    this is the start of google translate code-->
-  <div id="google_translate_element"></div>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <!--    this is the end of google translate code-->
+
+    <div class="housekeepingHeader">
+      <!--    this is the start of google translate code-->
+      <div id="google_translate_element"></div>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+        }
+      </script>
+      <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      <!--    this is the end of google translate code-->
+
+      <div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
+    </div>
+
+
     <h1>Modify Order Item: <%= drink.name %></h1>
     <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
 
@@ -80,7 +87,9 @@
 
     </form>
 
-    <script>
+  <script src = "/js/toggleFont.js"></script>
+
+  <script>
       function setupSingleSelect(groupId, dataAttr, hiddenId) {
         const group = document.getElementById(groupId);
         if (!group) return;

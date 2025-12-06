@@ -8,7 +8,8 @@
     <div id = "homeHeader">
             <a href = "/menu"><img src = "/img/drink.png">Menu</a>
             <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
- 
+
+        </div>
 
         <h1>HTeaML</h1>
         <div id = "right">
@@ -42,7 +43,7 @@
         <a class = "viewchoice" href = customer/customerHome>Customer Kiosk</a>
     </div>
 
-    
+
     <div class = "speechToTextContainer">
         <img id = "assistantImg"src = "">
         <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
@@ -53,16 +54,16 @@
     <script>
         const cbToggle = document.getElementById("colorblindToggle");
         const cbSheet = document.getElementById("colorblindStylesheet");
-      
+
         // Load saved preference
         if (localStorage.getItem("colorblind") === "on") {
           cbSheet.disabled = false;
         }
-      
+
         // Toggle on click
         cbToggle.addEventListener("click", () => {
           cbSheet.disabled = !cbSheet.disabled;
-      
+
           localStorage.setItem(
             "colorblind",
             cbSheet.disabled ? "off" : "on"
