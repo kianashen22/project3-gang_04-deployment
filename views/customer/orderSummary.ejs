@@ -3,6 +3,7 @@
 <head>
    <title>Order Summary</title>
    <link rel="stylesheet" href="/css/customerStyle.css">
+   <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 </head>
 <body>
   <%- include("../partials/customerNavBar") %>
@@ -76,5 +77,24 @@
  <a class = "button" href="/customer/orderConfirmation">Check out</a>
 
   <script src = "/js/toggleFont.js"></script>
- 
+
+ <script>
+  const cbToggle = document.getElementById("colorblindToggle");
+  const cbSheet = document.getElementById("colorblindStylesheet");
+
+  // Load saved preference
+  if (localStorage.getItem("colorblind") === "on") {
+    cbSheet.disabled = false;
+  }
+
+  // Toggle on click
+  cbToggle.addEventListener("click", () => {
+    cbSheet.disabled = !cbSheet.disabled;
+
+    localStorage.setItem(
+      "colorblind",
+      cbSheet.disabled ? "off" : "on"
+    );
+  });
+</script>
 </body>

@@ -70,8 +70,6 @@ router.use((req, res, next) => {
 router.get('/employeeHome', async (req, res) => {
   user = req.session.user;
 
-  console.log("Employee homepage hit!");
-
   // LOADING DRINKS ON THE PAGE INFORMATION
   let freshBrew_drinks = []
   let fruity_drinks = []
@@ -118,7 +116,7 @@ router.get('/employeeHome', async (req, res) => {
 // edit drink from order summary
 router.post('/editItem', async(req, res) => {
     const itemIndex = req.body.itemIndex;
-    console.log("Received index:", itemIndex);
+    // console.log("Received index:", itemIndex);
 
     return res.redirect(`/employee/modifyOrder?index=${itemIndex}`);
     // res.redirect('/employee/modifyOrder');
@@ -233,6 +231,8 @@ router.get('/tip', (req, res) => {
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
   try {
+    console.log("ORDER CONFIRMATION EMPLOYEE ROUTE REACHED");
+    
     const cart = req.session.cart || [];
 
     // if cart is empty, don't create a blank order
@@ -250,6 +250,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
     );
     const tax = subtotal * 0.085;
     const total = subtotal + tax;
+
+    const cupInventoryIds = {
+            small: 23,
+            regular: 19,
+            large: 20
+      };
 
     // --- time breakdown for analytics columns ---
     const now = new Date();
@@ -311,6 +317,45 @@ const orderResult = await pool.query(
      $5,          $6,       $7,              $8,   $9)
     `;
 
+    // removing stock level from inventory for items in
+    for (const item of cart) {
+      const qty = Number(item.quantity);
+
+      if (!Number.isFinite(qty) || qty <= 0) {
+        console.error("Invalid quantity for item:", item);
+        continue;  // or throw an error
+      }
+
+      await pool.query(
+        "UPDATE inventory " +
+        "SET stock_level = inventory.stock_level - $1 " +
+        "FROM menu_inventory " +
+        "WHERE menu_inventory.inventory_id = inventory.inventory_id " +
+        "AND menu_inventory.beverage_info_id = $2;",
+        [qty, item.beverageInfoId]
+      );
+
+      // cups
+      const cupId = cupInventoryIds[item.size] || cupInventoryIds['regular'];
+      await pool.query(
+        `UPDATE inventory SET stock_level = stock_level - $1 WHERE inventory_id = $2`,
+        [qty, cupId]
+      );
+
+      await pool.query(
+        "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+        "WHERE inventory_id = 21;",
+        [qty]
+      );
+
+      await pool.query (
+        "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+         "WHERE inventory_id = 22;",
+         [qty]
+      );
+    }
+
+    // adding to database
     for (const item of cart) {
       const unitPrice =
         Number(item.price) + Number(item.toppingCharge || 0);
@@ -458,10 +503,20 @@ router.post('/cart/add', (req, res) => {
         quantity: qty,
         lineTotal
     });
-    console.log('CART NOW:', req.session.cart);
+    // console.log('CART NOW:', req.session.cart);
     return res.redirect('/employee/employeeHome');
 });
 
+router.post('/cart/remove', (req, res) => {
+  const index = Number(req.body.index);
+
+  if (!req.session.cart || isNaN(index)) {
+      return res.redirect('/employee/orderSummary');
+  }
+
+  req.session.cart.splice(index, 1);
+  return res.redirect('/employee/orderSummary');
+});
 
 
 

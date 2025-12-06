@@ -14,7 +14,18 @@ FONT COLORS:
 green header: #68A691
 
 */
-
+:root {
+    --moss : #CBDFCD;
+    --med-green:  #dbf3df;
+    --rose: #EFC7C2;
+    --yellow: #FFE5D4;
+    --mauve : #694F5D;
+    --cream-white:  #FFFEF9;
+    --green-header: #68A691;
+    --light-green: #f1faf2;
+    --button: #E7EEE8;
+    --button-selected: #BED9C1;
+}
 
 @import "@fontsource/instrument-sans";
 @import "@fontsource/inria-sans";
@@ -54,6 +65,13 @@ html, body {
 
 .customerNavBarContainer #left div a:hover{
     transform: scale(1.1, 1.1);
+}
+
+.customerNavBarContainer #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 
@@ -213,6 +231,12 @@ html, body {
     transform: translateX(-50%);
     margin: 0;
 }
+.homeHeader #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
 #loginContainer{
     display: flex;
@@ -236,7 +260,7 @@ html, body {
     align-items: flex-start;
     gap: 100px;
 }
-#homeNavBarLeft a{
+#homeNavBarLeft a, #homeHeader a{
     text-decoration: none;
     color: black;
     font-size: 30px;
@@ -246,19 +270,34 @@ html, body {
     transition: transform 0.2s ease
 }
 
+#homeHeader a{
+    height: fit-content;
+}
+
+
 #homeNavBarLeft a:hover{
     transform: scale(1.1, 1.1);
 }
 
 
 
-#bodyContainer{
+#bodyContainer, #customerChoice, .viewChoiceBar{
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 100px;
     padding-top: 100px;
 
+}
+
+#customerChoice, .viewChoiceBar{
+    width: 70%;
+    height: auto;
+    display:flex;
+    flex-direction: row;
+    gap:50px;
+    justify-content: center;
+    justify-self: center;
 }
 
 #container1{
@@ -271,9 +310,19 @@ html, body {
 #container1 a{
     text-decoration: none;
 }
+h1 {
+    font-size: 72px;
+    justify-self: center;
+    color: var(--green-header);
+    padding: 20px 0;
+}
 
-#orderNowButton{
-    width: 700px;
+#orderNowButton, .viewChoiceBar a{
+    min-width: fit-content;
+    min-height: fit-content;
+    flex: 1;
+    /* width: 400px; */
+    padding: 0 20px;
     height: 100px;
     border-radius: 10px;
     background-color: #68A691;
@@ -288,7 +337,8 @@ html, body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#orderNowButton:hover{
+
+#orderNowButton:hover, .viewChoiceBar a:hover{
     transform: scale(1.1, 1.1);
 }
 

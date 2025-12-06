@@ -2,29 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Modify <%= drink.name %></title>
+  <title>Customize <%= drink.name %></title>
    <link rel="stylesheet" href="/css/employeeStyle.css">
+  <style>
+    body {
+      background-color: #F8FFF9;
 
+    }
+  </style>
 
 </head>
 <body>
+<div class = "navBarContainer">
+    <div id = "left">
 
-<!--    this is the start of google translate code-->
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!--    this is the end of google translate code-->
+        <div>
+            <a href = "/employee/employeeHome">
+                <img src = "/img/skipBack.png">
+                Back</a>
+        </div>
+        <div>
+          <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+        </div>
 
-    <a href="/employee/employeeHome">Back</a>
-  <h1>Modify: <%= drink.name %></h1>
-  <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
+        <div>
+            <a href = "/employee/orderSummary" >
+                <img src = "/img/shoppingCart.png">
+                Cart</a>
+        </div>
+    </div>
 
-  <form method="POST" action="/employee/cart/add">
+    <div id = "right">
+        <div>
+            <!--    this is the start of google translate code-->
+            <div id="google_translate_element"></div>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                }
+            </script>
+            <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <!--    this is the end of google translate code-->
+        </div>
+    </div>
+</div>
 
+  <form class = "modifyDrink" method="POST" action="/employee/cart/add">
+
+    <h1><%= drink.name %></h1>
     <!-- Hidden values sent to server -->
     <input type="hidden" name="beverageInfoId" value="<%= drink.id ?? drink.beverage_info_id %>" />
     <input type="hidden" name="name" value="<%= drink.name %>" />
@@ -46,7 +71,7 @@
     <!-- Size -->
     <h3>Size</h3>
     <div id="sizeGroup">
-      <% ['small','medium','large'].forEach(function(size){ %>
+      <% ['small','regular','large'].forEach(function(size){ %>
         <button type="button" data-size="<%= size %>"><%= size %></button>
       <% }) %>
     </div>
@@ -86,7 +111,7 @@
     </div>
 
     <br>
-    <button type="submit" class="submit">Add to Cart</button>
+    <button type="submit" class="button">Add to Cart</button>
     <br><br>
 
 

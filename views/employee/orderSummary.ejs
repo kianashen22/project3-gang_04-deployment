@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <head>
-   <title>Order Summary</title>
+   <title>Cart</title>
    <link rel="stylesheet" href="/css/employeeStyle.css">
 </head>
 <body>
@@ -13,6 +13,9 @@
                 <img src = "/img/skipBack.png">
                 Back</a>
         </div>
+        <div>
+            <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
+         </div>
 
         <div>
             <a href = "orderSummary" >
@@ -76,11 +79,16 @@
             </div>
             <p class = "Price "> $<%= line.toFixed(2) %></p>
           </div>
-          <a> <img src = "/img/remove.png" alt = "remove item"> </a>
           <div id = "editButton">
             <form action="/employee/editItem" method="POST">
                 <input type="hidden" name="itemIndex" value="<%= i %>">
                 <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+            </form>
+          </div>
+          <div id = "removeButton">
+            <form method="POST" action="/employee/cart/remove">
+              <input type="hidden" name="index" value="<%= i %>">
+              <button type="submit">x</button>
             </form>
           </div>
     
@@ -97,10 +105,6 @@
   <% } %>
   </div>
 
-
-
-
-
- <a class = "checkout" href="/employee/tip">Check out</a>
+ <a class = "button" href="/employee/tip">Check out</a>
  
 </body>

@@ -81,7 +81,54 @@ router.use((req, res, next) => {
 
 router.get('/customerHome', async (req, res) => {
     try {
-        console.log("Customer homepage hit!");
+        // WEATHER API INFORMATION
+
+        const city = req.query.city || 'College Station';
+
+        const apiKey = process.env.OPENWEATHER_API_KEY;
+        console.log('OpenWeather key present:', !!apiKey);
+
+        const weatherResponse = await axios.get(
+            'https://api.openweathermap.org/data/2.5/weather',
+            {
+                params: {
+                    q: city,
+                    appid: apiKey,
+                    units: 'imperial',
+                },
+            }
+        );
+
+        const data = {
+            city: weatherResponse.data.name,
+            temp: weatherResponse.data.main.temp,
+            feelsLike: weatherResponse.data.main.feels_like,
+            description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
+        };
+
+        res.render("customer/customerHome", {
+            weather: data,
+            error: null,
+        });
+
+    } catch (err) {
+        if (err.response) {
+            console.error('OpenWeather error:', err.response.status, err.response.data);
+        } else {
+            console.error('Unknown error:', err.message);
+        }
+
+        res.render('customer/customerHome', {
+            weather: null,
+            error: 'Error fetching weather.',
+        });
+    }
+});
+
+
+router.get('/customerOrder', async (req, res) => {
+    try {
         // WEATHER API INFORMATION
 
         const city = req.query.city || 'College Station';
@@ -131,7 +178,7 @@ router.get('/customerHome', async (req, res) => {
         const inventory =
             (await pool.query("SELECT * FROM inventory")).rows;
 
-        res.render("customer/customerHome", {
+        res.render("customer/customerOrder", {
             weather: data,
             error: null,
             freshBrew_drinks,
@@ -140,7 +187,8 @@ router.get('/customerHome', async (req, res) => {
             milky_drinks,
             all_drinks,
             filtered_drinks,
-            inventory
+            inventory,
+            user: req.session.user
         });
 
     } catch (err) {
@@ -150,9 +198,10 @@ router.get('/customerHome', async (req, res) => {
             console.error('Unknown error:', err.message);
         }
 
-        res.render('customer/customerHome', {
+        res.render('customer/customerOrder', {
             weather: null,
             error: 'Error fetching weather.',
+            user: req.session.user
         });
     }
 });
@@ -299,6 +348,7 @@ router.get('/orderSummary', async(req, res) => {
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
     try {
+        console.log("ORDER CONFIRMATION CUSTOMER ROUTER LOADED");
         const cart = req.session.cart || [];
 
         // if cart is empty, don't create a blank order
@@ -317,6 +367,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
         const tax = subtotal * 0.085;
         const total = subtotal + tax;
 
+        const cupInventoryIds = {
+            small: 23,
+            regular: 19,
+            large: 20
+        };
+
         // --- time breakdown for analytics columns ---
         const now = new Date();
         const month = now.getMonth() + 1;   // 1–12
@@ -332,8 +388,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
 
         // combine_date is DATE, so use yyyy-mm-dd
         const combine_date = now.toISOString().slice(0, 10);
-
-        const customerId = 1; // or whatever real customer_id you use
+        const user = req.session.user
+        if (user && user.role == 'customer') {
+            customerId = user.id;
+        } else {
+            customerId = 1;   
+        }
 
         const orderResult = await pool.query(
             `
@@ -378,6 +438,71 @@ router.get('/orderConfirmation',async (req, res , next) => {
         ($1,          $2,       $3,              $4,
      $5,          $6,       $7,              $8,   $9)
     `;
+
+
+        // removing stock level from inventory for items in
+        for (const item of cart) {
+            const qty = Number(item.quantity);
+
+            if (!Number.isFinite(qty) || qty <= 0) {
+                console.error("Invalid quantity for item:", item);
+                continue;  // or throw an error
+            }
+
+            await pool.query(
+                "UPDATE inventory " +
+                "SET stock_level = inventory.stock_level - $1 " +
+                "FROM menu_inventory " +
+                "WHERE menu_inventory.inventory_id = inventory.inventory_id " +
+                "AND menu_inventory.beverage_info_id = $2;",
+                [qty, item.beverageInfoId]
+            );
+
+            // cups
+            const cupId = cupInventoryIds[item.size] || cupInventoryIds['regular'];
+            await pool.query(
+                `UPDATE inventory SET stock_level = stock_level - $1 WHERE inventory_id = $2`,
+                [qty, cupId]
+            );
+
+            await pool.query(
+                "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+                "WHERE inventory_id = 21;",
+                [qty]
+            );
+
+            await pool.query (
+                "UPDATE inventory SET stock_level = inventory.stock_level - $1 " +
+                "WHERE inventory_id = 22;",
+                [qty]
+            );
+            if (item.topping) {
+                const toppingName = item.topping;
+
+                // get inventory_id for the topping
+                const result = await pool.query(
+                    `SELECT inventory_id 
+                    FROM inventory
+                    WHERE name = $1`,
+                    [toppingName]
+                );
+
+                if (result.rows.length > 0) {
+                    const toppingInvId = result.rows[0].inventory_id;
+
+                    // decrease topping stock
+                    await pool.query(
+                    `UPDATE inventory 
+                    SET stock_level = stock_level - $1 
+                    WHERE inventory_id = $2`,
+                    [qty, toppingInvId]
+                    );
+                } else {
+                    console.error("Topping not found in inventory table:", toppingName);
+                }
+            }
+        }
+
 
         for (const item of cart) {
             const unitPrice =
@@ -550,7 +675,7 @@ router.post('/cart/add', (req, res) => {
         lineTotal
     });
     console.log('CART NOW:', req.session.cart);
-    return res.redirect('/customer/customerHome');
+    return res.redirect('/customer/customerOrder');
 });
 
 // FUNCTIONS
@@ -616,5 +741,102 @@ router.post('/cart/remove', (req, res) => {
   req.session.cart.splice(index, 1);
   return res.redirect('/customer/orderSummary');
 });
+
+
+
+//customer Profile
+router.get('/customerProfile', async (req, res) => {
+        const user = req.session.user;
+    try {
+        // WEATHER API INFORMATION
+
+        const city = req.query.city || 'College Station';
+
+        const apiKey = process.env.OPENWEATHER_API_KEY;
+        console.log('OpenWeather key present:', !!apiKey);
+
+        const weatherResponse = await axios.get(
+            'https://api.openweathermap.org/data/2.5/weather',
+            {
+                params: {
+                    q: city,
+                    appid: apiKey,
+                    units: 'imperial',
+                },
+            }
+        );
+
+        const data = {
+            city: weatherResponse.data.name,
+            temp: weatherResponse.data.main.temp,
+            feelsLike: weatherResponse.data.main.feels_like,
+            description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
+        };
+        const past_orders =
+            (await pool.query(
+                `SELECT 
+                o.*,
+                COALESCE(
+                    json_agg(b.*) FILTER (WHERE b.beverage_id IS NOT NULL),
+                    '[]'
+                ) AS beverages
+                FROM "order" o 
+                LEFT JOIN beverage b 
+                ON o.order_id = b.order_id
+
+                WHERE customer_id = $1
+                GROUP BY o.order_id
+                ORDER BY o.order_id;`, 
+                [user.id]
+            )).rows;
+
+
+
+        res.render("customer/customerProfile", {
+            weather: data,
+            error: null,
+            user: user,
+            past_orders: past_orders
+        });
+
+    } catch (err) {
+        if (err.response) {
+            console.error('OpenWeather error:', err.response.status, err.response.data);
+        } else {
+            console.error('Unknown error:', err.message);
+        }
+
+        res.render('customer/customerProfile', {
+            weather: null,
+            error: 'Error fetching weather.',
+            user: user,
+            past_orders: past_orders
+        });
+    }
+});
+
+
+router.post('/updateName', async (req, res) => {
+    const user = req.session.user;
+    const { name } = req.body;
+    if (!user) {
+        return res.status(401).send('Not logged in');
+    }
+
+    if (!name || name.trim() === '') {
+        return res.status(400).send('Name cannot be empty.');
+    }
+
+    await pool.query(
+        'UPDATE customer SET first_name = $1 WHERE customer_id = $2',
+        [name.trim(), user.id]
+    );
+    req.session.user.name = name.trim();
+
+    res.redirect('/customer/customerProfile');
+});
+
+
 // Export router
 module.exports = router;

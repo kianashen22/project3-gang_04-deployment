@@ -1,0 +1,29 @@
+agenda: discuss progress, and small issues that need tasks created for them
+
+anna:
+done: SEARCH IS COMPLETE + translate simplified and updated!
+doing: UI updates (text enlarge button and some css)
+blocker: chinese project
+
+caiti:
+done:  most of employee interface, fix few small issues( admin login button vs managerhome)
+todo: employee tip & confirm page
+blockers: none
+
+emma:
+DONE: some of the edit item in cart functionality; 
+DOING: finishing edit in cart and other tasks; 
+BLOCKER: nothing
+
+kiana:
+done: voice recording, and css for the speech implementation 
+doing: implementing whisper api, fix drink page width 
+blocker: homework
+
+julian:
+done: interface for menu modification, interface for employee modification; 
+doing: color blind option; 
+blockers: homework from other classes
+
+
+All on track to hit internal deadline on Friday. discussed & assigned necessary tasks to be added to backlog to have full functionality by the deadline
