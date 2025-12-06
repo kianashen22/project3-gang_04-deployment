@@ -481,6 +481,7 @@ audio::-webkit-media-controls {
 }
 
 
+
 /*-----------   MENU BOARD ----------- */
 #menuContainer{
     display:flex;
@@ -502,6 +503,73 @@ audio::-webkit-media-controls {
     font-weight: bold; /* Optional: make it bolder */
 }
 
-.largeFont p {
+/* ---------------------------------------------------------
+   GLOBAL LARGE FONT MODE (single toggle)
+--------------------------------------------------------- */
+.large-font {
+    /* Slightly increase all normal text */
+    font-size: 2em;
+    line-height: 1.3;
+}
+
+/* Make common elements scale uniformly */
+.large-font button,
+.large-font input,
+.large-font select,
+.large-font textarea,
+.large-font label,
+.large-font p,
+.large-font h1,
+.large-font h2,
+.large-font h3 {
+    font-size: 1em; /* keeps scaling consistent */
+}
+
+/* Slightly larger spacing for form controls */
+.large-font input,
+.large-font select,
+.large-font textarea {
+    padding: 0.35rem;
+}
+
+#menuContainer .large-font {
+    font-size: 2em;
+}
+
+/* ---------------------------------------------------------
+   COMPONENT-LEVEL OVERRIDES
+--------------------------------------------------------- */
+.large-font .drinkTextContainer p {
+    font-size: 20px;
+}
+
+.large-font .drinkCategoryButton {
     font-size: 40px;
+}
+
+.large-font .optionDisplay,
+.large-font .weather-widget p,
+.large-font .translateButtonHomeStyling {
+    font-size: 18px;
+}
+
+/* Drink modifiers */
+.drinkMod {
+    transition: font-size 0.2s ease;
+}
+
+.large-font .drinkMod {
+    font-size: 1.25em;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+
+/* ---------------------------------------------------------
+   STABILITY + LAYOUT SAFETY
+--------------------------------------------------------- */
+.drinkTextContainer p {
+    margin: 0.5rem 0;
+    overflow-wrap: break-word;
 }

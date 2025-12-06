@@ -25,6 +25,9 @@
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!--    this is the end of google translate code-->
 
+<div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
+
+
   <h1>Modify: <%= drink.name %></h1>
   <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
 
@@ -52,7 +55,7 @@
     <h3>Size</h3>
     <div id="sizeGroup">
       <% ['small','medium','large'].forEach(function(size){ %>
-        <button type="button" data-size="<%= size %>"><%= size %></button>
+        <button class="drinkMod" type="button" data-size="<%= size %>"><%= size %></button>
       <% }) %>
     </div>
 
@@ -60,7 +63,7 @@
     <h3>Ice Level</h3>
     <div id="iceGroup">
       <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-        <button type="button" data-ice="<%= i %>"><%= i %></button>
+        <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
       <% }) %>
     </div>
 
@@ -68,7 +71,7 @@
     <h3>Sweetness</h3>
     <div id="sweetGroup">
       <% (sugarLevels && sugarLevels.length ? sugarLevels : ['0%','30%','50%','80%','100%','120%']).forEach(function(s){ %>
-        <button type="button" data-sweet="<%= s %>"><%= s %></button>
+        <button class="drinkMod" type="button" data-sweet="<%= s %>"><%= s %></button>
       <% }) %>
     </div>
 
@@ -76,7 +79,7 @@
     <h3>Topping (optional)</h3>
     <div id="toppingGroup">
       <% (toppings || []).forEach(function(t){ %>
-        <button type="button" data-topping="<%= t.topping_name || t.name %>">
+        <button class="drinkMod" type="button" data-topping="<%= t.topping_name || t.name %>">
           <%= t.topping_name || t.name %>
         </button>
       <% }) %>
@@ -86,14 +89,14 @@
     
 
     <br>
-    <button type="submit">Add to Cart</button>
+    <button class="drinkMod" type="submit">Add to Cart</button>
     <br><br>
     <a href="/customer/customerHome">Back</a>
 
   </form>
 
     <div class = "speechToTextContainer">
-        <img id = "assistantImg"src = "">
+        <img id = "assistantImg" src = "">
         <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
     </div>
 
@@ -184,6 +187,7 @@
       
     })();
   </script>
-   <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/customerHandler.js"></script>
+    <script src = "/js/toggleFont.js"></script>
 </body>
 </html>
