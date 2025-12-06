@@ -119,7 +119,7 @@ router.get('/customerHome', async (req, res) => {
             console.error('Unknown error:', err.message);
         }
 
-        res.render('customer/customerOrder', {
+        res.render('customer/customerHome', {
             weather: null,
             error: 'Error fetching weather.',
         });
@@ -187,7 +187,8 @@ router.get('/customerOrder', async (req, res) => {
             milky_drinks,
             all_drinks,
             filtered_drinks,
-            inventory
+            inventory,
+            user: req.session.user
         });
 
     } catch (err) {
@@ -200,6 +201,7 @@ router.get('/customerOrder', async (req, res) => {
         res.render('customer/customerOrder', {
             weather: null,
             error: 'Error fetching weather.',
+            user: req.session.user
         });
     }
 });
@@ -735,5 +737,87 @@ router.post('/cart/remove', (req, res) => {
   req.session.cart.splice(index, 1);
   return res.redirect('/customer/orderSummary');
 });
+
+
+
+//customer Profile
+router.get('/customerProfile', async (req, res) => {
+        const user = req.session.user;
+    try {
+        // WEATHER API INFORMATION
+
+        const city = req.query.city || 'College Station';
+
+        const apiKey = process.env.OPENWEATHER_API_KEY;
+        console.log('OpenWeather key present:', !!apiKey);
+
+        const weatherResponse = await axios.get(
+            'https://api.openweathermap.org/data/2.5/weather',
+            {
+                params: {
+                    q: city,
+                    appid: apiKey,
+                    units: 'imperial',
+                },
+            }
+        );
+
+        const data = {
+            city: weatherResponse.data.name,
+            temp: weatherResponse.data.main.temp,
+            feelsLike: weatherResponse.data.main.feels_like,
+            description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
+        };
+        const past_orders =
+            (await pool.query(`SELECT * FROM "order" WHERE customer_id = $1`, [user.id])).rows;
+
+
+
+        res.render("customer/customerProfile", {
+            weather: data,
+            error: null,
+            user: user,
+            past_orders: past_orders
+        });
+
+    } catch (err) {
+        if (err.response) {
+            console.error('OpenWeather error:', err.response.status, err.response.data);
+        } else {
+            console.error('Unknown error:', err.message);
+        }
+
+        res.render('customer/customerProfile', {
+            weather: null,
+            error: 'Error fetching weather.',
+            user: user,
+            past_orders: past_orders
+        });
+    }
+});
+
+
+router.post('/updateName', async (req, res) => {
+    const user = req.session.user;
+    const { name } = req.body;
+    if (!user) {
+        return res.status(401).send('Not logged in');
+    }
+
+    if (!name || name.trim() === '') {
+        return res.status(400).send('Name cannot be empty.');
+    }
+
+    await pool.query(
+        'UPDATE customer SET first_name = $1 WHERE customer_id = $2',
+        [name.trim(), user.id]
+    );
+    req.session.user.name = name.trim();
+
+    res.redirect('/customer/customerProfile');
+});
+
+
 // Export router
 module.exports = router;

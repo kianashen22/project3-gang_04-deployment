@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="/css/customerStyle.css">
+    <title>Customer Profile</title>
+</head>
+<body>
+    <div class = "customerNavBarContainer">
+   <div id = "left">
+        <div>
+            <a href = "./customerOrder">
+                <img src = "/img/skipBack.png">
+                Back</a>
+        </div>
+
+       <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+    </div>
+
+    <div id = "right">
+      <div class = "rightItem">
+          <!--    this is the start of google translate code-->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+              function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+              }
+          </script>
+          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <!--    this is the end of google translate code-->
+
+      </div>
+      <div class = "rightItem">
+         <%- include('../partials/weatherNav', { weather: weather }) %>
+      </div>
+
+    </div>
+</div>
+
+    <h1>Welcome, <%= user.name%>! </h1>
+    <!-- edit name -->
+    <div class="profile-section">
+        <h2>Edit Name</h2>
+        <form action="updateName" method="POST">
+            <input type="text" name="name" value="<%= user.name %>" required>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+    <!-- order history,  with order again option -->
+
+       <% if (past_orders.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% past_orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order.id %></td>
+                            <td><%= new Date(order.created_at).toLocaleString() %></td>
+                            <td>
+                                <ul>
+                                    <% order.items.forEach(item => { %>
+                                        <li><%= item.name %> x <%= item.quantity %></li>
+                                    <% }) %>
+                                </ul>
+                            </td>
+                            <td>$<%= order.total.toFixed(2) %></td>
+                            <td>
+                                <form action="/orderAgain" method="POST">
+                                    <input type="hidden" name="orderId" value="<%= order.id %>">
+                                    <button type="submit">Order Again</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No past orders found.</p>
+        <% } %>
+    </div>
+</body>
