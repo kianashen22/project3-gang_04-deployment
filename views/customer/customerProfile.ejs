@@ -50,7 +50,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Order ID</th>
+                        <!-- <th>Order ID</th> -->
                         <th>Date</th>
                         <th>Items</th>
                         <th>Total</th>
@@ -60,16 +60,24 @@
                 <tbody>
                     <% past_orders.forEach(order => { %>
                         <tr>
-                            <td><%= order.id %></td>
-                            <td><%= new Date(order.created_at).toLocaleString() %></td>
+                            <!-- <td><%= order.order_id %></td> -->
+                            <td><%= new Date(order.combine_date).toLocaleString() %></td>
+
+
+
                             <td>
-                                <ul>
-                                    <% order.items.forEach(item => { %>
-                                        <li><%= item.name %> x <%= item.quantity %></li>
-                                    <% }) %>
-                                </ul>
+                                <% if (order.beverages.length > 0) { %>
+                                    <ul>
+                                        <% order.beverages.forEach(bev => { %>
+                                            <li><%= bev.beverage_name %></li>
+                                        <% }) %>
+                                    </ul>
+                                <% } else { %>
+                                    <span>No items</span>
+                                <% } %>
                             </td>
-                            <td>$<%= order.total.toFixed(2) %></td>
+
+                            <td>$<%= order.total_price.toFixed(2) %></td>
                             <td>
                                 <form action="/orderAgain" method="POST">
                                     <input type="hidden" name="orderId" value="<%= order.id %>">
