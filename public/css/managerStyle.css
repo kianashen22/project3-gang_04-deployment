@@ -56,7 +56,7 @@ html, body {
     transform: scale(1.1, 1.1);
 }
 
-#google_translate_element {
+.managerNavBarContainer #google_translate_element {
     background: #FFFEF9;
     padding: 5px 10px;
     border-radius: 6px;
