@@ -155,7 +155,7 @@ app.get('/auth/google/callback', async (req, res) => {
         // saves user
         req.session.user = {
             email: result.rows[0].email,
-            name: result.rows[0].name,
+            name: result.rows[0].name ||result.rows[0].first_name,
             role: role
         };
         res.redirect(redirectUrl);    
