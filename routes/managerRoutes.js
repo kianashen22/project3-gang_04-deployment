@@ -359,7 +359,6 @@ app.get('/item', async (req, res) => {
  */
 
 //inventory
-
 router.get('/inventory/modifyInventory', (req, res) => {
     inventory = []
     pool
@@ -373,6 +372,14 @@ router.get('/inventory/modifyInventory', (req, res) => {
             res.render('manager/inventory/modifyInventory', data);
         });
     //display inventory
+});
+
+router.post('/inventory/updateStock', async(req, res) => {
+    const index = req.body.index;
+    console.log('restocking inventory... ');
+
+    await pool.query('UPDATE inventory SET stock_level = 100 WHERE inventory_id = $1;', [index]);
+    res.redirect(`/manager/inventory/modifyInventory`);
 });
 
 router.post('/inventory/addItem', async(req, res) => {
@@ -389,108 +396,6 @@ router.post('/inventory/deleteItem', async(req, res) => {
 
     await pool.query('DELETE FROM inventory WHERE inventory_id=$1', [id]);
     res.redirect(`/manager/inventory/modifyInventory`);
-});
-
-router.get('/inventory/inventoryHome', (req, res) => {
-    inventory = []
-    pool
-        .query('SELECT * FROM inventory;')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventory.push(query_res.rows[i]);
-            }
-            const data = {inventory: inventory};
-            console.log(inventory);
-            res.render('manager/inventory/inventoryHome', data);
-        });
-});
-
-router.get('/inventory/baseInventory', (req, res) => {
-  inventoryBase = []
-    pool
-        .query("SELECT * FROM inventory WHERE name IN ('Blended Ice', 'Creamer', 'Lemonade');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryBase.push(query_res.rows[i]);
-            }
-            const data = {inventory: inventoryBase};
-            console.log(inventoryBase);
-            res.render('manager/inventory/baseInventory', data);
-        })
-
-    // res.render('manager/inventory/baseInventory');
-});
-
-router.post('/updateBaseStock', async (req, res) => {
-    console.log('Updating base stock...');
-    await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (5, 6, 7);");
-    res.redirect('/manager/inventory/baseInventory');
-});
-
-router.get('/inventory/teaInventory', (req, res) => {
-  inventoryTea = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Green Tea', 'Oolong Tea', 'Black Tea', 'Coffee');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryTea.push(query_res.rows[i]);
-            }
-            const data = {inventoryTea: inventoryTea};
-            console.log(inventoryTea);
-            res.render('manager/inventory/teaInventory', data);
-        });
-});
-
-// update tea inventory stock
-router.post('/updateTeaStock', async (req, res) => {
-  console.log('Updating tea stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (1, 2, 3, 4);");
-  res.redirect('/manager/inventory/teaInventory');
-});
-
-
-router.get('/inventory/disposablesInventory', (req, res) => {
-  inventoryDisposables = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Small Cups', 'Regular Cups', 'Large Cups', 'Straws', 'Plastic Lid');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryDisposables.push(query_res.rows[i]);
-            }
-            const data = {inventoryDisposables: inventoryDisposables};
-            console.log(inventoryDisposables);
-            res.render('manager/inventory/disposablesInventory', data);
-        });
-});
-
-// update disposable inventory stock
-router.post('/updateDisposableStock', async (req, res) => {
-  console.log('Updating disposable stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (19, 20, 21, 22, 23);");
-  res.redirect('/manager/inventory/disposablesInventory');
-});
-
-router.get('/inventory/toppingsInventory', (req, res) => {
-  inventoryToppings = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name " +
-                "IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', " +
-                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream', 'Pudding');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryToppings.push(query_res.rows[i]);
-            }
-            const data = {inventoryToppings: inventoryToppings};
-            console.log(inventoryToppings);
-            res.render('manager/inventory/toppingsInventory', data);
-        });
-});
-
-// update toppings inventory stock
-router.post('/updateToppingsStock', async (req, res) => {
-  console.log('Updating toppings stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);");
-  res.redirect('/manager/inventory/toppingsInventory');
 });
 
 //employee modifications
