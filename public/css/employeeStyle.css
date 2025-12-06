@@ -51,7 +51,7 @@ h1 {
     transform: scale(1.1, 1.1);
 }
 
-#google_translate_element {
+.navBarContainer #google_translate_element {
     background: #FFFEF9;
     padding: 5px 10px;
     border-radius: 6px;
