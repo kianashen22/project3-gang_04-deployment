@@ -362,7 +362,7 @@ app.get('/item', async (req, res) => {
 router.get('/inventory/modifyInventory', (req, res) => {
     inventory = []
     pool
-        .query('SELECT * FROM inventory;')
+        .query('SELECT * FROM inventory ORDER BY inventory_id ASC;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventory.push(query_res.rows[i]);
