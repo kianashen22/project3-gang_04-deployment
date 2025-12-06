@@ -132,6 +132,8 @@ router.get('/analytics/xReport', async (req, res) => {
         'WHERE combine_date::date = CURRENT_DATE; '
         );
 
+        console.log(result.rows);
+        console.log(dailyTotal.rows[0].total_sales_today);
         res.render('manager/analytics/xReport', {
             hourly: result.rows,
             daily: dailyTotal.rows[0].total_sales_today
@@ -158,12 +160,12 @@ router.post('/generateXReport', async (req, res) => {
 router.get('/analytics/zReport', (req, res) => {
     zReportData = []
     pool
-        .query('SELECT * FROM daily_total;')
+        .query('SELECT * FROM daily_total ORDER BY last_z_report DESC LIMIT 1;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 zReportData.push(query_res.rows[i]);
             }
-            const data = {zReportData: zReportData};
+            const data = {zReportData: zReportData[0]};
             console.log(zReportData);
             res.render('manager/analytics/zReport', data);
         });
@@ -172,13 +174,27 @@ router.get('/analytics/zReport', (req, res) => {
 // generate new z-report data
 router.post('/generateZReport', async (req, res) => {
   console.log('Generating Z Report...');
-  await pool.query("WITH daily AS ( SELECT COALESCE(SUM(total_price), 0) AS daily_sales, " + 
-                    "COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax, COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) " +
-                    "= CURRENT_DATE THEN customer_id END), 0) AS new_customers, COALESCE(COUNT(order_id), 0) AS order_total, " +
-                    "COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total FROM \"order\" WHERE combine_date >= CURRENT_DATE "+
-                    "AND combine_date < CURRENT_DATE + INTERVAL '1 day' ) UPDATE daily_total SET daily_sales = daily.daily_sales, "+
-                    "daily_tax = daily.daily_tax, new_customers = daily.new_customers, order_total = daily.order_total, "+
-                    "customer_total = daily.customer_total FROM daily;");
+  await pool.query(`
+  UPDATE daily_total
+  SET 
+    daily_sales = daily.daily_sales,
+    daily_tax = daily.daily_tax,
+    new_customers = daily.new_customers,
+    order_total = daily.order_total,
+    customer_total = daily.customer_total,
+    last_z_report = NOW()
+  FROM (
+    SELECT 
+      COALESCE(SUM(total_price), 0) AS daily_sales,
+      COALESCE(SUM(total_price) * 0.08, 0) AS daily_tax,
+      COALESCE(COUNT(DISTINCT CASE WHEN DATE(combine_date) = CURRENT_DATE THEN customer_id END), 0) AS new_customers,
+      COALESCE(COUNT(order_id), 0) AS order_total,
+      COALESCE(COUNT(DISTINCT customer_id), 0) AS customer_total
+    FROM "order"
+    WHERE combine_date >= CURRENT_DATE
+      AND combine_date < CURRENT_DATE + INTERVAL '1 day'
+  ) AS daily;
+`);
   res.redirect('/manager/analytics/zReport');
 });
 

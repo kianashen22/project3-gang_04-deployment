@@ -172,7 +172,7 @@ html, body {
 
 /* inventory sub pages */
 .inventorySubPage {
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 
 .inventorySubPage #title{
@@ -276,6 +276,10 @@ html, body {
 }
 
 /* ordering trends */
+.orderingTrends{
+    padding-bottom: 20px;
+}
+
 .orderingTrends #title{
     padding: 45px 0 0 0;
 }
@@ -404,6 +408,10 @@ html, body {
 }
 
 /* x-report */
+.xReportPage {
+    padding-bottom: 20px;
+}
+
 .xReportPage #title {
     padding: 45px 0 0 0;
 }
@@ -827,4 +835,155 @@ html, body {
     min-height: 100vh;
     background: #faf8f3;   /* SAME color as the rest of the page */
     padding-bottom: 140px; /* ensures bottom never cuts off early */
+  }
+  .item-mod-page {
+    background: #faf8f3;
+    min-height: 100vh;
+    padding: 50px 0 120px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .item-mod-page .nav-link {
+    margin-left: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: black;
+  }
+  
+  /* TITLE */
+  .item-mod-page h1 {
+    text-align: center;
+    font-size: 46px;
+    margin: 30px 0;
+  }
+  
+  /* ITEM INFO */
+  .item-mod-page .item-info-card {
+    max-width: 600px;
+    margin: auto;
+    background: #f4fbf4;
+    padding: 24px 30px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    font-weight: 700;
+  }
+  
+  /* INGREDIENT LIST */
+  .item-mod-page .section-title {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 28px;
+  }
+  
+  .item-mod-page .ingredient-list {
+    max-width: 700px;
+    margin: 20px auto 50px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  
+  .item-mod-page .ingredient-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 14px 20px;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+  }
+  
+  .item-mod-page .ingredient-row:last-child {
+    border-bottom: none;
+  }
+  
+  /* FORM GRID */
+  .item-mod-page .item-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 900px;
+    margin: 60px auto;
+  }
+  
+  /* FORM CARD */
+  .item-mod-page .item-form-card {
+    background: #f4fbf4;
+    padding: 30px 34px;
+    border-radius: 16px;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+  }
+  
+  .item-mod-page .item-form-card h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+  
+  .item-mod-page .item-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .item-mod-page .item-form-card input,
+  .item-mod-page .item-form-card select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 15px;
+  }
+  
+  .item-mod-page .item-form-card input:focus,
+  .item-mod-page .item-form-card select:focus {
+    border-color: #6ba89b;
+  }
+  
+  /* BUTTONS */
+  .item-mod-page .primary-btn {
+    margin-top: 10px;
+    padding: 12px;
+    background: #6ba89b;
+    color: white;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .item-mod-page .primary-btn:hover {
+    background: #558f84;
+  }
+  
+  .item-mod-page .danger-btn {
+    margin-top: 10px;
+    padding: 12px;
+    background: #dc3545;
+    color: white;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .item-mod-page .danger-btn:hover {
+    background: #b02a37;
+  }
+  
+  /* DONE BUTTON */
+  .item-mod-page .done-btn {
+    display: block;
+    width: 180px;
+    margin: 80px auto 0;
+    text-align: center;
+    padding: 14px;
+    background: black;
+    color: white;
+    font-weight: 800;
+    border-radius: 12px;
+    text-decoration: none;
+  }
+  
+  .item-mod-page .done-btn:hover {
+    background: #333;
   }

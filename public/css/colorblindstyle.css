@@ -1,0 +1,88 @@
+body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  /* ALL NAVBARS */
+  .customerNavBarContainer,
+  #homeHeader,
+  #left,
+  .weatherWidgetNav,
+  .drinkNavBar {
+    background-color: #1F77B4 !important; /* Blue */
+  }
+  
+  /* NAV TEXT */
+  .customerNavBarContainer a,
+  .customerNavBarContainer p,
+  .weatherWidgetNav p,
+  #homeHeader h1,
+  #homeHeader a {
+    color: #ffffff !important;
+  }
+  
+  /* MAIN BUTTONS */
+  #orderNowButton,
+  .confirmPageButtons,
+  .speechButton,
+  .viewChoiceBar a {
+    background: #1F77B4 !important;
+    color: #ffffff !important;
+  }
+  
+  /* DRINK CARDS */
+  .drinkCard,
+  .container,
+  #thankYouCard,
+  .menu-item-box,
+  .employee-card,
+  .item-info-card,
+  .item-form-card {
+    background: #f2f2f2 !important;
+    border: 2px solid #cfcfcf !important;
+  }
+  
+  /* HOVER STATES */
+  .drinkCard:hover,
+  #orderNowButton:hover,
+  .confirmPageButtons:hover,
+  .speechButton:hover {
+    background: #155a8a !important;
+  }
+  
+  /* DANGER = ORANGE (NOT RED) */
+  .delete-btn,
+  .danger-btn,
+  .employee-delete-btn {
+    background: #FF9F1C !important;
+    color: #000 !important;
+  }
+  
+  /* DROPDOWNS */
+  .dropdown-content {
+    background: #ffffff !important;
+  }
+  
+  /* ALL TEXT HARD CONTRAST */
+  p, span, h1, h2, h3, h4, label {
+    color: #000 !important;
+  }
+  .translateButtonStyling {
+    background-color: #1F77B4 !important;  /* Accessible Blue */
+  }
+  button:hover {
+    background-color: #155A8A !important;  /* dark blue */
+    color: #fff !important;
+  }
+  
+  /* ALL selected (active) buttons */
+  button.active {
+    background-color: #1F77B4 !important; /* blue */
+    color: #fff !important;
+  }
+  
+  /* Drink card hover */
+  .drinkCard:hover,
+  .drinkCard:hover .drinkButton {
+    background-color: #E3EDF7 !important;
+  }

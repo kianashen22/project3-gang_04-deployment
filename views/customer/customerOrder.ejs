@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
    <link rel="stylesheet" href="/css/customerStyle.css">
+   <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
    <title>Customer Home</title>
 </head>
 <body>
@@ -38,6 +39,11 @@
           <!--    this is the end of google translate code-->
 
       </div>
+      <div class="rightItem">
+         <button id="colorblindToggle" class="toggleFont">
+           Colorblind Mode
+         </button>
+       </div>
       <div class = "rightItem">
          <%- include('../partials/weatherNav', { weather: weather }) %>
       </div>
@@ -208,6 +214,25 @@
     <script src = "/js/googleTranslateHandler.js"></script>
     <script src = "/js/selectHandler.js"></script>
     <script src = "/js/toggleFont.js"></script>
+    <script>
+      const cbToggle = document.getElementById("colorblindToggle");
+      const cbSheet = document.getElementById("colorblindStylesheet");
+    
+      // Load saved preference
+      if (localStorage.getItem("colorblind") === "on") {
+        cbSheet.disabled = false;
+      }
+    
+      // Toggle on click
+      cbToggle.addEventListener("click", () => {
+        cbSheet.disabled = !cbSheet.disabled;
+    
+        localStorage.setItem(
+          "colorblind",
+          cbSheet.disabled ? "off" : "on"
+        );
+      });
+    </script>
 </body>
 
 <!--
