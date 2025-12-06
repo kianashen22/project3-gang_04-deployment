@@ -3,10 +3,11 @@
 <head>
    <title>Order Summary</title>
    <link rel="stylesheet" href="/css/customerStyle.css">
+   <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 </head>
 <body>
   <%- include("../partials/customerNavBar") %>
-
+  
   <!--    this is the start of google translate code-->
   <div id="google_translate_element"></div>
   <script type="text/javascript">
@@ -72,5 +73,23 @@
  <% } %>
 
  <a class = "button" href="/customer/orderConfirmation">Check out</a>
- 
+ <script>
+  const cbToggle = document.getElementById("colorblindToggle");
+  const cbSheet = document.getElementById("colorblindStylesheet");
+
+  // Load saved preference
+  if (localStorage.getItem("colorblind") === "on") {
+    cbSheet.disabled = false;
+  }
+
+  // Toggle on click
+  cbToggle.addEventListener("click", () => {
+    cbSheet.disabled = !cbSheet.disabled;
+
+    localStorage.setItem(
+      "colorblind",
+      cbSheet.disabled ? "off" : "on"
+    );
+  });
+</script>
 </body>
