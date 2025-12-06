@@ -388,8 +388,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
 
         // combine_date is DATE, so use yyyy-mm-dd
         const combine_date = now.toISOString().slice(0, 10);
-
-        const customerId = 1; // or whatever real customer_id you use
+        const user = req.session.user
+        if (user && user.role == 'customer') {
+            customerId = user.id;
+        } else {
+            customerId = 1;   
+        }
 
         const orderResult = await pool.query(
             `
