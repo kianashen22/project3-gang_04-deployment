@@ -392,7 +392,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
         if (user && user.role == 'customer') {
             customerId = user.id;
         } else {
-            customerId = 1;   
+            customerId = -1;   
         }
 
         const orderResult = await pool.query(
