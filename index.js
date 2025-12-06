@@ -137,7 +137,7 @@ app.get('/auth/google/callback', async (req, res) => {
             redirectUrl = '/employee/employeeHome';
         } else {
             tableName = 'customer';
-            redirectUrl = '/customer/customerHome';
+            redirectUrl = '/customer/customerOrder';
         }
         console.log("Using table:", tableName);
         console.log("Redirecting to:", redirectUrl);
@@ -147,11 +147,14 @@ app.get('/auth/google/callback', async (req, res) => {
             `SELECT * FROM ${tableName} WHERE email = $1`,
             [user.email]
         );
-        //no manager found
-        if (result.rowCount === 0) {
-            return res.status(403).send('Access denied: not an authorized manager');
-        }
 
+        console.log("Database query result:", result);  
+        //no user found found
+        if (result.rowCount === 0) {
+            console.log("No user found with email:", user.email);  
+            return res.redirect('/'); // TODO: create a page that indicates that access was denied
+        }
+        console.log("session info:", result.rows[0].email, result.rows[0].name ||result.rows[0].first_name)
         // saves user
         req.session.user = {
             email: result.rows[0].email,
