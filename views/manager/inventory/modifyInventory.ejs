@@ -7,7 +7,7 @@
     <div class = "managerNavBarContainer">
         <div id = "left">
             <div>
-                <a href = "inventoryHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
+                <a href = "..\managerHome"> <img height = "55px" src="/img/skipBack.png">Back</a>
             </div>
             <div>
                 <a href = "/logout"> <img height = "55px" src="/img/logInOrOut.png">Logout</a>
@@ -39,6 +39,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Stock</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -47,7 +48,18 @@
                     <tr>
                         <td><%= item.inventory_id %></td>
                         <td><%= item.name %></td>
-                        <td><%= item.stock_level %></td>
+                        <!-- <td><%= item.stock_level %></td> -->
+                        <td>
+                            <div class="stockBar">
+                                <div class="stockFill" style="width: <%= item.stock_level %>%"></div>
+                            </div>
+                            <span class="stockText"><%= item.stock_level %> / 100</span>
+                        </td>
+                        <td><form action="/manager/inventory/updateStock" method="POST">
+                                <input type="hidden" name="index" value="<%= item.inventory_id %>">
+                                <button type="submit">Restock</button>
+                            </form>
+                        </td>
                     </tr>
                     <% }) %>
                 </tbody>
