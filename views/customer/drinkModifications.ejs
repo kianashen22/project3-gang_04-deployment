@@ -14,26 +14,30 @@
   </style> -->
 
 </head>
-<body>
+<body class="modifyOrder">
 
-<!--    this is the start of google translate code-->
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!--    this is the end of google translate code-->
+<div class="modNav">
+  <a href="/customer/customerHome" class="modBack">Back</a>
 
-<div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
-
+  <div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
 
 <div class="rightItem">
   <button id="colorblindToggle" class="toggleFont">
     Colorblind Mode
   </button>
 </div>
+
+  <!--    this is the start of google translate code-->
+  <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <!--    this is the end of google translate code-->
+</div>
+
   <h1>Modify: <%= drink.name %></h1>
   <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
 
@@ -61,7 +65,7 @@
     <h3>Size</h3>
     <div id="sizeGroup">
       <% ['small','regular','large'].forEach(function(size){ %>
-        <button type="button" data-size="<%= size %>"><%= size %></button>
+        <button class="drinkMod" type="button" data-size="<%= size %>"><%= size %></button>
       <% }) %>
     </div>
 
@@ -96,8 +100,7 @@
 
     <br>
     <button class="drinkMod" type="submit">Add to Cart</button>
-    <br><br>
-    <a href="/customer/customerHome">Back</a>
+    <br>
 
   </form>
 

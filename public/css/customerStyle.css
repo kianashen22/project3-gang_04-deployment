@@ -31,11 +31,14 @@ green header: #68A691
 @import "@fontsource/inria-sans";
 
 html, body {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
     overflow-x: hidden; 
     font-family: "Instrument Sans", sans-serif;
     background-color:  #FFFEF9;
+}
+
+body.modifyOrder {
+    margin: 20px;
 }
 
 /* ---- customerNavBar styling --- */
@@ -534,22 +537,21 @@ ol {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
-    max-height: 60vh;
     overflow-y: auto;
     width: 100%;
     padding: 10px;
 }
 
 .cartItem {
-    flex: 0 0 30%;
+    flex: 0 0 25%;
     display: flex;
     background: #dbf3df;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    align-items: left;
+    padding: 30px;
     border-bottom: 1px solid #ccc;
     border-radius: 10px;
 
@@ -568,9 +570,15 @@ ol {
     row-gap: 30px;
 }
 
+/*TODO*/
+
+
+
 .drinkMenuContainer{
     width: 500px;
 }
+
+
 
 .largeDot {
     font-size: 2em; /* Adjust as needed for desired size */
@@ -637,6 +645,43 @@ ol {
     padding: 0.6rem 1rem;
     border-radius: 8px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+body.modifyOrder h1 {
+    font-size: 2em;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modifyOrder button {
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+.modNav {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modBack {
+    font-size: 1em;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    background-color: #57a07f;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modBack:hover {
+    background-color: var(--moss);
 }
 
 #checkout {

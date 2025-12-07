@@ -36,6 +36,11 @@
  <% if (items.length === 0) { %>
    <p>No items in the cart.</p>
  <% } else { %>
+     <h3>Totals</h3>
+     <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
+     <div>Tax: $<%= tax.toFixed(2) %></div>
+     <div>Total: $<%= total.toFixed(2) %></div>
+         <br>
   <div class = "cartList">
    <ol>
              <% items.forEach(function(d, i) {
@@ -70,11 +75,6 @@
        <% }); %>
    </ol>
   </div>
-
-   <h3>Totals</h3>
-   <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
-   <div>Tax: $<%= tax.toFixed(2) %></div>
-   <div>Total: $<%= total.toFixed(2) %></div>
  <% } %>
 
  <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
