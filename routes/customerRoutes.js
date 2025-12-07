@@ -392,7 +392,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
         if (user && user.role == 'customer') {
             customerId = user.id;
         } else {
-            customerId = -1;   
+            customerId = 1;   
         }
 
         const orderResult = await pool.query(
@@ -555,10 +555,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
             description: weatherResponse.data.weather[0].description,
             main: weatherResponse.data.weather[0].main,
         };
+
         console.log('ICON SOURCE:', weatherResponse.data.weather[0].main);
         res.render('customer/orderConfirmation', {
             orderId,
-            total, weather:data
+            total, weather:data,
+            user
         });
     } catch (err) {
         next(err);

@@ -101,18 +101,55 @@ router.get('/analytics/salesReport', async (req, res) => {
     }
 });
 
-router.get('/analytics/productUsageChart', (req, res) => {
-    product_usage = []
-    pool
-        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                product_usage.push(query_res.rows[i]);
-            }
-            const data = {product_usage: product_usage};
-            console.log(product_usage);
-            res.render('manager/analytics/productUsageChart', data);
-        });
+router.get('/analytics/productUsageChart', async (req, res) => {
+      const { startDate2, endDate2 } = req.query;
+      // taking each order in that range
+      // determine what drink(s) were in that order
+      // determine what items are in that drink
+
+      let query = `
+        SELECT 
+          Y.name as item_name,
+          COALESCE(COUNT(DISTINCT B.beverage_id), 0) AS drink_count, 
+          COALESCE(SUM(I.qt), 0) AS quantity_per_drink, 
+          COALESCE((COUNT(DISTINCT B.beverage_id) * SUM(I.qt)), 0) AS total_quantity 
+        
+        FROM inventory Y 
+          LEFT JOIN menu_inventory I ON I.inventory_id = Y.inventory_id
+          LEFT JOIN beverage B ON B.beverage_info_id = I.beverage_info_id 
+          LEFT JOIN "order" O ON O.order_id = B.order_id  
+        `;
+      
+      const params = [];
+
+      if (startDate2 && endDate2) {
+        query += ` WHERE (O.combine_date::date BETWEEN $1 AND $2)`
+        params.push(startDate2, endDate2);
+      }
+
+      query +=' GROUP BY Y.name ORDER BY total_quantity DESC';
+
+      const result = await pool.query(query, params);
+      const product_usage = result.rows;
+
+
+      const allInventoryResult = await pool.query(`SELECT name FROM inventory ORDER BY name`);
+      const allInventory = allInventoryResult.rows.map(r => r.name);
+      
+      const usageMap = {};
+      product_usage.forEach(item => {
+        usageMap[item.item_name] = item.total_quantity || 0;
+      });
+      
+      // render to ejs
+      console.log(product_usage);
+      res.render('manager/analytics/ProductUsageChart', {
+        usageMap,
+        allInventory,
+        startDate2,
+        endDate2
+      });
+  
 });
 
 // xreport
@@ -362,7 +399,7 @@ app.get('/item', async (req, res) => {
 router.get('/inventory/modifyInventory', (req, res) => {
     inventory = []
     pool
-        .query('SELECT * FROM inventory;')
+        .query('SELECT * FROM inventory ORDER BY inventory_id ASC;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventory.push(query_res.rows[i]);

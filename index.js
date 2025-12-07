@@ -178,6 +178,11 @@ app.get('/logout', (req, res) => {
     });
 });
 
+app.get('/customerLogout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/customer/customerHome');
+    });
+});
 
 
 
