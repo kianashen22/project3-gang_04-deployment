@@ -34,8 +34,7 @@
     Colorblind Mode
   </button>
 </div>
-  <h1>Modify: <%= drink.name %></h1>
-  <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
+  <h1>Customize: <%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h1>
 
   <form method="POST" action="/customer/cart/add">
 

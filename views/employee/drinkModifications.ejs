@@ -49,7 +49,7 @@
 
   <form class = "modifyDrink" method="POST" action="/employee/cart/add">
 
-    <h1><%= drink.name %></h1>
+    <h1>Customize: <%= drink.name %></h1>
     <!-- Hidden values sent to server -->
     <input type="hidden" name="beverageInfoId" value="<%= drink.id ?? drink.beverage_info_id %>" />
     <input type="hidden" name="name" value="<%= drink.name %>" />
@@ -102,13 +102,13 @@
       <% }) %>
     </div>
 
-    <!-- Action -->
+    <!-- Action
     <h3>Action</h3>
     <div id="actionGroup">
       <% ['add','sub','remove'].forEach(function(a){ %>
         <button type="button" data-action="<%= a %>"><%= a %></button>
       <% }) %>
-    </div>
+    </div> -->
 
     <br>
     <button type="submit" class="button">Add to Cart</button>

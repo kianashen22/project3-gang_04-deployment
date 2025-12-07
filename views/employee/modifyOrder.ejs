@@ -41,8 +41,8 @@
         </div>
     </div>
 </div>
-    <h1>Modify Order Item: <%= drink.name %></h1>
-    <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
+    <h1>Modify: <%= drink.name %></h1>
+    <!-- <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p> -->
 
     <form class = "modifyDrink" action="/employee/updateCartItem" method="POST">
 
