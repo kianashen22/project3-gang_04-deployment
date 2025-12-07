@@ -555,10 +555,12 @@ router.get('/orderConfirmation',async (req, res , next) => {
             description: weatherResponse.data.weather[0].description,
             main: weatherResponse.data.weather[0].main,
         };
+
         console.log('ICON SOURCE:', weatherResponse.data.weather[0].main);
         res.render('customer/orderConfirmation', {
             orderId,
-            total, weather:data
+            total, weather:data,
+            user
         });
     } catch (err) {
         next(err);
