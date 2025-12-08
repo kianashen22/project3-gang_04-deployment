@@ -177,7 +177,7 @@ document.getElementById("milkTea").addEventListener("click", function(){
     dropdownContent.style.display = "flex";
 });
 
-
+// seasonal
 document.getElementById("seasonal").addEventListener("click", function(){
     // reset
     const allButtons = document.querySelectorAll(".drinkCategoryButton");
@@ -197,6 +197,29 @@ document.getElementById("seasonal").addEventListener("click", function(){
     seasonalBtn.style.color = "#68A691";
     const seasonalContainer = document.querySelector(".seasonalDropDown");
     const dropdownContent = seasonalContainer.querySelector(".dropdown-content");
+    dropdownContent.style.display = "flex";
+});
+
+// hot drinks
+document.getElementById("hot").addEventListener("click", function(){
+    // reset
+    const allButtons = document.querySelectorAll(".drinkCategoryButton");
+    allButtons.forEach(btn => {
+        btn.style.backgroundColor = "#CBDFCD";
+        btn.style.color = "black";
+    });
+
+    const allDropDownMenus = document.querySelectorAll(".dropdown-content");
+    allDropDownMenus.forEach(dropdown => {
+        dropdown.style.display = "none";
+    })
+
+    // style
+    const hotBtn = document.getElementById("hot");
+    hotBtn.style.backgroundColor = " #FFFEF9";
+    hotBtn.style.color = "#68A691";
+    const hotContainer = document.querySelector(".hotDropDown");
+    const dropdownContent = hotContainer.querySelector(".dropdown-content");
     dropdownContent.style.display = "flex";
 });
 
