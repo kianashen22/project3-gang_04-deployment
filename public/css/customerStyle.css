@@ -1501,7 +1501,7 @@ p.noOrders {
     flex-direction: column;
     gap: 30px;
     padding: 2%;
-    width: 45
+    width: 45;
     height: fit-content;
 }
 
