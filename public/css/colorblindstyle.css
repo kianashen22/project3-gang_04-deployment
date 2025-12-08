@@ -1,91 +1,180 @@
-body {
-    background: #ffffff !important;
+/* ================================
+   HIGH CONTRAST ACCESSIBLE OVERRIDES
+   Palette: Black (#000), White (#FFF), Blue (#005BBB)
+   This file overrides colors ONLY.
+================================ */
+
+/* Root variables replaced */
+:root {
+    --moss: #FFFFFF;
+    --med-green: #FFFFFF;
+    --rose: #FFFFFF;
+    --yellow: #FFFFFF;
+    --mauve: #000000;
+    --cream-white: #FFFFFF;
+    --green-header: #005BBB;
+    --light-green: #FFFFFF;
+    --button: #005BBB;
+    --button-selected: #003E80;
+}
+
+/* Global */
+html, body {
+    background-color: #FFFFFF !important;
     color: #000000 !important;
-  }
-  
-  /* ALL NAVBARS */
-  .customerNavBarContainer,
-  #homeHeader,
-  #left,
-  .weatherWidgetNav,
-  .drinkNavBar {
-    background-color: #1F77B4 !important; /* Blue */
-  }
-  
-  /* NAV TEXT */
-  .customerNavBarContainer a,
-  .customerNavBarContainer p,
-  .weatherWidgetNav p,
-  #homeHeader h1,
-  #homeHeader a {
-    color: #ffffff !important;
-  }
-  
-  /* MAIN BUTTONS */
-  #orderNowButton,
-  .confirmPageButtons,
-  .speechButton,
-  .viewChoiceBar a {
-    background: #1F77B4 !important;
-    color: #ffffff !important;
-  }
-  
-  /* DRINK CARDS */
-  .drinkCard,
-  .container,
-  #thankYouCard,
-  .menu-item-box,
-  .employee-card,
-  .item-info-card,
-  .item-form-card {
-    background: #f2f2f2 !important;
-    border: 2px solid #cfcfcf !important;
-  }
-  
-  /* HOVER STATES */
-  .drinkCard:hover,
-  #orderNowButton:hover,
-  .confirmPageButtons:hover,
-  .speechButton:hover {
-    background: #155a8a !important;
-  }
-  
-  /* DANGER = ORANGE (NOT RED) */
-  .delete-btn,
-  .danger-btn,
-  .employee-delete-btn {
-    background: #FF9F1C !important;
-    color: #000 !important;
-  }
-  
-  /* DROPDOWNS */
-  .dropdown-content {
-    background: #ffffff !important;
-  }
-  
-  /* ALL TEXT HARD CONTRAST */
-  p, span, h1, h2, h3, h4, label {
-    color: #000 !important;
-  }
-  .translateButtonStyling {
-    background-color: #1F77B4 !important;  /* Accessible Blue */
-  }
-  button:hover {
-    background-color: #155A8A !important;  /* dark blue */
-    color: #fff !important;
-  }
-  
-  /* ALL selected (active) buttons */
-  button.active {
-    background-color: #1F77B4 !important; /* blue */
-    color: #fff !important;
-  }
-  
-  /* Drink card hover */
-  .drinkCard:hover,
-  .drinkCard:hover .drinkButton {
-    background-color: #E3EDF7 !important;
-  }
+}
 
+#homeNavBarLeft, .customerNavBarContainer #left  {
+    background-color: #005BBB !important;
 
-  
+}
+h1 {
+  color: #005BBB !important;
+}
+
+.customerNavBarContainer h1, .drinkNavBar h1, .titleContainer h1 {
+  color: white !important;
+}
+
+/* Navigation bars */
+.customerNavBarContainer,
+#homeHeader,
+.drinkNavBar {
+    background-color: #005BBB !important;
+}
+
+.customerNavBarContainer a,
+#homeHeader a,
+#loginContainer a {
+    color: #FFFFFF !important;
+}
+
+#google_translate_element {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2) !important;
+}
+
+/* Buttons */
+button,
+.translateButtonStyling,
+.translateButtonHomeStyling,
+#orderNowButton,
+.viewChoiceBar a,
+.confirmPageButtons,
+.profile-section button,
+#searchDrinksButton,
+#startButton,
+#endButton,
+#confirmOrderButton,
+#cancelOrderButton,
+.speechButton {
+    background-color: #005BBB !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+button:hover,
+.translateButtonStyling:hover,
+.viewChoiceBar a:hover,
+.confirmPageButtons:hover,
+#orderNowButton:hover {
+    background-color: #003E80 !important;
+}
+
+/* Drink cards */
+.drinkCard,
+.container,
+#thankYouCard,
+.profile-section,
+table,
+.modifyDrink {
+    background-color: #FFFFFF !important;
+    border-color: #005BBB !important;
+}
+
+.drinkCard:hover {
+    background-color: #E6F0FF !important;
+}
+
+.drinkButton {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+/* Text in drink cards & menus */
+.drinkTextContainer p,
+.menu-section h2,
+.item,
+.note {
+    color: #005BBB !important;
+}
+
+/* Weather widget */
+.weatherWidgetNav p {
+    color: #000000 !important;
+}
+
+/* Cards, lists, table rows */
+.cartItem,
+tbody td {
+    background-color: #FFFFFF !important;
+    border-color: #005BBB !important;
+    color: #000000 !important;
+}
+
+/* Speech box */
+.speech-box,
+.messageStyling,
+.orderSpeechContainer {
+    background: #FFFFFF !important;
+    border: 2px solid #005BBB !important;
+}
+
+/* Form inputs */
+input, select, textarea {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1px solid #005BBB !important;
+}
+
+/* Modifiers */
+form button.active {
+    background-color: #003E80 !important;
+}
+
+/* Large-font mode should not affect colors */
+.large-font * {
+    color: inherit !important;
+}
+
+/* Links when not otherwise overridden */
+a {
+    color: #005BBB !important;
+}
+
+/* Logout & colorblind toggle */
+#logoutButton,
+#colorblindToggle {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    border: 2px solid #005BBB !important;
+}
+
+#logoutButton:hover,
+#colorblindToggle:hover {
+    background-color: #E6F0FF !important;
+}
+
+/* Dropdowns */
+.dropdown-content {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+/* Ingredient search */
+#ingredientSelect {
+    background-color: #FFFFFF !important;
+    border: 1px solid #005BBB !important;
+    color: #000000 !important;
+}
