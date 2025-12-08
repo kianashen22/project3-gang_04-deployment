@@ -294,6 +294,8 @@ app.get('/menu', async(req, res) => {
         let fruity_drinks = []
         let iceBlended_drinks = []
         let milky_drinks = []
+        let seasonal_drinks = []
+        let hot_drinks = []
         let all_drinks = []
         pool
             .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
@@ -317,17 +319,32 @@ app.get('/menu', async(req, res) => {
                 }
                 return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
             })
+            
 
             .then(query_res4 => {
                 for (let i = 0; i < query_res4.rowCount; i++){
                     milky_drinks.push(query_res4.rows[i]);
                 }
-                return pool.query('SELECT * FROM beverage_info')
+                return pool.query('SELECT * FROM beverage_info WHERE category = \'Seasonal\'')
             })
 
             .then(query_res5 => {
                 for (let i = 0; i < query_res5.rowCount; i++){
-                    all_drinks.push(query_res5.rows[i]);
+                    seasonal_drinks.push(query_res5.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info WHERE category = \'Hot\'')
+            })
+
+            .then(query_res6 => {
+                for (let i = 0; i < query_res6.rowCount; i++){
+                    hot_drinks.push(query_res6.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info')
+            })
+
+            .then(query_res7 => {
+                for (let i = 0; i < query_res7.rowCount; i++){
+                    all_drinks.push(query_res7.rows[i]);
                 }
                 res.render('menu', {
                 user: user,
@@ -337,6 +354,8 @@ app.get('/menu', async(req, res) => {
                 fruity_drinks,
                 iceBlended_drinks,
                 milky_drinks,
+                seasonal_drinks,
+                hot_drinks,
                 all_drinks
                 });
             });

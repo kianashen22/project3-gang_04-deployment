@@ -89,6 +89,16 @@
                     <% for (var i in iceBlended_drinks) {%>
                         <div class = "item"><span><%=iceBlended_drinks[i].name%></span> <span>$<%=iceBlended_drinks[i].price.toFixed(2)%></span></div>
                     <% } %>
+
+                <h3 class="subheading">SEASONAL</h3>
+                    <% for (var i in seasonal_drinks) {%>
+                        <div class = "item"><span><%=seasonal_drinks[i].name%></span> <span>$<%=seasonal_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+                <h3 class="subheading">HOT DRINKS</h3>
+                    <% for (var i in hot_drinks) {%>
+                        <div class = "item"><span><%=hot_drinks[i].name%></span> <span>$<%=hot_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
             </div>
 
 

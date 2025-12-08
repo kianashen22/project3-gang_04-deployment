@@ -144,7 +144,7 @@ button:hover {
 /* ---- drinkNavBar Styling ---- */
 .drinkNavBar{
     background-color:  #CBDFCD;
-    width: 100vw; 
+    width: 100vw;
     margin: 0;   
     padding: 0;
     position: relative;
@@ -162,6 +162,7 @@ button:hover {
     display: flex;
     justify-content: center;
     gap: 10px;
+    align-content: center;
 }
 
 .drinkCategoryButton{
@@ -171,22 +172,41 @@ button:hover {
     background: none;
     border: none;
     height: 80px;
-    width: 250px;
+    width: auto;
+    padding: 20px;
     border-radius: 10px 10px 0 0;
     cursor: pointer;
 }
 
-.dropdown-content{
-    flex-wrap: wrap;    
+.dropdown-content {
+    display: flex;          /* ADD THIS */
+    justify-content: center;/* Center horizontally */
+    align-items: center;    /* Center vertically if height allows */
+    flex-wrap: wrap;
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    width: 95vw;
     background-color: #FFFEF9;
-    margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
-    gap: 60px;   
+    margin-top: 100px;
+    margin-bottom: 200px;
+
+    left: 50%;
+    transform: translateX(-50%); /* CENTER THE WHOLE BOX */
+
+    gap: 40px;
     padding-bottom: 50px;
+    align-content: center;
 }
+
+.innerDrinksContainer {
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center; /* optional: center items inside */
+    padding: 20px;
+}
+
 
 .drinkCard {
     width: 200px; 
@@ -573,8 +593,16 @@ form button.active {
 
 .searchItemSection {
     display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.row {
+    display: flex;
     flex-direction: row;
     gap: 40px;
+    align-content: center;
+    justify-content: center;
 }
 
 .searchDropRow {
@@ -982,10 +1010,12 @@ input:checked + .slider:before {
 }
 
 #editButton {
-    padding-right: 20px;
-    padding-left: 30px;
-    padding-top: 27px;
-    width: 1%;
+    margin-right: 10px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: fit-content;
+    align-self: flex-end;
 }
 
 #editButton button {
@@ -1006,9 +1036,12 @@ input:checked + .slider:before {
 }
 
 #removeButton {
-    padding-right: 50px;
-    padding-top: 10px;
-    width: 1%;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: fit-content;
+    align-self: flex-end;
 }
 
 #removeButton button {
@@ -1070,7 +1103,7 @@ input:checked + .slider:before {
     max-width: 300px;
 }
 
-.profile-section button {
+.profile-section button, #searchDrinksButton {
     width: fit-content;
     padding: 10px 20px;
     align-self: center;
@@ -1334,3 +1367,213 @@ p.noOrders {
 #logoutButton:hover{
     transform: scale(1.1, 1.1);
 }
+
+
+/* ingredient search */
+.searchItemSection {
+    width: 100%;
+    max-width: 520px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--cream-white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+}
+
+/* Dropdown Section */
+.searchDropRow {
+    margin-bottom: 15px;
+}
+
+#ingredientSelect {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--moss);
+    border-radius: 12px;
+    font-size: 15px;
+    background: var(--light-green);
+    color: var(--mauve);
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+#ingredientSelect:hover {
+    background: var(--moss);
+}
+
+.optionDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: fit-content;
+}
+
+/* Button Section */
+.pillContent {
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+
+#searchDrinksButton:hover {
+    background: var(--button-selected);
+}
+
+/* customize */
+.modifyDrink {
+    display: flex;
+    padding: 0 50px;
+    flex-direction: column;
+    padding: 20px;
+    width: 60%;
+    align-self: center;
+    display: flex;
+    margin: 20px auto; /*center*/
+    background-color: var(--cream-white);
+    border: solid 2px var(--green-header);
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.modifyDrink button.button {
+    
+    font-size: large;
+    display: inline-block; 
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 10px;
+    margin: 15px 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modifyDrink h2 {
+    align-self: center;
+    font-size: x-large;
+    margin:0;
+}
+.modifyDrink h1 {
+    align-self: center;
+    font-size: xx-large;
+    margin:0;
+}
+
+.modifyDrink input {
+    background-color: var(--button);
+    border: 2px solid var(--button-selected);
+    border-radius: 20px;
+    padding: 3px 15px;
+    width: fit-content;
+    /* flex: 1; */
+
+}
+.modifyDrink button {
+    background-color: var(--button);   
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin: 2px;
+    flex: 1;
+
+}
+.modifyDrink button:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+.modifyDrink .submit {
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border-radius: 6px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.modifyDrink button.active {
+    background-color: var(--button-selected);   
+}
+
+
+/* order confitrmation (cart) */
+.orders {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 2%;
+    width: 45
+    height: fit-content;
+}
+
+
+.orderCard p, 
+.orderCard h1,
+.totals p, 
+.Price, 
+.Quantity {
+    margin: 2px 0;  /* small top/bottom margin */
+    line-height: 1.2; /* tighter line spacing */
+}
+.totals, .orderCard {
+    border-radius: 10px;
+    border: 1px solid var(--green-header);
+    background-color: var(--light-green);
+    padding: 10px;
+    
+    display: flex;
+    align-items: flex-start;
+    
+
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.totals {
+    padding: 2%;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
+    height: fit-content;
+    margin: 2.5%;
+
+    align-self: center;
+    justify-self: center;
+}
+
+.orderCard {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 30px 30px;
+}
+
+.orderCard a {
+    width: 20%;
+    padding: 1px;
+}
+
+
+.orderCard h1 {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+} 
+.Price, .subtotal {
+    color: var(--green-header);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.totalText {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+}
+
+
+.details, .Quantity {
+    font-size: 1em;
+    color: var(--green-header);
+}
+

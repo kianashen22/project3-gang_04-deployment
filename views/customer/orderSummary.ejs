@@ -60,7 +60,8 @@
 
 
   <h1>Order Summary</h1>
-
+   <!-- <div class = "row"> -->
+   
    <% 
    const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
    const calcSubtotal = items.reduce((s, d) => {
@@ -75,35 +76,41 @@
  %>
 
  <% if (items.length === 0) { %>
-   <div style="display: block; text-align: center;">
-       <p>No items in the cart.</p>
+    <div class = "orders">
+      <div class = "orderCard"><p>No items in the cart.</p></div>
    </div>
  <% } else { %>
-     <div style="text-align: center;">
-         <h3>Totals</h3>
-         <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
-         <div>Tax: $<%= tax.toFixed(2) %></div>
-         <div>Total: $<%= total.toFixed(2) %></div>
-     </div>
-  <div class = "cartList">
-   <ol>
+      <div class = "totals">
+         <p class = "totalText">Totals</p>
+         <p class = "subtotal">Subtotal: $<%= subtotal.toFixed(2) %></p>
+         <p class = "subtotal">Tax: $<%= tax.toFixed(2) %></p>
+         <p class = "totalText">Total: $<%= total.toFixed(2) %></p>
+      </div>
+  <div class = "orders">
+   <!-- <ol> -->
              <% items.forEach(function(d, i) {
                   const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
                   const qty = Number(d.quantity) || 1;
                   const line = unit * qty;
              %>
-       <div class = "cartItem">
-           <li>
-               <div><strong><%= d.name %></strong></div>
-               <div>Quantity: <%= qty %></div>
-               <div>Unit Price: $<%= unit.toFixed(2) %></div>
-               <% if (d.size) { %><div>Size: <%= d.size %></div><% } %>
-               <% if (d.iceLevel) { %><div>Ice: <%= d.iceLevel %></div><% } %>
-               <% if (d.sweetnessLevel) { %><div>Sweetness: <%= d.sweetnessLevel %></div><% } %>
-               <% if (d.topping) { %><div>Topping: <%= d.topping %></div><% } %>
-               <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
-               <div>Line Total: $<%= line.toFixed(2) %></div>
-           </li>
+      <div class = "orderCard">
+          <div class = "orderInfoCol">
+            <h1><%= d.name %></h1>
+            <p class = "Quantity">Quantity: <%= qty %></p>
+            <div class = "details">
+              <p>
+                <% if (d.size) { %><%= d.size %>, <% } %>
+                <% if (d.iceLevel) { %> <%= d.iceLevel %>, <% } %>
+                <% if (d.sweetnessLevel) { %> <%= d.sweetnessLevel %> Sweet, <% } %>
+                <!-- TODO: add all toppings -->
+                <% if (d.toppings && d.toppings.length > 0) { %>
+                  Toppings: <%= d.toppings.join(', ') %>
+                <% } %>
+              </p>
+            </div>
+            <p class = "Price "> $<%= line.toFixed(2) %></p>
+          </div>
+        
           <div id = "editButton">
             <form action="/customer/editItem" method="POST">
                 <input type="hidden" name="itemIndex" value="<%= i %>">
@@ -118,9 +125,10 @@
           </div>
        </div>
        <% }); %>
-   </ol>
+   <!-- </ol> -->
   </div>
  <% } %>
+<!-- </div> -->
 
   <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
 
