@@ -1491,6 +1491,14 @@ p.noOrders {
 
 
 /* order confitrmation (cart) */
+.orders {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 2%;
+    width: 45
+    height: fit-content;
+}
 
 
 .orderCard p, 
@@ -1527,9 +1535,9 @@ p.noOrders {
 
 .orderCard {
     flex-direction: row;
-    gap: 0px;
     justify-content: flex-start;
     align-items: center;
+    margin: 30px;
 }
 
 .orderCard a {
