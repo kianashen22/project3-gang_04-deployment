@@ -793,6 +793,10 @@ ol {
     padding: 0.35rem;
 }
 
+.orders.large-font {
+    font-size: 2em;
+}
+
 
 
 #menuContainer .large-font {
@@ -1504,7 +1508,6 @@ p.noOrders {
     width: 45
     height: fit-content;
 }
-
 
 .orderCard p, 
 .orderCard h1,
