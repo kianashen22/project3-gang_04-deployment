@@ -236,42 +236,7 @@ router.get('/menuAsst', async(req, res) => {
     }
 });
 
-// DB functions to retrieve DRINK MODIFICATIONS
-const db = {
-    async getDrink(id) {
-        const q = `
-      SELECT beverage_info_id, name, price, category
-      FROM beverage_info
-      WHERE beverage_info_id = $1
-    `;
-        const { rows } = await pool.query(q, [id]);
-        return rows[0] || null;
-    },
 
-    async getIceLevels() {
-        return ['no ice', 'light ice', 'regular', 'extra ice'];
-    },
-
-    async getSugarLevels() {
-        return ['0%', '30%', '50%', '80%', '100%', '120%'];
-    },
-
-    async getToppings() {
-        const q = `
-      SELECT beverage_topping_id, topping_name
-      FROM beverage_toppings
-      ORDER BY beverage_topping_id
-    `;
-        const { rows } = await pool.query(q);
-        return rows;
-    },
-};
-
-
-
-
-
- 
 
 
 
@@ -428,39 +393,49 @@ router.get('/modifyOrder', async (req, res) => {
 
 router.post('/updateCartItem', (req, res) => {
     const itemIndex = Number(req.body.itemIndex);
-    const newQuantity = Number(req.body.quantity);
-    const newSize = req.body.size;
-    const newTopping = req.body.topping;
-    const newIce = req.body.iceLevel;
-    const newSweetness = req.body.sweetnessLevel;
-    const cart = req.session.cart || [];
+  const newQuantity = Number(req.body.quantity);
+  const newSize = req.body.size;
+  const newIce = req.body.iceLevel;
+  const newSweetness = req.body.sweetnessLevel;
 
-    if (
-        Number.isInteger(itemIndex) &&
-        itemIndex >= 0 &&
-        itemIndex < cart.length &&
-        newQuantity > 0
-    ) {
-        const item = cart[itemIndex];
-        item.quantity = newQuantity;
-        item.size = newSize;
-        item.topping = newTopping;
-        item.iceLevel = newIce;
-        item.sweetnessLevel = newSweetness;
+  let newToppings = [];
+  try {
+    newToppings = req.body.toppings ? JSON.parse(req.body.toppings) : [];
+  } catch {
+    newToppings = [];
+  }
 
-        // Recalculate line total
-        const price = Number(item.price) || 0;
-        const toppingCharge = Number(item.toppingCharge || 0);
-        item.lineTotal = (price + toppingCharge) * newQuantity;
+  const cart = req.session.cart || [];
 
-        req.session.cart[itemIndex] = item;
+  if (
+    Number.isInteger(itemIndex) &&
+    itemIndex >= 0 &&
+    itemIndex < cart.length &&
+    newQuantity > 0
+  ) {
+    const item = cart[itemIndex];
 
-        req.session.save(() => {
-            res.redirect('/customer/orderSummary');
-        });
-    } else {
-        res.redirect('/customer/orderSummary');
-    }
+    item.quantity = newQuantity;
+    item.size = newSize;
+    item.iceLevel = newIce;
+    item.sweetnessLevel = newSweetness;
+
+    // ✅ MULTI TOPPING SUPPORT
+    item.toppings = newToppings;
+    item.toppingCharge = newToppings.length * 0.75;
+
+    // ✅ RECALCULATE TOTAL
+    const price = Number(item.price) || 0;
+    item.lineTotal = (price + item.toppingCharge) * newQuantity;
+
+    req.session.cart[itemIndex] = item;
+
+    req.session.save(() => {
+      res.redirect('/customer/orderSummary');
+    });
+  } else {
+    res.redirect('/customer/orderSummary');
+  }
 });
 
 // Order Summary Page
@@ -736,6 +711,57 @@ router.get('/orderConfirmation',async (req, res , next) => {
 
 
 
+// DB functions to retrieve DRINK MODIFICATIONS
+const db = {
+    async getDrink(id) {
+        const q = `
+      SELECT beverage_info_id, name, price
+      FROM beverage_info
+      WHERE beverage_info_id = $1
+    `;
+        const { rows } = await pool.query(q, [id]);
+        return rows[0] || null;
+    },
+
+    async getIceLevels() {
+        return ['no ice', 'light ice', 'regular', 'extra ice'];
+    },
+
+    async getSugarLevels() {
+        return ['0%', '30%', '50%', '80%', '100%', '120%'];
+    },
+
+    async getToppings() {
+        const q = `
+      SELECT beverage_topping_id, topping_name
+      FROM beverage_toppings
+      ORDER BY beverage_topping_id
+    `;
+        const { rows } = await pool.query(q);
+        return rows;
+    },
+
+    async getDefaultToppings(id){
+        const drinkId = id;
+        const defaultToppingQuery = `
+        SELECT defaultToppingTable.name
+        FROM(
+                SELECT menu_inventory.beverage_info_id, toppings.name
+                FROM toppings
+                INNER JOIN menu_inventory
+                ON toppings.inventory_id = menu_inventory.inventory_id
+        ) AS defaultToppingTable
+        WHERE defaultToppingTable.beverage_info_id = $1;
+        `;
+        const defaultTopping = await pool.query(defaultToppingQuery, [drinkId]);
+        if (defaultTopping.rows.length === 0){
+            return "";
+        }
+
+        return defaultTopping.rows[0].name;
+    }
+};
+
 router.get('/:id/customize', async (req, res, next) => {
     try {
 
@@ -788,12 +814,13 @@ router.get('/:id/customize', async (req, res, next) => {
             toppings.push(t);
         }
         // Provide sensible defaults so the template can preselect values
+        const defaultTopping = await db.getDefaultToppings(id);
         const defaults = {
             quantity: 1,
             size: 'small',
             iceLevel: 'regular',
             sugarLevel: '100%',
-            toppingIds: [], // none selected
+            defaultTopping, // none selected
             action: 'add',
         };
 

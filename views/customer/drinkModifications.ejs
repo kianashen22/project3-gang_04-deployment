@@ -77,8 +77,10 @@
     <input type="hidden" id="sizeField" name="size" value="<%= defaults.size %>" />
     <input type="hidden" id="iceField" name="iceLevel" value="<%= defaults.iceLevel %>" />
     <input type="hidden" id="sweetField" name="sweetnessLevel" value="<%= defaults.sugarLevel %>" />
-    <input type="hidden" id="toppingField" name="toppings" value="[]" />
+    <input type="hidden" id="toppingField" name="topping" value="<%= defaults.defaultTopping %>" />
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
+
+    <h2><%= defaults.defaultTopping %></h2>
 
     <!-- Quantity -->
     <h3 class="drinkMod" >Quantity</h3>
@@ -136,13 +138,7 @@
 
   </form>
 
-    <div class = "speechToTextContainer">
-        <img id = "assistantImg"src = "">
-        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
-    </div>
 
-
-  
 
 
 
@@ -203,6 +199,12 @@
 
     field.value = JSON.stringify(selectedToppings);
   });
+      buttons.forEach(btn => {
+        if (btn.dataset.topping === field.value && field.value !== '') {
+          btn.classList.add('active');
+        }
+      });
+
 })();
 
     // Action
