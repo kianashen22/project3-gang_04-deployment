@@ -178,17 +178,35 @@ button:hover {
     cursor: pointer;
 }
 
-.dropdown-content{
-    flex-wrap: wrap;    
+.dropdown-content {
+    display: flex;          /* ADD THIS */
+    justify-content: center;/* Center horizontally */
+    align-items: center;    /* Center vertically if height allows */
+    flex-wrap: wrap;
     position: absolute;
     top: 100%;
-    left: 0;
     width: 95vw;
     background-color: #FFFEF9;
-    margin: 100px 100px 200px 100px; /* Top Right Bottom Left */
+    margin-top: 100px;
+    margin-bottom: 200px;
+
+    left: 50%;
+    transform: translateX(-50%); /* CENTER THE WHOLE BOX */
+
     gap: 40px;
     padding-bottom: 50px;
+    align-content: center;
 }
+
+.innerDrinksContainer {
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center; /* optional: center items inside */
+    padding: 20px;
+}
+
 
 .drinkCard {
     width: 200px; 
