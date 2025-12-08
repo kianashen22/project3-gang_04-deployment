@@ -649,31 +649,25 @@ router.get('/orderConfirmation',async (req, res , next) => {
                 "WHERE inventory_id = 22;",
                 [qty]
             );
-            if (item.topping) {
-                const toppingName = item.topping;
-
-                // get inventory_id for the topping
-                const result = await pool.query(
-                    `SELECT inventory_id 
-                    FROM inventory
-                    WHERE name = $1`,
+            if (Array.isArray(item.toppings)) {
+                for (const toppingName of item.toppings) {
+                  const result = await pool.query(
+                    `SELECT inventory_id FROM inventory WHERE name = $1`,
                     [toppingName]
-                );
-
-                if (result.rows.length > 0) {
+                  );
+              
+                  if (result.rows.length > 0) {
                     const toppingInvId = result.rows[0].inventory_id;
-
-                    // decrease topping stock
+              
                     await pool.query(
-                    `UPDATE inventory 
-                    SET stock_level = stock_level - $1 
-                    WHERE inventory_id = $2`,
-                    [qty, toppingInvId]
+                      `UPDATE inventory 
+                       SET stock_level = stock_level - $1 
+                       WHERE inventory_id = $2`,
+                      [qty, toppingInvId]
                     );
-                } else {
-                    console.error("Topping not found in inventory table:", toppingName);
+                  }
                 }
-            }
+              }
         }
 
 
@@ -827,15 +821,16 @@ router.post('/cart/add', (req, res) => {
         size,
         iceLevel,
         sweetnessLevel,
-        topping,
-        action,
+        toppings,
         quantity
-    } = req.body;
+      } = req.body;
+      
+      const toppingList = toppings ? JSON.parse(toppings) : [];
 
 
     const qty = Math.max(1, Number(quantity) || 1);
     const basePrice = Number(price) || 0;
-    const toppingCharge = (action === 'add' && topping) ? 0.75 : 0;
+    const toppingCharge = toppingList.length * 0.75;
     const lineTotal = (basePrice + toppingCharge) * qty;
 
     req.session.cart.push({
@@ -844,7 +839,7 @@ router.post('/cart/add', (req, res) => {
         size,
         iceLevel,
         sweetnessLevel,
-        topping: topping || null,
+        toppings: toppingList,
         price: basePrice,
         toppingCharge,
         quantity: qty,
