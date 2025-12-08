@@ -156,7 +156,7 @@
       const group = document.getElementById('toppingGroup');
       const field = document.getElementById('toppingField');
       
-      const buttons = group.querySelectorAll('button[data-topping]');
+      let selectedToppings = [];
       
       // if (!group || !field) return;
       group.addEventListener('click', (e) => {
@@ -165,17 +165,17 @@
 
         const value = btn.dataset.topping;
 
-        // Toggle off if same topping clicked twice
-        if (field.value === value) {
-          // unselect
-          field.value = '';
-
+        if (selectedToppings.includes(value)) {
+          // REMOVE
+          selectedToppings = selectedToppings.filter(t => t !== value);
           btn.classList.remove('active');
         } else {
-          field.value = value;
-          buttons.forEach(b => b.classList.remove('active'));
+          // ADD
+          selectedToppings.push(value);
           btn.classList.add('active');
         }
+
+        field.value = JSON.stringify(selectedToppings);
       });
     })();
 
