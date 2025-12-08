@@ -218,43 +218,7 @@ router.get('/menuAsst', async(req, res) => {
     }
 });
 
-// DB functions to retrieve DRINK MODIFICATIONS
-const db = {
-    async getDrink(id) {
-        const q = `
-      SELECT beverage_info_id, name, price
-      FROM beverage_info
-      WHERE beverage_info_id = $1
-    `;
-        const { rows } = await pool.query(q, [id]);
-        return rows[0] || null;
-    },
-
-    async getIceLevels() {
-        return ['no ice', 'light ice', 'regular', 'extra ice'];
-    },
-
-    async getSugarLevels() {
-        return ['0%', '30%', '50%', '80%', '100%', '120%'];
-    },
-
-    async getToppings() {
-        const q = `
-      SELECT beverage_topping_id, topping_name
-      FROM beverage_toppings
-      ORDER BY beverage_topping_id
-    `;
-        const { rows } = await pool.query(q);
-        return rows;
-    },
-};
-
-
-
-
-
  
-
 
 
 router.get('/customerOrder', async (req, res) => {
@@ -716,6 +680,57 @@ router.get('/orderConfirmation',async (req, res , next) => {
 
 
 
+// DB functions to retrieve DRINK MODIFICATIONS
+const db = {
+    async getDrink(id) {
+        const q = `
+      SELECT beverage_info_id, name, price
+      FROM beverage_info
+      WHERE beverage_info_id = $1
+    `;
+        const { rows } = await pool.query(q, [id]);
+        return rows[0] || null;
+    },
+
+    async getIceLevels() {
+        return ['no ice', 'light ice', 'regular', 'extra ice'];
+    },
+
+    async getSugarLevels() {
+        return ['0%', '30%', '50%', '80%', '100%', '120%'];
+    },
+
+    async getToppings() {
+        const q = `
+      SELECT beverage_topping_id, topping_name
+      FROM beverage_toppings
+      ORDER BY beverage_topping_id
+    `;
+        const { rows } = await pool.query(q);
+        return rows;
+    },
+
+    async getDefaultToppings(id){
+        const drinkId = id;
+        const defaultToppingQuery = `
+        SELECT defaultToppingTable.name
+        FROM(
+                SELECT menu_inventory.beverage_info_id, toppings.name
+                FROM toppings
+                INNER JOIN menu_inventory
+                ON toppings.inventory_id = menu_inventory.inventory_id
+        ) AS defaultToppingTable
+        WHERE defaultToppingTable.beverage_info_id = $1;
+        `;
+        const defaultTopping = await pool.query(defaultToppingQuery, [drinkId]);
+        if (defaultTopping.rows.length === 0){
+            return "";
+        }
+
+        return defaultTopping.rows[0].name;
+    }
+};
+
 router.get('/:id/customize', async (req, res, next) => {
     try {
 
@@ -768,12 +783,13 @@ router.get('/:id/customize', async (req, res, next) => {
             toppings.push(t);
         }
         // Provide sensible defaults so the template can preselect values
+        const defaultTopping = await db.getDefaultToppings(id);
         const defaults = {
             quantity: 1,
             size: 'small',
             iceLevel: 'regular',
             sugarLevel: '100%',
-            toppingIds: [], // none selected
+            defaultTopping, // none selected
             action: 'add',
         };
 

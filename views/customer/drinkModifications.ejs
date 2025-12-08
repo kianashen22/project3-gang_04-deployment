@@ -78,7 +78,7 @@
     <input type="hidden" id="sizeField" name="size" value="<%= defaults.size %>" />
     <input type="hidden" id="iceField" name="iceLevel" value="<%= defaults.iceLevel %>" />
     <input type="hidden" id="sweetField" name="sweetnessLevel" value="<%= defaults.sugarLevel %>" />
-    <input type="hidden" id="toppingField" name="topping" value="" />
+    <input type="hidden" id="toppingField" name="topping" value="<%= defaults.defaultTopping %>" />
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
 
     <!-- Quantity -->
@@ -196,6 +196,12 @@
           btn.classList.add('active');
         }
       });
+      buttons.forEach(btn => {
+        if (btn.dataset.topping === field.value && field.value !== '') {
+          btn.classList.add('active');
+        }
+      });
+
     })();
 
     // Action
@@ -217,11 +223,11 @@
       });
 
       // preload default
-      buttons.forEach(btn => {
-        if (btn.dataset.action === field.value) {
-          btn.classList.add('active');
-        }
-      });
+      // buttons.forEach(btn => {
+      //   if (btn.dataset.action === field.value) {
+      //     btn.classList.add('active');
+      //   }
+      // });
       
     })();
   </script>
