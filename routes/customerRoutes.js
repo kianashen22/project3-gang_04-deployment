@@ -844,7 +844,6 @@ router.post('/updateName', async (req, res) => {
 router.post('/orderAgain', async (req, res) => {
     const orderId = req.body.orderId; 
     console.log("Order ID to reorder:", orderId);
-    const user = req.session.user;
     // get order by order id
     const prevOrderResult = await pool.query(
     `SELECT 
@@ -862,8 +861,8 @@ router.post('/orderAgain', async (req, res) => {
 
     // add that order to session cart
     prev_order.beverages.forEach(bev => {
-        console.log("LOGGING BEV!!!!!!!!!")
-        console.log(bev)
+        // console.log("LOGGING BEV!!!!!!!!!")
+        // console.log(bev)
         const basePrice = Number(bev.price ?? 0);
         const toppingCharge = bev.topping ? 0.75 : 0;
         const qty = Number(bev.quantity ?? 1);
