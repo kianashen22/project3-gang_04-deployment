@@ -34,6 +34,7 @@ green header: #68A691
 
 html, body {
     margin: 0px;
+    margin: 0px;
     overflow-x: hidden; 
     font-family: "Instrument Sans", sans-serif;
     background-color:  #FFFEF9;
@@ -75,6 +76,13 @@ button:hover {
 
 .customerNavBarContainer #left div a:hover{
     transform: scale(1.1, 1.1);
+}
+
+.customerNavBarContainer #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .customerNavBarContainer #google_translate_element {
@@ -242,6 +250,12 @@ button:hover {
     bottom: 50px;  
     transform: translateX(-50%);
     margin: 0;
+}
+.homeHeader #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 .homeHeader #google_translate_element {
     background: #FFFEF9;
@@ -503,8 +517,10 @@ form button.active {
 
 #thankYouCard{
     padding: 30px;
+    padding: 30px;
     background-color:#D1DFCB;
     display:flex;
+    text-align: center;
     text-align: center;
     flex-direction: column;
     justify-content: center;
@@ -617,6 +633,30 @@ ol {
 
     margin: 5px;
 }
+ol {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    width: 100%;
+    padding: 10px;
+}
+
+.cartItem {
+    flex: 0 0 25%;
+    display: flex;
+    background: #dbf3df;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: left;
+    padding: 30px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 10px;
+
+    margin: 5px;
+}
 
 
 /* ----------       MENU        ----------*/
@@ -684,6 +724,10 @@ ol {
     margin-bottom: 10px;
 }
 
+/*TODO*/
+
+
+
 .others-title {
     margin-top: 40px;
 }
@@ -716,6 +760,8 @@ ol {
 .large-font textarea {
     padding: 0.35rem;
 }
+
+
 
 #menuContainer .large-font {
     font-size: 2em;
@@ -808,6 +854,47 @@ input:checked + .slider:before {
 .large-font .drinkTextContainer p {
     font-size: 20px;
 }
+
+/* ---------------------------------------------------------
+   GLOBAL LARGE FONT MODE (single toggle)
+--------------------------------------------------------- */
+.large-font {
+    /* Slightly increase all normal text */
+    font-size: 2em;
+    line-height: 1.3;
+}
+
+/* Make common elements scale uniformly */
+.large-font button,
+.large-font input,
+.large-font select,
+.large-font textarea,
+.large-font label,
+.large-font p,
+.large-font h1,
+.large-font h2,
+.large-font h3 {
+    font-size: 1em; /* keeps scaling consistent */
+}
+
+/* Slightly larger spacing for form controls */
+.large-font input,
+.large-font select,
+.large-font textarea {
+    padding: 0.35rem;
+}
+
+#menuContainer .large-font {
+    font-size: 2em;
+}
+
+/* ---------------------------------------------------------
+   COMPONENT-LEVEL OVERRIDES
+--------------------------------------------------------- */
+.large-font .drinkTextContainer p {
+    font-size: 20px;
+}
+
 
 .large-font .drinkCategoryButton {
     font-size: 40px;
