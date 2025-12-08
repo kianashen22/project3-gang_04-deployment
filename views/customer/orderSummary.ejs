@@ -110,11 +110,12 @@
                 <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
             </form>
           </div>
-
+          <div id = "removeButton">
            <form method="POST" action="/customer/cart/remove">
                <input type="hidden" name="index" value="<%= i %>">
                <button type="submit">x</button>
            </form>
+          </div>
        </div>
        <% }); %>
    </ol>

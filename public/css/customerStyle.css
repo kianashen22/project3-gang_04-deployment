@@ -977,6 +977,49 @@ input:checked + .slider:before {
     background-color: var(--med-green);
 }
 
+#editButton {
+    padding-right: 20px;
+    padding-left: 30px;
+    padding-top: 27px;
+    width: 1%;
+}
+
+#editButton button {
+    background: transparent;
+    border: none;
+    padding: 5px, 0px, 5px, 0px;
+    margin: 0;
+}
+
+#editButton img {
+    width: 55px;
+    height: auto;
+    cursor: pointer;
+}
+
+#editButton img:hover {
+    transform: scale(1.1);
+}
+
+#removeButton {
+    padding-right: 50px;
+    padding-top: 10px;
+    width: 1%;
+}
+
+#removeButton button {
+    background: transparent;
+    border: none;
+    padding: 5px, 0px, 5px, 0px;
+    margin: 0;
+    font-size: 70px;
+    cursor: pointer;
+}
+
+#removeButton button:hover {
+    transform: scale(1.1);
+}
+
 /* ---------------------------------------------------------
    STABILITY + LAYOUT SAFETY
 --------------------------------------------------------- */
