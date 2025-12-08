@@ -55,7 +55,7 @@
       <input type="hidden" id="sizeField" name="size" value="<%= drink.size %>" />
       <input type="hidden" id="iceField" name="iceLevel" value="<%= drink.iceLevel %>" />
       <input type="hidden" id="sweetField" name="sweetnessLevel" value="<%= drink.sweetnessLevel %>" />
-      <input type="hidden" id="toppingField" name="topping" value="<%= drink.topping %>" />
+      <input type="hidden" id="toppingField" name="toppings" value="<%= JSON.stringify(drink.toppings || []) %>" />
 
       <!-- Quantity -->
       <h3>Quantity</h3>
@@ -142,39 +142,44 @@
       setupSingleSelect('sweetGroup', 'sweet', 'sweetField');
 
       // Single-select Topping
-      (function() {
-        const group = document.getElementById('toppingGroup');
-        const field = document.getElementById('toppingField');
-        
-        const buttons = group.querySelectorAll('button[data-topping]');
-       
-        // preload default user selection
-        buttons.forEach(btn => {
-          if (btn.dataset.topping === field.value) {
-            btn.classList.add('active');
-          }
-        });
+      (function () {
+  const group = document.getElementById('toppingGroup');
+  const field = document.getElementById('toppingField');
 
-        // if (!group || !field) return;
-        group.addEventListener('click', (e) => {
-          const btn = e.target.closest('button[data-topping]');
-          if (!btn) return;
+  let selectedToppings = [];
 
-          const value = btn.dataset.topping;
+  try {
+    selectedToppings = JSON.parse(field.value || '[]');
+  } catch {
+    selectedToppings = [];
+  }
 
-          // Toggle off if same topping clicked twice
-          if (field.value === value) {
-            // unselect
-            field.value = '';
+  const buttons = group.querySelectorAll('button[data-topping]');
 
-            btn.classList.remove('active');
-          } else {
-            field.value = value;
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-          }
-        });
-      })();
+  // ✅ PRESELECT EXISTING TOPPINGS
+  buttons.forEach(btn => {
+    if (selectedToppings.includes(btn.dataset.topping)) {
+      btn.classList.add('active');
+    }
+  });
+
+  group.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-topping]');
+    if (!btn) return;
+
+    const value = btn.dataset.topping;
+
+    if (selectedToppings.includes(value)) {
+      selectedToppings = selectedToppings.filter(t => t !== value);
+      btn.classList.remove('active');
+    } else {
+      selectedToppings.push(value);
+      btn.classList.add('active');
+    }
+
+    field.value = JSON.stringify(selectedToppings);
+  });
+})();
 
       // Action
       (function() {
