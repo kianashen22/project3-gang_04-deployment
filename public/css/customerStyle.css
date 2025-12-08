@@ -82,6 +82,11 @@ button:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+.left {
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+}
 
 #right {
     display: flex;
