@@ -77,7 +77,7 @@
     <input type="hidden" id="sizeField" name="size" value="<%= defaults.size %>" />
     <input type="hidden" id="iceField" name="iceLevel" value="<%= defaults.iceLevel %>" />
     <input type="hidden" id="sweetField" name="sweetnessLevel" value="<%= defaults.sugarLevel %>" />
-    <input type="hidden" id="toppingField" name="topping" value="" />
+    <input type="hidden" id="toppingField" name="toppings" value="[]" />
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
 
     <!-- Quantity -->
@@ -96,12 +96,17 @@
     </div>
 
     <!-- Ice Level -->
-    <h3>Ice Level</h3>
-    <div id="iceGroup">
-      <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-        <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
-      <% }) %>
-    </div>
+
+
+      <% if (drink.category != "Hot") { %>
+         <!-- Ice Level -->
+        <h3>Ice Level</h3>
+        <div id="iceGroup">
+          <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
+            <button type="button" data-ice="<%= i %>"><%= i %></button>
+          <% }) %>
+        </div>
+      <% } %>
 
     <!-- Sweetness -->
     <h3>Sweetness</h3>
@@ -173,32 +178,31 @@
     setupSingleSelect('sweetGroup', 'sweet', 'sweetField');
 
     // Single-select Topping
-    (function() {
-      const group = document.getElementById('toppingGroup');
-      const field = document.getElementById('toppingField');
-      
-      const buttons = group.querySelectorAll('button[data-topping]');
-      
-      // if (!group || !field) return;
-      group.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-topping]');
-        if (!btn) return;
+    (function () {
+  const group = document.getElementById('toppingGroup');
+  const field = document.getElementById('toppingField');
 
-        const value = btn.dataset.topping;
+  let selectedToppings = [];
 
-        // Toggle off if same topping clicked twice
-        if (field.value === value) {
-          // unselect
-          field.value = '';
+  group.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-topping]');
+    if (!btn) return;
 
-          btn.classList.remove('active');
-        } else {
-          field.value = value;
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-        }
-      });
-    })();
+    const value = btn.dataset.topping;
+
+    if (selectedToppings.includes(value)) {
+      // REMOVE
+      selectedToppings = selectedToppings.filter(t => t !== value);
+      btn.classList.remove('active');
+    } else {
+      // ADD
+      selectedToppings.push(value);
+      btn.classList.add('active');
+    }
+
+    field.value = JSON.stringify(selectedToppings);
+  });
+})();
 
     // Action
     (function() {

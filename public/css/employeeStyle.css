@@ -209,6 +209,30 @@ h1 {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* .orderCard #quantityButtons {
+    display: flex;
+}
+
+.orderCard #actualButtons {
+    text-decoration: none;
+    padding-left: 20px;
+    padding-right: 10px;
+    display: flex;
+}
+
+.orderCard #actualButtons button{
+    text-decoration: none;
+    border: 2px solid #68A691;
+    border-radius: 5px;
+    color: #68A691;
+    background-color: var(--light-green);
+    cursor: pointer;
+}
+
+.orderCard #actualButtons button:hover{
+    transform: scale(1.1);
+} */
+
 .orderConfirmationContainer {
     display: flex;
     flex-direction: column;
