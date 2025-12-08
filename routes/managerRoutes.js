@@ -320,7 +320,7 @@ router.post('/updateMenuItem', async(req, res) => {
 });
 
 // page for editing menu item
-router.get('/itemModification', async(req,res) => {
+router.get('/itemModification', async(req, res) => {
     const id = req.query.id;
 
     try {
@@ -340,10 +340,24 @@ router.get('/itemModification', async(req,res) => {
                 '  ON inv.inventory_id = mi.inventory_id\n' +
                 'WHERE bi.beverage_info_id = $1;\n;', [id]);
 
+        const item_ingredients_res = await pool.query('SELECT *\n' +
+            '            FROM inventory\n' +
+            '        WHERE inventory_id IN (\n' +
+            '            SELECT inventory_id\n' +
+            '        FROM menu_inventory\n' +
+            '        WHERE beverage_info_id = $1\n' +
+            '    );', [id]);
+
+
+        const inventory_res = await pool.query('SELECT * FROM inventory;');
+
         const bev_items = bev_items_res.rows;
         console.log('BEV ITEMS', bev_items);
 
-        res.render('manager/itemModification', {item, bev_items});
+        const inventory = inventory_res.rows;
+        const item_ingredients = item_ingredients_res.rows;
+
+        res.render('manager/itemModification', {item, bev_items, inventory, item_ingredients});
         // res.render('manager/itemModification', { item, bev }); // EJS or another template
     } catch (err) {
         console.error(err);
