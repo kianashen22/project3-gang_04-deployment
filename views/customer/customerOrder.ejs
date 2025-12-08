@@ -6,38 +6,47 @@
 </head>
 <body>
           
+<!---------- NAV BAR --------->
 <div class = "customerNavBarContainer">
    <div id = "left">
-        <div>
-            <a href = "customerHome">
-                <img src = "/img/skipBack.png">
-                Back</a>
-        </div>
-        <div>
+      
+      <div>   
+         <a href = "customerHome">
+             <img src = "/img/skipBack.png"> Back</a>
+      </div>
+      <div>
             <% if (user) { %>
-               <a href="customerProfile">Profile</a>
+               <a href="customerProfile"><img src = "/img/profile.png"> </a>
             <% } %>
-        </div>
-        <div>
-            <a href = "orderSummary" >
-                <img src = "/img/shoppingCart.png">
-                Cart</a>
-        </div>
+      </div>
+      <div>
+         <a href = "orderSummary" >
+            <img src = "/img/shoppingCart.png">Cart</a>
+      </div>
 
-       <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+      <label class="switch">
+         <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
+         <span class="slider round">
+            <span class="small-a">A</span>
+            <span class="big-a">A</span>
+         </span>
+      </label>
     </div>
 
     <div id = "right">
       <div class = "rightItem">
-          <!--    this is the start of google translate code-->
-          <div id="google_translate_element"></div>
-          <script type="text/javascript">
-              function googleTranslateElementInit() {
-                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-              }
-          </script>
-          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-          <!--    this is the end of google translate code-->
+               <!--    this is the start of google translate code-->
+               <button id = "translateButton" class = "translateButtonStyling">
+                  <img src = "/img/globe.png">
+               </button>
+               <div id="google_translate_element" style="display: none;"></div>
+               <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                  }
+               </script>
+               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+               <!--    this is the end of google translate code-->
 
       </div>
       <div class="rightItem">
@@ -46,11 +55,21 @@
          </button>
        </div>
       <div class = "rightItem">
-         <%- include('../partials/weatherNav', { weather: weather }) %>
+             <% if (user) { %>
+ 
+                  <form action = "/customerLogout" method = "POST">
+                     <button id="logoutButton" type = "submit">Logout</button>
+                  </form>
+            <% } 
+            else { %>
+               <%- include('../partials/weatherNav', { weather: weather }) %>
+            <% } %>
+
       </div>
 
     </div>
 </div>
+<!---------- NAV BAR  END--------->
 
    <div class = "drinkNavBar">
       <div id = "titleContainer">
@@ -212,6 +231,13 @@
                 </div>
             </div>
          </div>
+
+
+
+         <div id = "drinkModificationsContainer">
+
+         </div>
+                  
 
       </div>
    </div>

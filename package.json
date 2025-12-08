@@ -2,6 +2,7 @@
   "dependencies": {
     "@fontsource-variable/instrument-sans": "^5.2.8",
     "@fontsource/inria-sans": "^5.2.8",
+    "@openai/agents": "^0.3.4",
     "axios": "^1.13.2",
     "axois": "^0.0.1-security",
     "dotenv": "^17.2.3",
@@ -10,8 +11,10 @@
     "express-session": "^1.18.2",
     "expresss": "^0.0.0",
     "google-auth-library": "^10.5.0",
+    "multer": "^2.0.2",
     "oauth": "^0.10.2",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "zod": "^4.1.13"
   },
   "name": "project3-gang04",
   "version": "1.0.0",

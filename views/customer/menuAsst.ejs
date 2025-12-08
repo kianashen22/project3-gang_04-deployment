@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Menu</title>
-    <link rel="stylesheet" href= "/css/customer.css"/>
+    <title>Menu with Assistant</title>
+    <link rel="stylesheet" href="/css/customerStyle.css">
 </head>
-
 <body>
 
-  <!---------- NAV BAR --------->
-    <div id = "homeHeader">
-      <div id = "homeNavBarLeft">
-          <div>
-            <a href = "/index"><img src = "/img/home.png">Home</a>
-          </div>
-          <div>
-            <label class="switch">
-              <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
-              <span class="slider round">
-                  <span class="small-a">A</span>
-                  <span class="big-a">A</span>
-              </span>
-            </label>
-          </div>
 
+<div id = "homeHeader">
+      <div>   
+         <a href = "customerHome">
+             <img src = "/img/skipBack.png"> Back</a>
       </div>
-            
-        <h1>Menu</h1>
+
+    <h1><u>Menu</u></h1>
+
     <div id = "right">
       <div class = "rightItem">
                <!--    this is the start of google translate code-->
@@ -46,22 +31,19 @@
 
       </div>
       <div class="rightItem">
-         <button id="colorblindToggle" class="toggleFont">
-           Colorblind Mode
-         </button>
-       </div>
+        <button id="colorblindToggle" class="toggleFont">
+          Colorblind Mode
+        </button>
+      </div>
       <div class = "rightItem">
-         <%- include('partials/weatherNav', { weather: weather }) %>
+        <%- include('../partials/weatherNav', { weather: weather }) %>
       </div>
 
     </div>
-    </div>
 
-  <!---------- NAV BAR  END--------->
+<div id = "menuAndSpeechContainer">
 
-
-
-    <div class="menu-container">
+ <div class="menu-container">
 
         <div class="menu-grid">
 
@@ -116,7 +98,52 @@
             </div>
 
         </div>
+
+    <div class = "orderSpeechContainer">
+        <div id = "chatBox">
+            <div id = "getStartedMessage" class = "messageStyling" >
+                <p>
+                    Great! To place an order, just press the "start recording"
+                    button, say your order, and then press "stop recording". I will then 
+                    show you your order, and all you have to do is confirm it!
+                </p>
+                <button id="startButton">Start Recording</button>
+                <button id="endButton" disabled>Stop Recording</button>
+                <div id = "loadingContainer">Loading...<img id = "loadingBoba" src = "/img/loadingBoba.gif"></div>
+
+                <audio id="audioPlayback" controls></audio>
+            </div>
+            
+            <div id="orderConfirmationBox"  class = "messageStyling" margin-top: 20px;">
+                <h2>Order Confirmation</h2>
+                
+                <div id="parsedOrderDetails" style="margin-bottom: 10px;">
+                </div>
+                
+                <div id="orderSummary">
+                </div>
+                
+                <button id="confirmOrderButton">Confirm Order</button>
+                <button id="cancelOrderButton">Cancel</button>
+            </div>
+            <img id="assistantImgMenu" src="">
+            
+        </div>
+
     </div>
+
+</div>
+
+
+    <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/googleTranslateHandler.js"></script> 
+    <script src = "/js/voiceAgentHandler.js"></script>
+
+    <footer>
+        <div class = "footer">
+
+        </div>
+    </footer>
     <script src = "/js/customerHandler.js"></script>
     <script src = "/js/googleTranslateHandler.js"></script>
     <script src = "/js/selectHandler.js"></script>
@@ -140,4 +167,7 @@
         );
       });
     </script>
-</html>
+
+
+
+</body>

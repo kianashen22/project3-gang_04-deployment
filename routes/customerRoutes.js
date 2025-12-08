@@ -126,6 +126,136 @@ router.get('/customerHome', async (req, res) => {
     }
 });
 
+router.get('/menuAsst', async(req, res) => {
+
+    try {
+        // WEATHER API INFORMATION
+
+        const city = req.query.city || 'College Station';
+
+        const apiKey = process.env.OPENWEATHER_API_KEY;
+        console.log('OpenWeather key present:', !!apiKey);
+
+        const weatherResponse = await axios.get(
+        'https://api.openweathermap.org/data/2.5/weather',
+        {
+            params: {
+            q: city,
+            appid: apiKey,
+            units: 'imperial',
+            },
+        }
+        );
+
+        const data = {
+        city: weatherResponse.data.name,
+        temp: weatherResponse.data.main.temp,
+        feelsLike: weatherResponse.data.main.feels_like,
+        description: weatherResponse.data.weather[0].description,
+        };
+
+        // LOADING DRINKS ON THE PAGE INFORMATION
+        let freshBrew_drinks = []
+        let fruity_drinks = []
+        let iceBlended_drinks = []
+        let milky_drinks = []
+        let all_drinks = []
+        pool
+            .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
+            .then(query_res1 => {
+                for (let i = 0; i < query_res1.rowCount; i++){
+                    freshBrew_drinks.push(query_res1.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
+            })
+
+            .then(query_res2 => {
+                for (let i = 0; i < query_res2.rowCount; i++){
+                    fruity_drinks.push(query_res2.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
+            })
+
+            .then(query_res3 => {
+                for (let i = 0; i < query_res3.rowCount; i++){
+                iceBlended_drinks.push(query_res3.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
+            })
+
+            .then(query_res4 => {
+                for (let i = 0; i < query_res4.rowCount; i++){
+                    milky_drinks.push(query_res4.rows[i]);
+                }
+                return pool.query('SELECT * FROM beverage_info')
+            })
+
+            .then(query_res5 => {
+                for (let i = 0; i < query_res5.rowCount; i++){
+                    all_drinks.push(query_res5.rows[i]);
+                }
+                res.render('customer/menuAsst', {
+                weather: data, 
+                error: null ,
+                freshBrew_drinks,
+                fruity_drinks,
+                iceBlended_drinks,
+                milky_drinks,
+                all_drinks
+                });
+            });
+    } catch (err) {
+        if (err.response) {
+        console.error('OpenWeather error:', err.response.status, err.response.data);
+        } else {
+        console.error('Unknown error:', err.message);
+        }
+
+        res.render('customer/menuAsst', {
+        weather: null,
+        error: 'Error fetching weather.',
+        });
+    }
+});
+
+// DB functions to retrieve DRINK MODIFICATIONS
+const db = {
+    async getDrink(id) {
+        const q = `
+      SELECT beverage_info_id, name, price
+      FROM beverage_info
+      WHERE beverage_info_id = $1
+    `;
+        const { rows } = await pool.query(q, [id]);
+        return rows[0] || null;
+    },
+
+    async getIceLevels() {
+        return ['no ice', 'light ice', 'regular', 'extra ice'];
+    },
+
+    async getSugarLevels() {
+        return ['0%', '30%', '50%', '80%', '100%', '120%'];
+    },
+
+    async getToppings() {
+        const q = `
+      SELECT beverage_topping_id, topping_name
+      FROM beverage_toppings
+      ORDER BY beverage_topping_id
+    `;
+        const { rows } = await pool.query(q);
+        return rows;
+    },
+};
+
+
+
+
+
+ 
+
+
 
 router.get('/customerOrder', async (req, res) => {
     try {
@@ -177,7 +307,7 @@ router.get('/customerOrder', async (req, res) => {
 
         const inventory =
             (await pool.query("SELECT * FROM inventory")).rows;
-
+        
         res.render("customer/customerOrder", {
             weather: data,
             error: null,
@@ -188,7 +318,7 @@ router.get('/customerOrder', async (req, res) => {
             all_drinks,
             filtered_drinks,
             inventory,
-            user: req.session.user
+            user: req.session.user,
         });
 
     } catch (err) {
@@ -205,6 +335,7 @@ router.get('/customerOrder', async (req, res) => {
         });
     }
 });
+
 
 
 
@@ -230,6 +361,7 @@ router.get('/modifyOrder', async (req, res) => {
   try {
     const itemIndex = Number(req.query.index);
     const cart = req.session.cart || [];
+
 
     if (itemIndex < 0 || itemIndex >= cart.length) {
       return res.redirect('/customer/orderSummary');
@@ -351,10 +483,25 @@ router.get('/orderConfirmation',async (req, res , next) => {
         console.log("ORDER CONFIRMATION CUSTOMER ROUTER LOADED");
         const cart = req.session.cart || [];
 
+        // bool to check if order confirmation page should be populated
+        let displayOrderSessionCheck = true;
+        let displayOrderIDCheck = true;
+
         // if cart is empty, don't create a blank order
         if (cart.length === 0) {
+            displayOrderSessionCheck = false;
+        }
+
+        // voice agent did not make an order
+        const orderIDCheck = req.query.orderId;
+        if (!orderIDCheck) {
+            displayOrderIDCheck = false;
+        }
+
+        if (!displayOrderIDCheck && !displayOrderSessionCheck){
             return res.redirect('/customer/orderSummary');
         }
+
 
         // --- compute totals (same logic as orderSummary) ---
         const subtotal = cart.reduce(
@@ -566,37 +713,37 @@ router.get('/orderConfirmation',async (req, res , next) => {
         next(err);
     }
 });
-const db = {
-    async getDrink(id) {
-        const q = `
-      SELECT beverage_info_id, name, price
-      FROM beverage_info
-      WHERE beverage_info_id = $1
-    `;
-        const { rows } = await pool.query(q, [id]);
-        return rows[0] || null;
-    },
 
-    async getIceLevels() {
-        return ['no ice', 'light ice', 'regular', 'extra ice'];
-    },
 
-    async getSugarLevels() {
-        return ['0%', '30%', '50%', '80%', '100%', '120%'];
-    },
 
-    async getToppings() {
-        const q = `
-      SELECT beverage_topping_id, topping_name
-      FROM beverage_toppings
-      ORDER BY beverage_topping_id
-    `;
-        const { rows } = await pool.query(q);
-        return rows;
-    },
-};
 router.get('/:id/customize', async (req, res, next) => {
     try {
+
+        // WEATHER API INFORMATION
+        const city = req.query.city || 'College Station';
+
+        const apiKey = process.env.OPENWEATHER_API_KEY;
+        console.log('OpenWeather key present:', !!apiKey);
+
+        const weatherResponse = await axios.get(
+            'https://api.openweathermap.org/data/2.5/weather',
+            {
+                params: {
+                    q: city,
+                    appid: apiKey,
+                    units: 'imperial',
+                },
+            }
+        );
+
+        const data = {
+            city: weatherResponse.data.name,
+            temp: weatherResponse.data.main.temp,
+            feelsLike: weatherResponse.data.main.feels_like,
+            description: weatherResponse.data.weather[0].description,
+            main: weatherResponse.data.weather[0].main,
+        };
+
         const id = Number(req.params.id);
         if (!Number.isInteger(id) || id <= 0) {
             return res.status(400).render('404', { message: 'Invalid item id.' });
@@ -636,6 +783,7 @@ router.get('/:id/customize', async (req, res, next) => {
             sugarLevels,
             toppings,
             defaults,
+            weather:data
         });
     } catch (err) {
         next(err);
@@ -680,9 +828,11 @@ router.post('/cart/add', (req, res) => {
     return res.redirect('/customer/customerOrder');
 });
 
+
+
 // FUNCTIONS
 router.post('/search', async (req, res) => {
-    console.log("🔥 /search route HIT");
+    console.log("/search route HIT");
     console.log(req.body);
 
     try {

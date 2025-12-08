@@ -2,3 +2,216 @@ body {
     background-color: #F5FAF8;
 }
 
+/*                                          */
+
+
+/* Color Variables based on the two uploaded images:
+   - Top Nav/Category Background (from green screenshot): #E0F7E0 (Very light green)
+   - Menu Text/Header Text (from Boba Heaven image): #1B263B (Very dark blue/indigo)
+   - Price Circle Background (from Boba Heaven image): #1B263B (Very dark blue/indigo)
+   - Main Background (from Boba Heaven image): #F7F0E8 (Off-white/light beige)
+*/
+
+:root {
+    --color-primary: #1B263B; /* Dark Blue for text and prices */
+    --color-secondary: #007bff; /* A placeholder blue for links/active state if needed */
+    --color-background-light: #E0F7E0; /* Light Green for top nav/category bar */
+    --color-background-main: #F7F0E8; /* Off-White/Beige for main content */
+    --color-price-circle: #1B263B; /* Dark Blue for price circles */
+    --color-text-description: #555; /* Medium gray for descriptions */
+}
+
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-background-main);
+    color: var(--color-primary);
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+/* Top Navigation Bar (Green Screenshot Style) */
+.top-nav {
+    background-color: var(--color-background-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.icon-link {
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.icon-link i {
+    margin-right: 5px;
+}
+
+.weather {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Header Section (Boba Heaven Style) */
+.header-section {
+    text-align: center;
+    padding: 30px 0 20px 0;
+}
+
+.boba-icon {
+    /* You would replace this with your actual image/svg */
+    width: 80px;
+    height: 80px;
+    /* This is a placeholder style for the missing SVG */
+    background-color: transparent; 
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.main-title {
+    font-family: 'Georgia', serif; /* Use a distinct font for title if possible */
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+/* Category Navigation (Green Screenshot Style) */
+.category-nav {
+    background-color: var(--color-background-light);
+    padding: 10px 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.category-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.category-nav li {
+    margin: 0 15px;
+    white-space: nowrap;
+}
+
+.category-nav a {
+    display: block;
+    padding: 8px 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--color-primary);
+    position: relative;
+}
+
+.category-nav a.active {
+    border-bottom: 3px solid var(--color-primary);
+}
+
+.search-icon-li {
+    margin-left: 30px;
+}
+.search-icon-li a {
+    padding-right: 0;
+    font-size: 1.2em;
+}
+
+/* Menu Container (Boba Heaven Style Layout) */
+.menu-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 40px; /* Space between rows */
+}
+
+/* Menu Item Styling */
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 30px;
+    /* Separator line style is not clear, using a small margin for separation */
+}
+
+.item-content {
+    flex-grow: 1;
+    padding-right: 15px;
+}
+
+.menu-item h2 {
+    font-size: 1.8em;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.menu-item p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--color-text-description);
+}
+
+/* Price Circle */
+.price-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-price-circle);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Optional: Make layout responsive for smaller screens */
+@media (max-width: 768px) {
+    .menu-container {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+    
+    .top-nav {
+        padding: 10px;
+    }
+    
+    .icon-link {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    
+    .main-title {
+        font-size: 2.5em;
+    }
+    
+    .category-nav ul {
+        justify-content: flex-start;
+        padding-left: 20px;
+    }
+    
+    .search-icon-li {
+        display: none; /* Hide search icon on small screen to save space */
+    }
+}

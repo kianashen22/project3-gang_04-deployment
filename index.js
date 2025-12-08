@@ -57,12 +57,19 @@ app.use(express.static('public'));
 const managerRoutes = require('./routes/managerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
+const audioRoutes = require("./routes/audioRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const drinkModificationRoute = require("./routes/drinkModificationRoute");
+
 
 
 // Mount them with base paths
 app.use('/manager', requireManager, managerRoutes);
 app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
+app.use("/api", audioRoutes);
+app.use("/api", orderRoutes);
+app.use('/', drinkModificationRoute);
 
 app.get('/', async(req, res) => {
     const user = req.session.user; 
@@ -184,6 +191,18 @@ app.get('/customerLogout', (req, res) => {
     });
 });
 
+// LOGINT OUT --> END SESSION
+app.post('/customerLogout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error(err);
+      return res.redirect('/customer/customerOrder');
+    }
+
+    res.clearCookie('connect.sid');
+    res.redirect('/customer/customerHome');
+  });
+});
 
 
 // function to require manager to be loged in
@@ -340,6 +359,7 @@ app.get('/menu', async(req, res) => {
 
 
 
+module.exports = { app, pool };
 
 
 app.listen(port, () => {
