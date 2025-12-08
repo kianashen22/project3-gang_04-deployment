@@ -1010,10 +1010,12 @@ input:checked + .slider:before {
 }
 
 #editButton {
-    padding-right: 20px;
-    padding-left: 30px;
-    padding-top: 27px;
+    margin-right: 10px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     width: fit-content;
+    align-self: flex-end;
 }
 
 #editButton button {
@@ -1034,9 +1036,12 @@ input:checked + .slider:before {
 }
 
 #removeButton {
-    padding-right: 50px;
-    padding-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
     width: fit-content;
+    align-self: flex-end;
 }
 
 #removeButton button {
@@ -1531,13 +1536,16 @@ p.noOrders {
     width: 40%;
     height: fit-content;
     margin: 2.5%;
+
+    align-self: center;
+    justify-self: center;
 }
 
 .orderCard {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin: 30px;
+    margin: 0 30px 30px;
 }
 
 .orderCard a {

@@ -60,7 +60,7 @@
 
 
   <h1>Order Summary</h1>
-   <div class = "row">
+   <!-- <div class = "row"> -->
    
    <% 
    const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
@@ -87,7 +87,7 @@
          <p class = "totalText">Total: $<%= total.toFixed(2) %></p>
       </div>
   <div class = "orders">
-   <ol>
+   <!-- <ol> -->
              <% items.forEach(function(d, i) {
                   const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
                   const qty = Number(d.quantity) || 1;
@@ -125,10 +125,10 @@
           </div>
        </div>
        <% }); %>
-   </ol>
+   <!-- </ol> -->
   </div>
  <% } %>
-</div>
+<!-- </div> -->
 
   <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
 
