@@ -68,7 +68,22 @@
         <div class = "orderCard">
           <div class = "orderInfoCol">
             <h1><%= d.name %></h1>
-            <p class = "Quantity">Quantity: <%= qty %></p>
+            <!-- <div id = "quantityButtons"> -->
+              <p class = "Quantity">Quantity: <%= qty %></p>
+              <!-- <div id = "actualButtons">
+                <form method="POST" action="/employee/cart/updateQuantity">
+                  <input type="hidden" name="index" value="<%= i %>">
+                  <input type="hidden" name="change" value="-1">
+                  <button type="submit" id = "decreaseQuantity">-</button>
+                </form>
+
+                <form method="POST" action="/employee/cart/updateQuantity">
+                    <input type="hidden" name="index" value="<%= i %>">
+                    <input type="hidden" name="change" value="1">
+                    <button type="submit" id = "increaseQuantity">+</button>
+                </form>
+              </div> -->
+            <!-- </div> -->
             <div class = "details">
               <p>
                 <% if (d.size) { %><%= d.size %>, <% } %>
