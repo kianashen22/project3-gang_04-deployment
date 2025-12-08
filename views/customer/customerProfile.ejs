@@ -79,8 +79,8 @@
 
                             <td>$<%= order.total_price.toFixed(2) %></td>
                             <td>
-                                <form action="/orderAgain" method="POST">
-                                    <input type="hidden" name="orderId" value="<%= order.id %>">
+                                <form action="orderAgain" method="POST">
+                                    <input type="hidden" name="orderId" value="<%= order.order_id %>">
                                     <button type="submit">Order Again</button>
                                 </form>
                             </td>
