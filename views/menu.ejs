@@ -1,93 +1,105 @@
 <!DOCTYPE html>
-<head>
-    <title>Menu</title>
-    <link rel="stylesheet" href="/css/customerStyle.css">
-</head>
-<body>
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Menu</title>
+    <link rel="stylesheet" href= "/css/customer.css"/>
+</head>
+
+<body>
 
 <!---------------   NAV BAR    --------------->
-<div id = "homeHeader">
-    <div id = "homeNavBarLeft">
-        <a href = "/index"><img src= "/img/home.png" alt = "Home Button">Home</a>
-        <a href = "/menu"><img src = "/img/drink.png" alt="">Menu</a>
-        <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
-    </div>
+    <div id = "homeHeader">
+            <a href = "/menu"><img src = "/img/drink.png">Menu</a>
+            <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
 
-    <h1><u>Menu</u></h1>
+        <h1>Menu</h1>
 
-        <div id = "loginContainer">
-            <% if (user && user.role === 'manager') { %>
-                <a href="/manager/managerHome">Manager Home</a>
-            <% } else if (user && user.role === 'employee') { %>
-                <a href="/employee/employeeHome">Employee View</a>
-            <% }  else { %>
-                <a href="/auth/google">Admin Login
-                <img src = "/img/login.png" alt = "admin login"></a>
-            <% } %>
+        <div id = "right">
+            <div class = "rightItem">
+                <!--    this is the start of google translate code-->
+                <div id="google_translate_element"></div>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil,'}, 'google_translate_element');
+                    }
+                </script>
+                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <!--    this is the end of google translate code-->
 
-        </div>  
-    </div>
+            </div>
+            <div class="rightItem">
+                <button id="colorblindToggle" class="toggleFont">
+                  Colorblind Mode
+                </button>
+              </div>
+            <div class = "rightItem">
+                <%- include('./partials/weatherNav', { weather: weather }) %>
+            </div>
 
-<!---------------   MENU    --------------->
-    <div id = "menuContainer">
-        <div id = "milkySeriesContainer" class = "drinkMenuContainer">
-            <h1><u>MILKY SERIES</u></h1>
-            <% for (var i in milky_drinks) {%>
-                <p><%=milky_drinks[i].name%>..........<%=milky_drinks[i].price%><p>
-            <% } %>
-        </div>
-
-        <div id = "fruitBevContainer" class = "drinkMenuContainer">
-            <h1><u>FRUITY BEVERAGES</u></h1>
-            <% for (var i in fruity_drinks) {%>
-                <p><%=fruity_drinks[i].name%>..........<%=fruity_drinks[i].price%><p>
-            <% } %>
-        </div>
-
-        <div id = "freshBrewContainer" class = "drinkMenuContainer">
-            <h1><u>FRESH BREW</u></h1>
-            <% for (var i in freshBrew_drinks) {%>
-                <p><%=freshBrew_drinks[i].name%>..........<%=freshBrew_drinks[i].price%><p>
-            <% } %>
-        </div>
-
-        <div id = "iceBlendContainer" class = "drinkMenuContainer">
-            <h1><u>ICE BLENDED</u></h1>
-            <% for (var i in iceBlended_drinks) {%>
-                <p><%=iceBlended_drinks[i].name%>..........<%=iceBlended_drinks[i].price%><p>
-            <% } %>
-        </div>
-
-        <div id = "drinkModificationsContainer">
-            <h1><u>CHOOSE (OPTIONAL)</u></h1>
-            <p><b>ICE LEVEL</b> &nbsp; No Ice &bull; Light Ice   &bull;  Regular Ice  &bull; Extra Ice</p>
-            <p><b>SWEETNESS LEVEL</b> &nbsp; 0%     &bull; 30%   &bull;  50%    &bull;  80%     &bull;  100%    &bull;  120%</p>
-            <p><b>TOPPINGS +0.75</b> &nbsp; Tapioca Pearl &bull; Lychee Jelly   &bull;  Coffee Jelly    &bull;  Ice Cream
-                                    &bull;  Honey   &bull;  Passion Fruit</p>
-            <p><b>SIZE</b> &nbsp; Small &bull; Medium   &bull;  Large</p>    
         </div>
     </div>
 
+<!-------------     END OF NAV BAR --------------->  
 
-    <script src = "/js/customerHandler.js"></script> 
-    <script src = "/js/googleTranslateHandler.js"></script>
-    <script src = "js/toggleFont.js"></script>
-    <script src = "/js/speechAssistantHandler.js"></script>
+    <div class="menu-container">
 
-    <footer>
-        <div class = "footer">
+        <div class="menu-grid">
+
+            <!-- COLUMN 1 -->
+            <div class="menu-section">
+                <h2>DRINKS</h2>
+
+                <h3 class="subheading">MILKY SERIES</h3>
+                    <% for (var i in milky_drinks) {%>
+                        <div class = "item"><span><%=milky_drinks[i].name%></span>  <span>$<%=milky_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+
+                <h3 class="subheading">FRUITY BEVERAGE</h3>
+                    <% for (var i in fruity_drinks) {%>
+                        <div class = "item"><span><%=fruity_drinks[i].name%></span>     <span>$<%=fruity_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+                <h3 class="subheading">FRESH BREW</h3>
+                    <% for (var i in freshBrew_drinks) {%>
+                        <div class = "item"><span><%=freshBrew_drinks[i].name%></span> <span>$<%=freshBrew_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+                <h3 class="subheading">ICE BLENDED</h3>
+                    <% for (var i in iceBlended_drinks) {%>
+                        <div class = "item"><span><%=iceBlended_drinks[i].name%></span> <span>$<%=iceBlended_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+            </div>
+
+
+            <!-- COLUMN 2 -->
+            <div class="menu-section">
+                <h2>DRINK MODIFICATIONS</h2>
+                <h3 class="subheading">Optional</h3>
+                <div class="item"><span>Ice Level</span></div>
+                <p class="note">No Ice &bull; Light Ice &bull; Regular Ice &bull; Extra Ice</p>
+                <div class="item"><span>Sweetness Level</span></div>
+                <p class="note">0% &bull; 30% &bull; 50% &bull; 80% &bull; 100%</p>
+                <div class="item"><span>Size</span></div>
+                <p class="note">Small &bull; Medium &bull; Large</p>
+
+                <h2 class="others-title">TOPPINGS</h2>
+                <h3 class="subheading">+ 0.75 Limit to one topping</h3>
+
+                <div class="item"><span>Tapioca Pearl</span></div>
+                <div class="item"><span>Lychee Jelly</span></div>
+                <div class="item"><span>Coffee Jelly</span></div>
+                <div class="item"><span>Ice Cream</span></div>
+                <div class="item"><span>Honey</span></div>
+                <div class="item"><span>Passion Fruit</span></div>
+                
+            </div>
 
         </div>
-    </footer>
+    </div>
 
 </body>
+</html>

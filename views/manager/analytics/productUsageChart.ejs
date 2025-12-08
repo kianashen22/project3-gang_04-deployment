@@ -29,9 +29,20 @@
       </div>
    </div>
 
-   <div class = "xReportPage">
+   <div class = "orderingTrends">
       <div id = "title">
          <h1>Product Usage</h1>
+      </div>
+       <div id = "dateInput">
+        <form action="/manager/analytics/productUsageChart" method="GET">
+            <label for="startDate2">Start Date:</label>
+            <input type="date" id="startDate2" name="startDate2" value="<%= startDate2 || '' %>" required>
+
+            <label for="endDate2">End Date:</label>
+            <input type="date" id="endDate2" name="endDate2" value="<%= endDate2 || '' %>" required>
+
+            <button type="submit">Filter</button>
+        </form>
       </div>
 
       <div id = "reportTable">
@@ -43,12 +54,12 @@
                </tr>
             </thread>
             <tbody>
-               <% for (var i in product_usage) {%>
+               <% allInventory.forEach(itemName => { %>
                   <tr>
-                     <td><%=product_usage[i].item_name%></td>
-                     <td><%=product_usage[i].total_quantity%>%></td>
+                     <td><%= itemName %></td>
+                     <td><%= usageMap[itemName] || 0 %></td>
                   </tr>
-               <% } %>
+                  <% }) %>
             </tbody>
          </table>
       </div>

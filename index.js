@@ -59,6 +59,7 @@ const customerRoutes = require('./routes/customerRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const audioRoutes = require("./routes/audioRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const drinkModificationRoute = require("./routes/drinkModificationRoute");
 
 
 
@@ -68,6 +69,7 @@ app.use('/employee', requireEmployee, employeeRoutes);
 app.use('/customer', customerRoutes);
 app.use("/api", audioRoutes);
 app.use("/api", orderRoutes);
+app.use('/', drinkModificationRoute);
 
 app.get('/', async(req, res) => {
     const user = req.session.user; 
@@ -183,6 +185,11 @@ app.get('/logout', (req, res) => {
     });
 });
 
+app.get('/customerLogout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/customer/customerHome');
+    });
+});
 
 
 
@@ -339,97 +346,97 @@ app.get('/menu', async(req, res) => {
 
 
 // --------------------------------     ADD API ROUTE HERE ---------------------------------------- >
-app.get('/menuAsst', async(req, res) => {
+// app.get('/menuAsst', async(req, res) => {
 
-    try {
-        // WEATHER API INFORMATION
+//     try {
+//         // WEATHER API INFORMATION
 
-        const city = req.query.city || 'College Station';
+//         const city = req.query.city || 'College Station';
 
-        const apiKey = process.env.OPENWEATHER_API_KEY;
-        console.log('OpenWeather key present:', !!apiKey);
+//         const apiKey = process.env.OPENWEATHER_API_KEY;
+//         console.log('OpenWeather key present:', !!apiKey);
 
-        const weatherResponse = await axios.get(
-        'https://api.openweathermap.org/data/2.5/weather',
-        {
-            params: {
-            q: city,
-            appid: apiKey,
-            units: 'imperial',
-            },
-        }
-        );
+//         const weatherResponse = await axios.get(
+//         'https://api.openweathermap.org/data/2.5/weather',
+//         {
+//             params: {
+//             q: city,
+//             appid: apiKey,
+//             units: 'imperial',
+//             },
+//         }
+//         );
 
-        const data = {
-        city: weatherResponse.data.name,
-        temp: weatherResponse.data.main.temp,
-        feelsLike: weatherResponse.data.main.feels_like,
-        description: weatherResponse.data.weather[0].description,
-        };
+//         const data = {
+//         city: weatherResponse.data.name,
+//         temp: weatherResponse.data.main.temp,
+//         feelsLike: weatherResponse.data.main.feels_like,
+//         description: weatherResponse.data.weather[0].description,
+//         };
 
-        // LOADING DRINKS ON THE PAGE INFORMATION
-        let freshBrew_drinks = []
-        let fruity_drinks = []
-        let iceBlended_drinks = []
-        let milky_drinks = []
-        let all_drinks = []
-        pool
-            .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
-            .then(query_res1 => {
-                for (let i = 0; i < query_res1.rowCount; i++){
-                    freshBrew_drinks.push(query_res1.rows[i]);
-                }
-                return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
-            })
+//         // LOADING DRINKS ON THE PAGE INFORMATION
+//         let freshBrew_drinks = []
+//         let fruity_drinks = []
+//         let iceBlended_drinks = []
+//         let milky_drinks = []
+//         let all_drinks = []
+//         pool
+//             .query('SELECT * FROM beverage_info WHERE category = \'Fresh Brew\'')
+//             .then(query_res1 => {
+//                 for (let i = 0; i < query_res1.rowCount; i++){
+//                     freshBrew_drinks.push(query_res1.rows[i]);
+//                 }
+//                 return pool.query('SELECT * FROM beverage_info WHERE category = \'Fruity Beverage\'')
+//             })
 
-            .then(query_res2 => {
-                for (let i = 0; i < query_res2.rowCount; i++){
-                    fruity_drinks.push(query_res2.rows[i]);
-                }
-                return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
-            })
+//             .then(query_res2 => {
+//                 for (let i = 0; i < query_res2.rowCount; i++){
+//                     fruity_drinks.push(query_res2.rows[i]);
+//                 }
+//                 return pool.query('SELECT * FROM beverage_info WHERE category = \'Ice Blended\'')
+//             })
 
-            .then(query_res3 => {
-                for (let i = 0; i < query_res3.rowCount; i++){
-                iceBlended_drinks.push(query_res3.rows[i]);
-                }
-                return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
-            })
+//             .then(query_res3 => {
+//                 for (let i = 0; i < query_res3.rowCount; i++){
+//                 iceBlended_drinks.push(query_res3.rows[i]);
+//                 }
+//                 return pool.query('SELECT * FROM beverage_info WHERE category = \'Milky Series\'')
+//             })
 
-            .then(query_res4 => {
-                for (let i = 0; i < query_res4.rowCount; i++){
-                    milky_drinks.push(query_res4.rows[i]);
-                }
-                return pool.query('SELECT * FROM beverage_info')
-            })
+//             .then(query_res4 => {
+//                 for (let i = 0; i < query_res4.rowCount; i++){
+//                     milky_drinks.push(query_res4.rows[i]);
+//                 }
+//                 return pool.query('SELECT * FROM beverage_info')
+//             })
 
-            .then(query_res5 => {
-                for (let i = 0; i < query_res5.rowCount; i++){
-                    all_drinks.push(query_res5.rows[i]);
-                }
-                res.render('menuAsst', {
-                weather: data, 
-                error: null ,
-                freshBrew_drinks,
-                fruity_drinks,
-                iceBlended_drinks,
-                milky_drinks,
-                all_drinks
-                });
-            });
-    } catch (err) {
-        if (err.response) {
-        console.error('OpenWeather error:', err.response.status, err.response.data);
-        } else {
-        console.error('Unknown error:', err.message);
-        }
+//             .then(query_res5 => {
+//                 for (let i = 0; i < query_res5.rowCount; i++){
+//                     all_drinks.push(query_res5.rows[i]);
+//                 }
+//                 res.render('menuAsst', {
+//                 weather: data, 
+//                 error: null ,
+//                 freshBrew_drinks,
+//                 fruity_drinks,
+//                 iceBlended_drinks,
+//                 milky_drinks,
+//                 all_drinks
+//                 });
+//             });
+//     } catch (err) {
+//         if (err.response) {
+//         console.error('OpenWeather error:', err.response.status, err.response.data);
+//         } else {
+//         console.error('Unknown error:', err.message);
+//         }
 
-        res.render('menuAsst', {
-        weather: null,
-        error: 'Error fetching weather.',
-        });
-    }
-});
+//         res.render('menuAsst', {
+//         weather: null,
+//         error: 'Error fetching weather.',
+//         });
+//     }
+// });
 
 
 module.exports = { app, pool };

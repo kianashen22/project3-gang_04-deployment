@@ -51,6 +51,13 @@ h1 {
     transform: scale(1.1, 1.1);
 }
 
+.navBarContainer #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 
 .drinkContainer {
     display: flex;
@@ -203,13 +210,43 @@ h1 {
 }
 
 .orderConfirmationContainer {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5%;
+    justify-content: center;
+
+    width: 35%;
+    margin: 60px auto;
+    padding: 40px 30px;
+
+    background-color: var(--light-green);
+    border: 1px solid var(--green-header);
+    border-radius: 12px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+
     gap: 20px;
-    width: 30%;
-    margin: auto;
+    text-align: center;
 }
+
+.orderConfirmationContainer h1 {
+    color: var(--green-header);
+    margin: 0;
+    font-size: 2rem;
+}
+
+.orderConfirmationContainer p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.orderConfirmationContainer .row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
 .button {
 
     font-size: large;
@@ -358,4 +395,6 @@ h1 {
     /* gap: 20px; */
 
 }
+
+
 

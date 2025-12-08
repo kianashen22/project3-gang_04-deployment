@@ -59,7 +59,7 @@ router.post("/confirm-order", async (req, res) => {
         // combine_date is DATE, so use yyyy-mm-dd
         const combine_date = now.toISOString().slice(0, 10);
 
-        const customerId = 1; // or whatever real customer_id you use
+        const customerId = -1; // or whatever real customer_id you use
         const totalPrice = items[0].totalPrice;
 
         const orderResult = await pool.query(
@@ -126,7 +126,7 @@ router.post("/confirm-order", async (req, res) => {
 
             savedItems.push(result.rows[0]);
 
-            // DECREASE INVENTORY
+            // TODO: DECREASE INVENTORY
         }
 
         res.json({

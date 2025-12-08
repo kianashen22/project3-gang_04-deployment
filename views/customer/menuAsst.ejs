@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<head>
+    <title>Menu with Assistant</title>
+    <link rel="stylesheet" href="/css/customerStyle.css">
+</head>
+<body>
+
+
+<div id = "homeHeader">
+    <div id = "homeNavBarLeft">
+        <a href = "/customer/customerHome"><img src= "/img/home.png" alt = "Home Button">Home</a>
+    </div>
+
+    <h1><u>Menu</u></h1>
+
+    <div id = "right">
+      <div class = "rightItem">
+          <!--    this is the start of google translate code-->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+              function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+              }
+          </script>
+          <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <!--    this is the end of google translate code-->
+
+      </div>
+      <div class="rightItem">
+        <button id="colorblindToggle" class="toggleFont">
+          Colorblind Mode
+        </button>
+      </div>
+      <div class = "rightItem">
+        <%- include('../partials/weatherNav', { weather: weather }) %>
+      </div>
+
+    </div>
+
+<div id = "menuAndSpeechContainer">
+
+ <div class="menu-container">
+
+        <div class="menu-grid">
+
+            <!-- COLUMN 1 -->
+            <div class="menu-section">
+                <h2>DRINKS</h2>
+
+                <h3 class="subheading">MILKY SERIES</h3>
+                    <% for (var i in milky_drinks) {%>
+                        <div class = "item"><span><%=milky_drinks[i].name%></span>  <span>$<%=milky_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+
+                <h3 class="subheading">FRUITY BEVERAGE</h3>
+                    <% for (var i in fruity_drinks) {%>
+                        <div class = "item"><span><%=fruity_drinks[i].name%></span>     <span>$<%=fruity_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+                <h3 class="subheading">FRESH BREW</h3>
+                    <% for (var i in freshBrew_drinks) {%>
+                        <div class = "item"><span><%=freshBrew_drinks[i].name%></span> <span>$<%=freshBrew_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+
+                <h3 class="subheading">ICE BLENDED</h3>
+                    <% for (var i in iceBlended_drinks) {%>
+                        <div class = "item"><span><%=iceBlended_drinks[i].name%></span> <span>$<%=iceBlended_drinks[i].price.toFixed(2)%></span></div>
+                    <% } %>
+            </div>
+
+
+            <!-- COLUMN 2 -->
+            <div class="menu-section">
+                <h2>DRINK MODIFICATIONS</h2>
+                <h3 class="subheading">Optional</h3>
+                <div class="item"><span>Ice Level</span></div>
+                <p class="note">No Ice &bull; Light Ice &bull; Regular Ice &bull; Extra Ice</p>
+                <div class="item"><span>Sweetness Level</span></div>
+                <p class="note">0% &bull; 30% &bull; 50% &bull; 80% &bull; 100%</p>
+                <div class="item"><span>Size</span></div>
+                <p class="note">Small &bull; Medium &bull; Large</p>
+
+                <h2 class="others-title">TOPPINGS</h2>
+                <h3 class="subheading">+ 0.75 Limit to one topping</h3>
+
+                <div class="item"><span>Tapioca Pearl</span></div>
+                <div class="item"><span>Lychee Jelly</span></div>
+                <div class="item"><span>Coffee Jelly</span></div>
+                <div class="item"><span>Ice Cream</span></div>
+                <div class="item"><span>Honey</span></div>
+                <div class="item"><span>Passion Fruit</span></div>
+                
+            </div>
+
+        </div>
+
+    <div class = "orderSpeechContainer">
+        <div id = "chatBox">
+            <div id = "getStartedMessage" class = "messageStyling" >
+                <p>
+                    Great! To place an order, just press the "start recording"
+                    button, say your order, and then press "stop recording". I will then 
+                    show you your order, and all you have to do is confirm it!
+                </p>
+                <button id="startButton">Start Recording</button>
+                <button id="endButton" disabled>Stop Recording</button>
+                <div id = "loadingContainer">Loading...<img id = "loadingBoba" src = "/img/loadingBoba.gif"></div>
+
+                <audio id="audioPlayback" controls></audio>
+            </div>
+            
+            <div id="orderConfirmationBox"  class = "messageStyling" margin-top: 20px;">
+                <h2>Order Confirmation</h2>
+                
+                <div id="parsedOrderDetails" style="margin-bottom: 10px;">
+                </div>
+                
+                <div id="orderSummary">
+                </div>
+                
+                <button id="confirmOrderButton">Confirm Order</button>
+                <button id="cancelOrderButton">Cancel</button>
+            </div>
+            <img id="assistantImgMenu" src="">
+            
+        </div>
+
+    </div>
+
+</div>
+
+
+    <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/googleTranslateHandler.js"></script> 
+    <script src = "/js/voiceAgentHandler.js"></script>
+
+    <footer>
+        <div class = "footer">
+
+        </div>
+    </footer>
+
+
+
+</body>

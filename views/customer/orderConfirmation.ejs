@@ -31,8 +31,12 @@
       </div>
 
       <div id = "confirmButtonContainer">
-        <div class = "confirmPageButtons"><a href="/logout">Exit</a></div>
-        <div class = "confirmPageButtons"><a href="customerHome">Next Order</a></div>
+        <% if (user) { %>
+          <a href="/customerLogout" class="confirmPageButtons">Log out</a>
+        <% } else { %>
+          <a href="customerHome" class = "confirmPageButtons">Exit</a>
+        <% } %>
+        <a href="customerOrder" class = "confirmPageButtons">Order More</a>
       </div>
 
     </div>

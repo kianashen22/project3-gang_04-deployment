@@ -14,6 +14,8 @@ FONT COLORS:
 green header: #68A691
 
 */
+
+
 :root {
     --moss : #CBDFCD;
     --med-green:  #dbf3df;
@@ -31,11 +33,19 @@ green header: #68A691
 @import "@fontsource/inria-sans";
 
 html, body {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
     overflow-x: hidden; 
     font-family: "Instrument Sans", sans-serif;
     background-color:  #FFFEF9;
+}
+
+body.modifyOrder {
+    margin: 20px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--light-green);
 }
 
 /* ---- customerNavBar styling --- */
@@ -67,6 +77,13 @@ html, body {
     transform: scale(1.1, 1.1);
 }
 
+.customerNavBarContainer #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 
 #right {
     display: flex;
@@ -87,6 +104,7 @@ html, body {
 }
 
 .translateButtonStyling:hover{
+    background-color: #68A691;
     transform: scale(1.1, 1.1);
 }
 
@@ -224,6 +242,12 @@ html, body {
     bottom: 50px;  
     transform: translateX(-50%);
     margin: 0;
+}
+.homeHeader #google_translate_element {
+    background: #FFFEF9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 #loginContainer{
@@ -476,8 +500,10 @@ form button.active {
 }
 
 #thankYouCard{
+    padding: 30px;
     background-color:#D1DFCB;
     display:flex;
+    text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -512,8 +538,6 @@ form button.active {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-.confirmPageButtons a{
     text-decoration: none;
     color: #FFFEF9;
     font-weight: bold;
@@ -567,31 +591,442 @@ audio::-webkit-media-controls {
   display: none;
 }
 
-
-/*-----------   MENU BOARD ----------- */
-#menuContainer{
-    display:flex;
-    flex-wrap: wrap;
+ol {
+    display: flex;
     flex-direction: row;
-    width: 100vw;
-    padding-left: 100px;
-    padding-right: 1000px;
-    padding-bottom: 50px;
-    row-gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    width: 100%;
+    padding: 10px;
 }
 
-.drinkMenuContainer{
-    width: 500px;
+.cartItem {
+    flex: 0 0 25%;
+    display: flex;
+    background: #dbf3df;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: left;
+    padding: 30px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 10px;
+
+    margin: 5px;
 }
 
-.largeDot {
-    font-size: 2em; /* Adjust as needed for desired size */
-    font-weight: bold; /* Optional: make it bolder */
+
+/* ----------       MENU        ----------*/
+.menu-container {
+    width: 70%;
+    margin: 40px auto;
+    text-align: center;
 }
 
-.largeFont p {
+
+.squiggle {
+    font-size: 22px;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #206b4a;
+}
+
+.menu-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.menu-section {
+    width: 50%;
+    text-align: left;
+}
+
+.menu-section h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    position: relative;
+    color:#68A691;
+}
+
+.subheading {
+    font-size: 14px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-top: 1px solid #206b4a;
+    border-bottom: 1px solid #206b4a;
+    padding: 6px 0;
+    text-align: center;
+    color:#68A691;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between; /* puts name left, price right */
+  align-items: center;
+  font-size: 15px;
+  color: #68A691;
+  padding: 6px 0;
+  position: relative;
+}
+
+
+.note {
+    margin-top: -5px;
+    font-size: 13px;
+    color: #2e8a64;
+    margin-bottom: 10px;
+}
+
+.others-title {
+    margin-top: 40px;
+}
+
+/* ---------------------------------------------------------
+   GLOBAL LARGE FONT MODE (single toggle)
+--------------------------------------------------------- */
+.large-font {
+    /* Slightly increase all normal text */
+    font-size: 2em;
+    line-height: 1.3;
+}
+
+/* Make common elements scale uniformly */
+.large-font button,
+.large-font input,
+.large-font select,
+.large-font textarea,
+.large-font label,
+.large-font p,
+.large-font h1,
+.large-font h2,
+.large-font h3 {
+    font-size: 1em; /* keeps scaling consistent */
+}
+
+/* Slightly larger spacing for form controls */
+.large-font input,
+.large-font select,
+.large-font textarea {
+    padding: 0.35rem;
+}
+
+#menuContainer .large-font {
+    font-size: 2em;
+}
+
+/* ----- Toggle Font Switch Styling -- */
+
+.switch {
+    position: relative;
+    display: flex;
+    align-self: center;
+    width: 60px;
+    height: 34px;
+    transition: transform 0.2s ease;
+}
+.switch:hover{
+    transform: scale(1.1)
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: white;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px white;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.small-a {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+}
+
+.big-a {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+}
+/* ---------------------------------------------------------
+   COMPONENT-LEVEL OVERRIDES
+--------------------------------------------------------- */
+.large-font .drinkTextContainer p {
+    font-size: 20px;
+}
+
+.large-font .drinkCategoryButton {
     font-size: 40px;
 }
+
+.large-font .optionDisplay,
+.large-font .weather-widget p,
+.large-font .translateButtonHomeStyling {
+    font-size: 18px;
+}
+
+/* Drink modifiers */
+.drinkMod {
+    transition: font-size 0.2s ease;
+}
+
+.large-font .drinkMod {
+    font-size: 1.25em;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+.modifyOrder{
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.modifyOrder h1 {
+    font-size: 2em;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modifyOrder button {
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+}
+
+.modNav {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modBack {
+    font-size: 1em;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    background-color: #57a07f;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modBack:hover {
+    background-color: var(--moss);
+}
+
+#checkout {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: black;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--moss);
+    display: flex;
+    margin-left: 20%;
+    margin-right: 20%;
+    align-items: center;
+}
+
+#checkout:hover {
+    background-color: var(--med-green);
+}
+
+/* ---------------------------------------------------------
+   STABILITY + LAYOUT SAFETY
+--------------------------------------------------------- */
+.drinkTextContainer p {
+    margin: 0.5rem 0;
+    overflow-wrap: break-word;
+}
+
+/* profile */
+.profile-section {
+    width: fit-content;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--light-green);
+    border: 1px solid var(--green-header);
+    border-radius: 12px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+}
+
+.profile-section h2 {
+    color: var(--green-header);
+    font-size: 32px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-align: center;
+}
+
+/* editing name */
+.profile-section form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-section input[type="text"] {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid var(--button-selected);
+    background-color: var(--button);
+    font-size: 20px;
+    flex: 1;
+    max-width: 300px;
+}
+
+.profile-section button {
+    width: fit-content;
+    padding: 10px 20px;
+    align-self: center;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.profile-section button:hover {
+    transform: scale(1.05);
+}
+/* past orders table */
+table {
+    width: 80%;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background-color: var(--light-green);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: var(--moss);
+}
+
+thead th {
+    padding: 20px;
+    font-size: 22px;
+    color: var(--mauve);
+    text-align: center;
+    border-bottom: 2px solid var(--green-header);
+}
+
+tbody td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--med-green);
+    font-size: 20px;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+td ul {
+    padding-left: 20px;
+    text-align: left;
+}
+
+td ul li {
+    color: var(--green-header);
+    font-size: 18px;
+}
+
+
+table form button {
+    padding: 10px 20px;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+table form button:hover {
+    transform: scale(1.05);
+}
+
+
+.no-orders-message,
+p.noOrders {
+    text-align: center;
+    font-size: 22px;
+    color: var(--mauve);
+    margin-top: 40px;
+}
+
+
+
+
+
+
 
 
 #menuAndSpeechContainer{
@@ -728,4 +1163,20 @@ audio::-webkit-media-controls {
 #loadingBoba{
     width: auto;
     height:40px;
+}
+
+
+/* -------- COLOR BLIND MODE BUTTON -------- */
+#colorblindToggle{
+    background-color: white;
+    border-radius: 34px;
+    height: 34px;
+    border-style: none;
+    font-family: "Instrument Sans", sans-serif;
+    transition: transform 0.2s ease;
+
+}
+
+#colorblindToggle:hover{
+    transform: scale(1.1, 1.1);
 }

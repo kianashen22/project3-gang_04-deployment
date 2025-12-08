@@ -20,10 +20,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-// POST /api/upload-audio (Handles file upload, transcription, and parsing)
 router.post("/upload-audio", upload.single("audio"), async (req, res) => {
     
-
+    // to import mjs file 
     let handleAudioRequest;
     try {
         const audioModule = await import("../controllers/audioController.mjs");
@@ -50,5 +49,4 @@ router.post("/upload-audio", upload.single("audio"), async (req, res) => {
     }
 });
 
-// Export the router using CommonJS syntax
 module.exports = router;

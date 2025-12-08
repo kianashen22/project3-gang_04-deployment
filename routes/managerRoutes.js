@@ -101,18 +101,55 @@ router.get('/analytics/salesReport', async (req, res) => {
     }
 });
 
-router.get('/analytics/productUsageChart', (req, res) => {
-    product_usage = []
-    pool
-        .query('SELECT COUNT(*) AS drink_count, SUM(I.qt) AS quantity, Y.name AS item_name, COUNT(*) * SUM(I.qt) AS total_quantity FROM beverage B JOIN "order" O ON O.order_id = B.order_id JOIN menu_inventory I ON I.beverage_info_id = B.beverage_info_id JOIN inventory Y ON I.inventory_id = Y.inventory_id GROUP BY Y.name ORDER BY total_quantity DESC')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                product_usage.push(query_res.rows[i]);
-            }
-            const data = {product_usage: product_usage};
-            console.log(product_usage);
-            res.render('manager/analytics/productUsageChart', data);
-        });
+router.get('/analytics/productUsageChart', async (req, res) => {
+      const { startDate2, endDate2 } = req.query;
+      // taking each order in that range
+      // determine what drink(s) were in that order
+      // determine what items are in that drink
+
+      let query = `
+        SELECT 
+          Y.name as item_name,
+          COALESCE(COUNT(DISTINCT B.beverage_id), 0) AS drink_count, 
+          COALESCE(SUM(I.qt), 0) AS quantity_per_drink, 
+          COALESCE((COUNT(DISTINCT B.beverage_id) * SUM(I.qt)), 0) AS total_quantity 
+        
+        FROM inventory Y 
+          LEFT JOIN menu_inventory I ON I.inventory_id = Y.inventory_id
+          LEFT JOIN beverage B ON B.beverage_info_id = I.beverage_info_id 
+          LEFT JOIN "order" O ON O.order_id = B.order_id  
+        `;
+      
+      const params = [];
+
+      if (startDate2 && endDate2) {
+        query += ` WHERE (O.combine_date::date BETWEEN $1 AND $2)`
+        params.push(startDate2, endDate2);
+      }
+
+      query +=' GROUP BY Y.name ORDER BY total_quantity DESC';
+
+      const result = await pool.query(query, params);
+      const product_usage = result.rows;
+
+
+      const allInventoryResult = await pool.query(`SELECT name FROM inventory ORDER BY name`);
+      const allInventory = allInventoryResult.rows.map(r => r.name);
+      
+      const usageMap = {};
+      product_usage.forEach(item => {
+        usageMap[item.item_name] = item.total_quantity || 0;
+      });
+      
+      // render to ejs
+      console.log(product_usage);
+      res.render('manager/analytics/ProductUsageChart', {
+        usageMap,
+        allInventory,
+        startDate2,
+        endDate2
+      });
+  
 });
 
 // xreport
@@ -359,11 +396,10 @@ app.get('/item', async (req, res) => {
  */
 
 //inventory
-
 router.get('/inventory/modifyInventory', (req, res) => {
     inventory = []
     pool
-        .query('SELECT * FROM inventory;')
+        .query('SELECT * FROM inventory ORDER BY inventory_id ASC;')
         .then(query_res => {
             for (let i = 0; i < query_res.rowCount; i++){
                 inventory.push(query_res.rows[i]);
@@ -373,6 +409,14 @@ router.get('/inventory/modifyInventory', (req, res) => {
             res.render('manager/inventory/modifyInventory', data);
         });
     //display inventory
+});
+
+router.post('/inventory/updateStock', async(req, res) => {
+    const index = req.body.index;
+    console.log('restocking inventory... ');
+
+    await pool.query('UPDATE inventory SET stock_level = 100 WHERE inventory_id = $1;', [index]);
+    res.redirect(`/manager/inventory/modifyInventory`);
 });
 
 router.post('/inventory/addItem', async(req, res) => {
@@ -389,108 +433,6 @@ router.post('/inventory/deleteItem', async(req, res) => {
 
     await pool.query('DELETE FROM inventory WHERE inventory_id=$1', [id]);
     res.redirect(`/manager/inventory/modifyInventory`);
-});
-
-router.get('/inventory/inventoryHome', (req, res) => {
-    inventory = []
-    pool
-        .query('SELECT * FROM inventory;')
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventory.push(query_res.rows[i]);
-            }
-            const data = {inventory: inventory};
-            console.log(inventory);
-            res.render('manager/inventory/inventoryHome', data);
-        });
-});
-
-router.get('/inventory/baseInventory', (req, res) => {
-  inventoryBase = []
-    pool
-        .query("SELECT * FROM inventory WHERE name IN ('Blended Ice', 'Creamer', 'Lemonade');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryBase.push(query_res.rows[i]);
-            }
-            const data = {inventory: inventoryBase};
-            console.log(inventoryBase);
-            res.render('manager/inventory/baseInventory', data);
-        })
-
-    // res.render('manager/inventory/baseInventory');
-});
-
-router.post('/updateBaseStock', async (req, res) => {
-    console.log('Updating base stock...');
-    await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (5, 6, 7);");
-    res.redirect('/manager/inventory/baseInventory');
-});
-
-router.get('/inventory/teaInventory', (req, res) => {
-  inventoryTea = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Green Tea', 'Oolong Tea', 'Black Tea', 'Coffee');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryTea.push(query_res.rows[i]);
-            }
-            const data = {inventoryTea: inventoryTea};
-            console.log(inventoryTea);
-            res.render('manager/inventory/teaInventory', data);
-        });
-});
-
-// update tea inventory stock
-router.post('/updateTeaStock', async (req, res) => {
-  console.log('Updating tea stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (1, 2, 3, 4);");
-  res.redirect('/manager/inventory/teaInventory');
-});
-
-
-router.get('/inventory/disposablesInventory', (req, res) => {
-  inventoryDisposables = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name IN ('Small Cups', 'Regular Cups', 'Large Cups', 'Straws', 'Plastic Lid');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryDisposables.push(query_res.rows[i]);
-            }
-            const data = {inventoryDisposables: inventoryDisposables};
-            console.log(inventoryDisposables);
-            res.render('manager/inventory/disposablesInventory', data);
-        });
-});
-
-// update disposable inventory stock
-router.post('/updateDisposableStock', async (req, res) => {
-  console.log('Updating disposable stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (19, 20, 21, 22, 23);");
-  res.redirect('/manager/inventory/disposablesInventory');
-});
-
-router.get('/inventory/toppingsInventory', (req, res) => {
-  inventoryToppings = []
-    pool
-        .query("SELECT inventory_id, name, stock_level FROM inventory WHERE name " +
-                "IN ('Coffee Jelly', 'Lychee Jelly', 'Tapioca Pearl', 'Thai powder', " +
-                "'Taro powder', 'Peach', 'Honey', 'Mango', 'Passionfruit', 'Ice cream', 'Pudding');")
-        .then(query_res => {
-            for (let i = 0; i < query_res.rowCount; i++){
-                inventoryToppings.push(query_res.rows[i]);
-            }
-            const data = {inventoryToppings: inventoryToppings};
-            console.log(inventoryToppings);
-            res.render('manager/inventory/toppingsInventory', data);
-        });
-});
-
-// update toppings inventory stock
-router.post('/updateToppingsStock', async (req, res) => {
-  console.log('Updating toppings stock...');
-  await pool.query("UPDATE inventory SET stock_level = 100 WHERE inventory_id IN (8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);");
-  res.redirect('/manager/inventory/toppingsInventory');
 });
 
 //employee modifications

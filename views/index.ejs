@@ -8,7 +8,6 @@
     <div id = "homeHeader">
             <a href = "/menu"><img src = "/img/drink.png">Menu</a>
             <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
- 
 
         <h1>HTeaML</h1>
         <div id = "right">
@@ -42,36 +41,23 @@
         <a class = "viewchoice" href = customer/customerHome>Customer Kiosk</a>
     </div>
 
-    
-    <div class = "speechToTextContainer">
-        <div id = "welcomeAssistantMessage" class = "speech-box"><p>Howdy! <br> <br>
-                                                My name is Emma, your speech assistant! I'm here to help you
-                                                place an orde via your voice only! <br> <br>
-                                                Whenever you're ready, just press the button 
-                                                below and we can get started! Thanks and Gig'em!
-        </p>
-        <div id = "speechAssistantStartBtn"><a href = "/menuAsst">Let's get started</a></div>
-        </div>
-        
-        <img id = "assistantImg" src = "">
-        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
-    </div>
+
 
     <script src = "/js/customerHandler.js"></script> 
     <script src = "/js/toggleFont.js"></script>
     <script>
         const cbToggle = document.getElementById("colorblindToggle");
         const cbSheet = document.getElementById("colorblindStylesheet");
-      
+
         // Load saved preference
         if (localStorage.getItem("colorblind") === "on") {
           cbSheet.disabled = false;
         }
-      
+
         // Toggle on click
         cbToggle.addEventListener("click", () => {
           cbSheet.disabled = !cbSheet.disabled;
-      
+
           localStorage.setItem(
             "colorblind",
             cbSheet.disabled ? "off" : "on"

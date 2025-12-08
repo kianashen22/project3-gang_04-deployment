@@ -6,23 +6,36 @@
     <link rel="stylesheet" href="/css/customerStyle.css">
     <link rel="stylesheet" href="/css/colorblind.css" id="colorblindStylesheet" disabled>
   </head>
-<body>
-  <!--    this is the start of google translate code-->
-  <div id="google_translate_element"></div>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-    }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <!--    this is the end of google translate code-->
-    <h1>Modify Order Item: <%= drink.name %></h1>
-    <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
+<body class="modifyOrder">
+
+<div class="modNav">
+    <a href="/customer/orderSummary" class="modBack">Back</a>
+
+    <div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
+
+    <div class="rightItem">
+        <button id="colorblindToggle" class="toggleFont">
+            Colorblind Mode
+        </button>
+    </div>
+
+    <!--    this is the start of google translate code-->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!--    this is the end of google translate code-->
+</div>
+
+    <h1>Modify: <%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h1>
 
     <form action="/customer/updateCartItem" method="POST">
 
       <input type="hidden" name="itemIndex" value="<%= index %>">
-      
+
 
       <input type="hidden" name="name" value="<%= drink.name %>" />
       <input type="hidden" name="price" value="<%= Number(drink.base_price ?? drink.price) %>" />
@@ -43,7 +56,7 @@
       <h3>Size</h3>
       <div id="sizeGroup">
         <% ['small','regular','large'].forEach(function(size){ %>
-          <button type="button" data-size="<%= size %>"><%= size %></button>
+          <button class="drinkMod" type="button" data-size="<%= size %>"><%= size %></button>
         <% }) %>
       </div>
 
@@ -51,7 +64,7 @@
       <h3>Ice Level</h3>
       <div id="iceGroup">
         <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-          <button type="button" data-ice="<%= i %>"><%= i %></button>
+          <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
         <% }) %>
       </div>
 
@@ -59,7 +72,7 @@
       <h3>Sweetness</h3>
       <div id="sweetGroup">
         <% (sugarLevels && sugarLevels.length ? sugarLevels : ['0%','30%','50%','80%','100%','120%']).forEach(function(s){ %>
-          <button type="button" data-sweet="<%= s %>"><%= s %></button>
+          <button class="drinkMod" type="button" data-sweet="<%= s %>"><%= s %></button>
         <% }) %>
       </div>
 
@@ -67,20 +80,22 @@
       <h3>Topping (optional)</h3>
       <div id="toppingGroup">
         <% (toppings || []).forEach(function(t){ %>
-          <button type="button" data-topping="<%= t.topping_name || t.name %>">
+          <button class="drinkMod" type="button" data-topping="<%= t.topping_name || t.name %>">
             <%= t.topping_name || t.name %>
           </button>
         <% }) %>
       </div>
 
       <br>
-      <button type="submit" class="submit">Save Change</button>
+      <button class="drinkMod" type="submit" class="submit">Save Change</button>
       <br><br>
 
 
     </form>
 
-    <script>
+  <script src = "/js/toggleFont.js"></script>
+
+  <script>
       function setupSingleSelect(groupId, dataAttr, hiddenId) {
         const group = document.getElementById(groupId);
         if (!group) return;
@@ -116,9 +131,9 @@
       (function() {
         const group = document.getElementById('toppingGroup');
         const field = document.getElementById('toppingField');
-        
+
         const buttons = group.querySelectorAll('button[data-topping]');
-       
+
         // preload default user selection
         buttons.forEach(btn => {
           if (btn.dataset.topping === field.value) {
@@ -171,7 +186,7 @@
             btn.classList.add('active');
           }
         });
-        
+
       })();
     </script>
   </body>

@@ -6,32 +6,67 @@
   <link rel="stylesheet" href="/css/customerStyle.css">
   <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 
-  <!-- <style>
-    button.active {
-      background-color: #ccc;
-      color: #333;
-    }
-  </style> -->
+
 
 </head>
-<body>
+<body >
+<!---------- NAV BAR --------->
+<div class = "customerNavBarContainer">
+   <div id = "left">
+      
+      <div>   
+         <a href = "/customer/customerOrder">
+             <img src = "/img/skipBack.png"> Back</a>
+      </div>
 
-<!--    this is the start of google translate code-->
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-  }
-</script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!--    this is the end of google translate code-->
-<div class="rightItem">
-  <button id="colorblindToggle" class="toggleFont">
-    Colorblind Mode
-  </button>
+      <div>
+         <a href = "/customer/orderSummary" >
+            <img src = "/img/shoppingCart.png">Cart</a>
+      </div>
+
+      <label class="switch">
+         <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
+         <span class="slider round">
+            <span class="small-a">A</span>
+            <span class="big-a">A</span>
+         </span>
+      </label>
+    </div>
+
+    <div id = "right">
+      <div class = "rightItem">
+               <!--    this is the start of google translate code-->
+               <button id = "translateButton" class = "translateButtonStyling">
+                  <img src = "/img/globe.png">
+               </button>
+               <div id="google_translate_element" style="display: none;"></div>
+               <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                  }
+               </script>
+               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+               <!--    this is the end of google translate code-->
+
+      </div>
+      <div class="rightItem">
+         <button id="colorblindToggle" class="toggleFont">
+           Colorblind Mode
+         </button>
+       </div>
+      <div class = "rightItem">
+         <%- include('../partials/weatherNav', { weather: weather }) %>
+      </div>
+
+    </div>
 </div>
-  <h1>Modify: <%= drink.name %></h1>
+<!---------- NAV BAR  END--------->
+
+
+<div class = "modifyOrder">
+<h1>Modify: <%= drink.name %></h1>
   <p>Base Price: $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></p>
+  <h1>Customize: <%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h1>
 
   <form method="POST" action="/customer/cart/add">
 
@@ -57,7 +92,7 @@
     <h3>Size</h3>
     <div id="sizeGroup">
       <% ['small','regular','large'].forEach(function(size){ %>
-        <button type="button" data-size="<%= size %>"><%= size %></button>
+        <button class="drinkMod" type="button" data-size="<%= size %>"><%= size %></button>
       <% }) %>
     </div>
 
@@ -65,7 +100,7 @@
     <h3>Ice Level</h3>
     <div id="iceGroup">
       <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-        <button type="button" data-ice="<%= i %>"><%= i %></button>
+        <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
       <% }) %>
     </div>
 
@@ -73,7 +108,7 @@
     <h3>Sweetness</h3>
     <div id="sweetGroup">
       <% (sugarLevels && sugarLevels.length ? sugarLevels : ['0%','30%','50%','80%','100%','120%']).forEach(function(s){ %>
-        <button type="button" data-sweet="<%= s %>"><%= s %></button>
+        <button class="drinkMod" type="button" data-sweet="<%= s %>"><%= s %></button>
       <% }) %>
     </div>
 
@@ -81,7 +116,7 @@
     <h3>Topping (optional)</h3>
     <div id="toppingGroup">
       <% (toppings || []).forEach(function(t){ %>
-        <button type="button" data-topping="<%= t.topping_name || t.name %>">
+        <button class="drinkMod" type="button" data-topping="<%= t.topping_name || t.name %>">
           <%= t.topping_name || t.name %>
         </button>
       <% }) %>
@@ -91,16 +126,17 @@
     
 
     <br>
-    <button type="submit">Add to Cart</button>
-    <br><br>
-    <a href="/customer/customerHome">Back</a>
+    <button class="drinkMod" type="submit">Add to Cart</button>
+    <br>
 
   </form>
 
-    <div class = "speechToTextContainer">
-        <img id = "assistantImg"src = "">
-        <button class = "speechButton" id = "speechBtn"> Speech Command Assistant</button>
-    </div>
+  </div>
+
+
+  
+
+
 
   <script>
     function setupSingleSelect(groupId, dataAttr, hiddenId) {
@@ -189,20 +225,23 @@
       
     })();
   </script>
-   <script src = "/js/customerHandler.js"></script> 
+    <script src = "/js/customerHandler.js"></script>
+    <script src = "/js/toggleFont.js"></script>
+   <script src = "/js/customerHandler.js"></script>
+    <script src = "/js/googleTranslateHandler.js"></script>
    <script>
     const cbToggle = document.getElementById("colorblindToggle");
     const cbSheet = document.getElementById("colorblindStylesheet");
-  
+
     // Load saved preference
     if (localStorage.getItem("colorblind") === "on") {
       cbSheet.disabled = false;
     }
-  
+
     // Toggle on click
     cbToggle.addEventListener("click", () => {
       cbSheet.disabled = !cbSheet.disabled;
-  
+
       localStorage.setItem(
         "colorblind",
         cbSheet.disabled ? "off" : "on"
@@ -211,3 +250,4 @@
   </script>
 </body>
 </html>
+

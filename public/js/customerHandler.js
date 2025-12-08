@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let numSanta = 1;
     const kiana = "/img/santa-kiana-gif.gif";
     const julian = "/img/santa-julian-gif.gif";
-    const santaArray = [kiana, julian];
+    const anna = "/img/santa-anna-gif.gif";
+    const santaArray = [kiana, anna, julian];
     const currentSanta = document.getElementById("santaAnimation");
 
     setInterval(changeSanta,7000);
@@ -211,39 +212,65 @@ function setDrinkNameIDPrice(){
     localStorage.setItem("drinkId", drinkId);
     localStorage.setItem("drinkName", drinkName);
     localStorage.setItem("drinkPrice", drinkPrice);
-    
+
     const url = "/customer/" + drinkId + "/customize"
     window.location.href = url;
+
 }
 
-// ANIMATION FUNCTIONS
+
+// function setDrinkNameIDPrice() {
+//     const drinkId = this.dataset.drinkId;
+//     const drinkName = this.dataset.drinkName;
+//     const drinkPrice = this.dataset.drinkPrice;
+
+//     localStorage.setItem("drinkId", drinkId);
+//     localStorage.setItem("drinkName", drinkName);
+//     localStorage.setItem("drinkPrice", drinkPrice);
+//             const drinkModificationsContainer = document.getElementById('drinkModificationsContainer');
+//             drinkModificationsContainer.innerHTML = `
+//                     <h1> THIS is a test </h1>
+//             `;
+
+//     // Corrected fetch
+//     fetch('/drinkId', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ drinkId: Number(drinkId) }) // <-- JSON.stringify ends here
+//     })
+//     .then(res => res.json()) // <-- .then() is chained correctly here
+//     .then(data => {
+//         if (data.success) {
+//             console.log(data.drink);         // drink info
+//             console.log(data.iceLevels);     // ice options
+//             console.log(data.sugarLevels);   // sugar options
+//             console.log(data.toppings);      // toppings
+//             console.log(data.defaults);  
 
 
+//             const drink = data.drink;
+//             const defaults = data.defaults;
+//             const iceLevels = data.iceLevels;
+//             const sugarLevels = data.sugarLevels;
+//             const toppings = data.toppings;
 
+//             const drinkModificationsContainer = document.getElementById('drinkModificationsContainer');
+//             drinkModificationsContainer.innerHTML = `
+//                     <h1> THIS is a test </h1>
+//             `;
 
-//const currentSanta = document.getElementById("santaAnimation");
+//             drinkModificationsContainer.style.display = "block";
 
-
-// function changeSanta(){
-
-
-//     const kiana = "/img/santa-kiana-gif.gif";
-//     const julian = "/img/santa-julian-gif.gif";
-
-//     const santaArray = [kiana, julian];
-
-//     const currentSanta = document.getElementById("santaAnimation");
-
-
-//     currentSanta.src = santaArray[numSanta]; 
-
-// } 
-     
-
-    // if (numSanta == santaArray.length - 1 ){
-    //     numSanta = 0;
-    // }
-    // else{    
-    //     numSanta++;
-    // }
+//             // Reinitialize your selection JS after injecting HTML
+//             setupSingleSelect('sizeGroup', 'size', 'sizeField');
+//             setupSingleSelect('iceGroup', 'ice', 'iceField');
+//             setupSingleSelect('sweetGroup', 'sweet', 'sweetField');
+//         } else {
+//             alert('Failed to load drink data');
+//         }
+//     })
+//     .catch(err => console.error(err));
+// }
 

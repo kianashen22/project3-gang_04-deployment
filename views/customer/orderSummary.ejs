@@ -6,19 +6,60 @@
    <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 </head>
 <body>
-  <%- include("../partials/customerNavBar") %>
-  
-  <!--    this is the start of google translate code-->
-  <div id="google_translate_element"></div>
-  <script type="text/javascript">
-      function googleTranslateElementInit() {
-          new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-      }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <!--    this is the end of google translate code-->
+<!---------- NAV BAR --------->
+<div class = "customerNavBarContainer">
+   <div id = "left">
+      
+      <div>   
+         <a href = "customerOrder">
+             <img src = "/img/skipBack.png"> Back</a>
+      </div>
 
-   <h1>Order Summary</h1>
+      <div>
+         <a href = "orderSummary" >
+            <img src = "/img/shoppingCart.png">Cart</a>
+      </div>
+
+      <label class="switch">
+         <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
+         <span class="slider round">
+            <span class="small-a">A</span>
+            <span class="big-a">A</span>
+         </span>
+      </label>
+    </div>
+
+    <div id = "right">
+      <div class = "rightItem">
+               <!--    this is the start of google translate code-->
+               <button id = "translateButton" class = "translateButtonStyling">
+                  <img src = "/img/globe.png">
+               </button>
+               <div id="google_translate_element" style="display: none;"></div>
+               <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                  }
+               </script>
+               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+               <!--    this is the end of google translate code-->
+
+      </div>
+      <div class="rightItem">
+         <button id="colorblindToggle" class="toggleFont">
+           Colorblind Mode
+         </button>
+       </div>
+      <div class = "rightItem">
+         <%- include('../partials/weatherNav', { weather: weather }) %>
+      </div>
+
+    </div>
+</div>
+<!---------- NAV BAR  END--------->
+
+
+  <h1>Order Summary</h1>
 
    <% 
    const items = (typeof order !== 'undefined' && order && Array.isArray(order.drinks)) ? order.drinks : [];
@@ -34,45 +75,56 @@
  %>
 
  <% if (items.length === 0) { %>
-   <p>No items in the cart.</p>
+   <div style="display: block; text-align: center;">
+       <p>No items in the cart.</p>
+   </div>
  <% } else { %>
+     <div style="text-align: center;">
+         <h3>Totals</h3>
+         <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
+         <div>Tax: $<%= tax.toFixed(2) %></div>
+         <div>Total: $<%= total.toFixed(2) %></div>
+     </div>
+  <div class = "cartList">
    <ol>
-     <% items.forEach(function(d, i) { 
-          const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
-          const qty = Number(d.quantity) || 1;
-          const line = unit * qty;
-     %>
-       <li>
-         <div><strong><%= d.name %></strong></div>
-         <div>Quantity: <%= qty %></div>
-         <div>Unit Price: $<%= unit.toFixed(2) %></div>
-         <% if (d.size) { %><div>Size: <%= d.size %></div><% } %>
-         <% if (d.iceLevel) { %><div>Ice: <%= d.iceLevel %></div><% } %>
-         <% if (d.sweetnessLevel) { %><div>Sweetness: <%= d.sweetnessLevel %></div><% } %>
-         <% if (d.topping) { %><div>Topping: <%= d.topping %></div><% } %>
-         <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
-         <div>Line Total: $<%= line.toFixed(2) %></div>
-       </li>
-       <form method="POST" action="/customer/cart/remove">
-        <input type="hidden" name="index" value="<%= i %>">
-        <button type="submit">x</button>
-      </form>
-      <div id = "editButton">
-        <form action="/customer/editItem" method="POST">
-            <input type="hidden" name="itemIndex" value="<%= i %>">
-            <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
-        </form>
-      </div>
-     <% }); %>
-   </ol>
+             <% items.forEach(function(d, i) {
+                  const unit = (Number(d.price) || 0) + (Number(d.toppingCharge) || 0);
+                  const qty = Number(d.quantity) || 1;
+                  const line = unit * qty;
+             %>
+       <div class = "cartItem">
+           <li>
+               <div><strong><%= d.name %></strong></div>
+               <div>Quantity: <%= qty %></div>
+               <div>Unit Price: $<%= unit.toFixed(2) %></div>
+               <% if (d.size) { %><div>Size: <%= d.size %></div><% } %>
+               <% if (d.iceLevel) { %><div>Ice: <%= d.iceLevel %></div><% } %>
+               <% if (d.sweetnessLevel) { %><div>Sweetness: <%= d.sweetnessLevel %></div><% } %>
+               <% if (d.topping) { %><div>Topping: <%= d.topping %></div><% } %>
+               <% if (d.action) { %><div>Action: <%= d.action %></div><% } %>
+               <div>Line Total: $<%= line.toFixed(2) %></div>
+           </li>
+          <div id = "editButton">
+            <form action="/customer/editItem" method="POST">
+                <input type="hidden" name="itemIndex" value="<%= i %>">
+                <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+            </form>
+          </div>
 
-   <h3>Totals</h3>
-   <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
-   <div>Tax: $<%= tax.toFixed(2) %></div>
-   <div>Total: $<%= total.toFixed(2) %></div>
+           <form method="POST" action="/customer/cart/remove">
+               <input type="hidden" name="index" value="<%= i %>">
+               <button type="submit">x</button>
+           </form>
+       </div>
+       <% }); %>
+   </ol>
+  </div>
  <% } %>
 
- <a class = "button" href="/customer/orderConfirmation">Check out</a>
+  <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
+
+  <script src = "/js/toggleFont.js"></script>
+  <script src = "/js/googleTranslateHandler.js"></script>
  <script>
   const cbToggle = document.getElementById("colorblindToggle");
   const cbSheet = document.getElementById("colorblindStylesheet");

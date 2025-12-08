@@ -1,0 +1,30 @@
+agenda: make sure it's basically done, determine any specific problems that need to be fixed
+
+anna:
+done: enlarge text (kind of, some bugs need to be fixed), 
+doing: css finalization + bug fixes, 
+blocker: WIFI OUT
+
+
+caiti:
+done: customer login & order history
+doing: small styling on order history
+blockers: none
+
+emma:
+DONE: my tasks; 
+DOING: looking through product and seeing if there’s any errors; 
+BLOCKERS: nothing
+
+kiana:
+done: voice assistant 
+need: drink menu styling, and any left over undone css 
+blocker: work, homework, studying for finals
+
+julian:
+done: accessibiltiy color changes
+doing: final touches
+blockers: other classes
+
+
+All on track to hit internal deadline on Friday. discussed & assigned necessary tasks to be added to backlog to have full functionality by the deadline

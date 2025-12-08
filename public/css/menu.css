@@ -1,0 +1,90 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: #ffffff;
+    color: #206b4a;
+}
+
+.menu-container {
+    width: 70%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.brand {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.brand span {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.main-title {
+    font-size: 60px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.squiggle {
+    font-size: 22px;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #206b4a;
+}
+
+.menu-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.menu-section {
+    width: 50%;
+    text-align: left;
+}
+
+.menu-section h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.subheading {
+    font-size: 14px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-top: 1px solid #206b4a;
+    border-bottom: 1px solid #206b4a;
+    padding: 6px 0;
+    text-align: center;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 15px;
+}
+
+.note {
+    margin-top: -5px;
+    font-size: 13px;
+    color: #2e8a64;
+    margin-bottom: 10px;
+}
+
+.others-title {
+    margin-top: 40px;
+}
