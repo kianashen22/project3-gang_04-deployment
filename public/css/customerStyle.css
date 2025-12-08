@@ -162,6 +162,7 @@ button:hover {
     display: flex;
     justify-content: center;
     gap: 10px;
+    padding-right: 10px;
 }
 
 .drinkCategoryButton{
@@ -181,10 +182,10 @@ button:hover {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%;
+    width: 95vw;
     background-color: #FFFEF9;
-    margin: 100px 100px 200px 100px; /* Top Right Bottom Left */ 
-    gap: 60px;   
+    margin: 100px 100px 200px 60px; /* Top Right Bottom Left */
+    gap: 40px;
     padding-bottom: 50px;
 }
 
