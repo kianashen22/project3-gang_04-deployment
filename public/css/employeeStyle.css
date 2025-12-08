@@ -335,7 +335,7 @@ h1 {
     width: 100%;
 
 }
-.tipContainer a {
+.tipContainer a , .profile-section a{
     padding: 5%;
     text-decoration: none;
     background-color: var(--green-header);
@@ -348,6 +348,7 @@ h1 {
 #editButton {
     padding-right: 50px;
     padding-left: 20px;
+    width: 1%;
 }
 
 #editButton button {
@@ -370,6 +371,7 @@ h1 {
 #removeButton {
     padding-right: 50px;
     padding-bottom: 10px;
+    width: 1%;
 }
 
 #removeButton button {
@@ -398,3 +400,66 @@ h1 {
 
 
 
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--light-green);
+    border: 1px solid var(--green-header);
+    border-radius: 12px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+}
+
+.profile-section a {
+    margin: 30px;
+    width: fit-content;
+    align-self: center;
+
+}
+.profile-section h2 {
+    color: var(--green-header);
+    font-size: 32px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-align: center;
+}
+
+/* editing name */
+.profile-section form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-section input[type="text"] {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid var(--button-selected);
+    background-color: var(--button);
+    font-size: 20px;
+    flex: 1;
+    max-width: 300px;
+}
+
+.profile-section button {
+    width: fit-content;
+    padding: 10px 20px;
+    align-self: center;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.profile-section button:hover {
+    transform: scale(1.05);
+}
