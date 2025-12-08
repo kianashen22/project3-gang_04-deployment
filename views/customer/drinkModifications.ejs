@@ -81,8 +81,8 @@
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
 
     <!-- Quantity -->
-    <h3>Quantity</h3>
-    <input type="number" min="1" name="quantity" value="<%= defaults.quantity %>" />
+    <h3 class="drinkMod" >Quantity</h3>
+    <input class="drinkMod"  type="number" min="1" name="quantity" value="<%= defaults.quantity %>" />
 
 <!--    list of toppings added-->
 <!--    new price of item being modified-->
@@ -98,12 +98,13 @@
     <!-- Ice Level -->
 
 
+
       <% if (drink.category != "Hot") { %>
          <!-- Ice Level -->
         <h3>Ice Level</h3>
         <div id="iceGroup">
           <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-            <button type="button" data-ice="<%= i %>"><%= i %></button>
+            <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
           <% }) %>
         </div>
       <% } %>
