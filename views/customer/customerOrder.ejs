@@ -97,7 +97,8 @@
                               <img src="<%= img_url %>">
                               <p class = "drinkTextContainer"><%= drink.name %>, Price: <%= drink.price %></p>
                         </button>
-                     
+
+                        <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
                      </div>
 
                   <% } %>
@@ -190,6 +191,27 @@
               <button id = "seasonal" class = "drinkCategoryButton">Seasonal</button>
               <div class="dropdown-content">
               <% for (let drink of seasonal_drinks) {
+                  const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
+                  %>
+              <div class = "drinkCard">
+                  <button class = "drinkButton"
+                          data-drink-id = "<%= drink.beverage_info_id %>"
+                          data-drink-name = "<%= drink.name %>"
+                          data-drink-price="<%= drink.price%>" >
+                      <img src="<%= img_url %>">
+                  </button>
+
+                  <div class = "drinkTextContainer"><p><%= drink.name %>, Price: <%= drink.price %></p></div>
+              </div>
+              <%}%>
+            </div>
+          </div>
+
+
+         <div class = "hotDropDown">
+              <button id = "hot" class = "drinkCategoryButton">Hot</button>
+              <div class="dropdown-content">
+              <% for (let drink of hot_drinks) {
                   const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
                   %>
               <div class = "drinkCard">
