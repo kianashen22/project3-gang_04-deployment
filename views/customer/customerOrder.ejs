@@ -84,7 +84,7 @@
       <div id = "drinkContainer">
          <div class = "allDropDown">
             <button id = "all" class = "drinkCategoryButton">All</button>
-            <div class="dropdown-content">
+            <div class="dropdown-content"> <div class="innerDrinksContainer">
                   <% for (let drink of all_drinks) {
                         const img_url = img_array[drink.beverage_info_id] ?? img_array[0];
                      %>
@@ -101,7 +101,7 @@
                      </div>
 
                   <% } %>
-            </div>
+            </div></div>
          </div>
 
          <div class = "freshBrewDropDown">
