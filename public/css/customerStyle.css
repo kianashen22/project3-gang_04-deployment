@@ -41,6 +41,11 @@ body.modifyOrder {
     margin: 20px;
 }
 
+button:hover {
+    cursor: pointer;
+    background-color: var(--light-green);
+}
+
 /* ---- customerNavBar styling --- */
 .customerNavBarContainer{
     background-color:  #68A691;
@@ -442,8 +447,10 @@ form button.active {
 }
 
 #thankYouCard{
+    padding: 30px;
     background-color:#D1DFCB;
     display:flex;
+    text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -683,9 +690,22 @@ body.modifyOrder h1 {
 }
 
 #checkout {
-
+    font-size: 1.5em;
+    text-decoration: none;
+    color: black;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--moss);
+    display: flex;
+    margin-left: 20%;
+    margin-right: 20%;
+    align-items: center;
 }
 
+#checkout:hover {
+    background-color: var(--med-green);
+}
 
 /* ---------------------------------------------------------
    STABILITY + LAYOUT SAFETY

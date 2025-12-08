@@ -34,13 +34,16 @@
  %>
 
  <% if (items.length === 0) { %>
-   <p>No items in the cart.</p>
+   <div style="display: block; text-align: center;">
+       <p>No items in the cart.</p>
+   </div>
  <% } else { %>
-     <h3>Totals</h3>
-     <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
-     <div>Tax: $<%= tax.toFixed(2) %></div>
-     <div>Total: $<%= total.toFixed(2) %></div>
-         <br>
+     <div style="text-align: center;">
+         <h3>Totals</h3>
+         <div>Subtotal: $<%= subtotal.toFixed(2) %></div>
+         <div>Tax: $<%= tax.toFixed(2) %></div>
+         <div>Total: $<%= total.toFixed(2) %></div>
+     </div>
   <div class = "cartList">
    <ol>
              <% items.forEach(function(d, i) {
@@ -77,7 +80,7 @@
   </div>
  <% } %>
 
- <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
+  <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
 
   <script src = "/js/toggleFont.js"></script>
 
