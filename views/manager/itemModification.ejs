@@ -60,17 +60,24 @@
               <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
         
               <label>Inventory ID</label>
-              <input type="number" name="inv_id" required>
+                <select name="inv_id" required>
+                    <% for (var j in inventory) { %>
+                        <option value="<%= inventory[j].inventory_id %>"><%= inventory[j].name %></option>
+                    <% } %>
+                </select>
+<!--                <input type="number" name="inv_id" hidden value="<%= item.beverage_info_id %>">-->
         
               <label>Quantity</label>
               <input type="number" name="qt" required>
         
               <label>Unit</label>
               <select name="unit" required>
-                <option value="grams">grams</option>
-                <option value="ml">ml</option>
-                <option value="pieces">pieces</option>
-                <option value="oz">oz</option>
+                  <option value="grams">grams</option>
+                  <option value="ml">ml</option>
+                  <option value="pieces">pieces</option>
+                  <option value="oz">oz</option>
+                  <option value="cups">cups</option>
+                  <option value="unit">unit</option>
               </select>
         
               <button type="submit" class="primary-btn">Add</button>
@@ -85,7 +92,12 @@
               <input type="hidden" name="id" value="<%= item.beverage_info_id %>">
         
               <label>Inventory ID</label>
-              <input type="number" name="inv_id" required>
+                <select name="inv_id" required>
+                    <% for (var j in item_ingredients) { %>
+                        <option value="<%= item_ingredients[j].inventory_id %>"><%= item_ingredients[j].name %></option>
+                    <% } %>
+                </select>
+<!--              <input type="number" name="inv_id" required>-->
         
               <button type="submit" class="danger-btn">Remove</button>
             </form>

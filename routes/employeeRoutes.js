@@ -178,40 +178,50 @@ router.get('/modifyOrder', async (req, res) => {
 });
 
 router.post('/updateCartItem', (req, res) => {
-    const itemIndex = Number(req.body.itemIndex);
-    const newQuantity = Number(req.body.quantity);
-    const newSize = req.body.size;
-    const newTopping = req.body.topping;
-    const newIce = req.body.iceLevel;
-    const newSweetness = req.body.sweetnessLevel;
-    const cart = req.session.cart || [];
+  const itemIndex = Number(req.body.itemIndex);
+  const newQuantity = Number(req.body.quantity);
+  const newSize = req.body.size;
+  const newIce = req.body.iceLevel;
+  const newSweetness = req.body.sweetnessLevel;
 
-    if (
-        Number.isInteger(itemIndex) &&
-        itemIndex >= 0 &&
-        itemIndex < cart.length &&
-        newQuantity > 0
-    ) {
-        const item = cart[itemIndex];
-        item.quantity = newQuantity;
-        item.size = newSize;
-        item.topping = newTopping;
-        item.iceLevel = newIce;
-        item.sweetnessLevel = newSweetness;
+  let newToppings = [];
+  try {
+    newToppings = req.body.toppings ? JSON.parse(req.body.toppings) : [];
+  } catch {
+    newToppings = [];
+  }
 
-        // Recalculate line total
-        const price = Number(item.price) || 0;
-        const toppingCharge = Number(item.toppingCharge || 0);
-        item.lineTotal = (price + toppingCharge) * newQuantity;
+  const cart = req.session.cart || [];
 
-        req.session.cart[itemIndex] = item;
+  if (
+    Number.isInteger(itemIndex) &&
+    itemIndex >= 0 &&
+    itemIndex < cart.length &&
+    newQuantity > 0
+  ) {
+    const item = cart[itemIndex];
 
-        req.session.save(() => {
-            res.redirect('/employee/orderSummary');
-        });
-    } else {
-        res.redirect('/employee/orderSummary');
-    }
+    item.quantity = newQuantity;
+    item.size = newSize;
+    item.iceLevel = newIce;
+    item.sweetnessLevel = newSweetness;
+
+    // ✅ MULTI TOPPING SUPPORT
+    item.toppings = newToppings;
+    item.toppingCharge = newToppings.length * 0.75;
+
+    // ✅ PRICE FIX
+    const price = Number(item.price) || 0;
+    item.lineTotal = (price + item.toppingCharge) * newQuantity;
+
+    req.session.cart[itemIndex] = item;
+
+    req.session.save(() => {
+      res.redirect('/employee/orderSummary');
+    });
+  } else {
+    res.redirect('/employee/orderSummary');
+  }
 });
 
 
@@ -527,40 +537,48 @@ router.get('/:id/customize', async (req, res, next) => {
 
 
 router.post('/cart/add', (req, res) => {
-    if (!req.session.cart) req.session.cart = [];
+  if (!req.session.cart) req.session.cart = [];
 
-    const {
-        beverageInfoId,
-        name,
-        price,
-        size,
-        iceLevel,
-        sweetnessLevel,
-        topping,
-        action,
-        quantity
-    } = req.body;
+  const {
+    beverageInfoId,
+    name,
+    price,
+    size,
+    iceLevel,
+    sweetnessLevel,
+    toppings,
+    quantity
+  } = req.body;
 
+  // ✅ Parse multi-toppings array
+  let toppingList = [];
+  try {
+    toppingList = toppings ? JSON.parse(toppings) : [];
+  } catch {
+    toppingList = [];
+  }
 
-    const qty = Math.max(1, Number(quantity) || 1);
-    const basePrice = Number(price) || 0;
-    const toppingCharge = (action === 'add' && topping) ? 0.75 : 0;
-    const lineTotal = (basePrice + toppingCharge) * qty;
+  const qty = Math.max(1, Number(quantity) || 1);
+  const basePrice = Number(price) || 0;
 
-    req.session.cart.push({
-        beverageInfoId: Number(beverageInfoId),
-        name,
-        size,
-        iceLevel,
-        sweetnessLevel,
-        topping: topping || null,
-        price: basePrice,
-        toppingCharge,
-        quantity: qty,
-        lineTotal
-    });
-    // console.log('CART NOW:', req.session.cart);
-    return res.redirect('/employee/employeeHome');
+  // ✅ Multi-topping pricing
+  const toppingCharge = toppingList.length * 0.75;
+  const lineTotal = (basePrice + toppingCharge) * qty;
+
+  req.session.cart.push({
+    beverageInfoId: Number(beverageInfoId),
+    name,
+    size,
+    iceLevel,
+    sweetnessLevel,
+    toppings: toppingList,   // ✅ ARRAY now
+    price: basePrice,
+    toppingCharge,
+    quantity: qty,
+    lineTotal
+  });
+
+  return res.redirect('/employee/employeeHome');
 });
 
 router.post('/cart/remove', (req, res) => {

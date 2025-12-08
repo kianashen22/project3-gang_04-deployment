@@ -793,6 +793,10 @@ ol {
     padding: 0.35rem;
 }
 
+.orders.large-font {
+    font-size: 2em;
+}
+
 
 
 #menuContainer .large-font {
@@ -1501,10 +1505,9 @@ p.noOrders {
     flex-direction: column;
     gap: 30px;
     padding: 2%;
-    width: 45
+    width: 45;
     height: fit-content;
 }
-
 
 .orderCard p, 
 .orderCard h1,
