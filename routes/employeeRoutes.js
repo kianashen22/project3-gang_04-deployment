@@ -227,6 +227,33 @@ router.get('/tip', (req, res) => {
   res.render('employee/employeeTip');
 });
 
+router.get('/customerEmail', (req, res) => {
+    res.render('employee/customerEmail', { message: '', customer: null });
+});
+router.post('/getIDFromEmail', async (req, res) => {
+    console.log(req.body);
+    const { email } = req.body;
+    console.log(email);
+    const result = await pool.query(
+        `SELECT * FROM customer WHERE email = $1`,
+        [email]
+    );
+
+    console.log(result);
+
+    if (result.rowCount === 0) {
+      console.log("No user found with email:", user.email);  
+      return res.render('employee/customerEmail', {message: "Email not found", customer: null}); 
+    }
+
+  let customer = result.rows[0]
+  req.session.customerId = customer.customer_id; 
+  res.render('employee/customerEmail', {message: `Welcome back, ${customer.first_name}!`, customer: customer});
+});
+
+
+
+
 
 //order confirmation page
 router.get('/orderConfirmation',async (req, res , next) => {
@@ -273,7 +300,7 @@ router.get('/orderConfirmation',async (req, res , next) => {
     // combine_date is DATE, so use yyyy-mm-dd
     const combine_date = now.toISOString().slice(0, 10);
 
-    const customerId = 1; // or whatever real customer_id you use
+    const customerId = req.session.customerId || 1; // fallback to 1 if not set
 
 const orderResult = await pool.query(
   `

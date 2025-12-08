@@ -48,7 +48,15 @@
          </button>
        </div>
       <div class = "rightItem">
-         <%- include('../partials/weatherNav', { weather: weather }) %>
+             <% if (user) { %>
+ 
+                  <form action = "/customerLogout" method = "POST">
+                     <button id="logoutButton" type = "submit">Logout</button>
+                  </form>
+            <% } 
+            else { %>
+               <%- include('../partials/weatherNav', { weather: weather }) %>
+            <% } %>
       </div>
 
     </div>
@@ -98,8 +106,8 @@
 
                             <td>$<%= order.total_price.toFixed(2) %></td>
                             <td>
-                                <form action="/orderAgain" method="POST">
-                                    <input type="hidden" name="orderId" value="<%= order.id %>">
+                                <form action="orderAgain" method="POST">
+                                    <input type="hidden" name="orderId" value="<%= order.order_id %>">
                                     <button type="submit">Order Again</button>
                                 </form>
                             </td>

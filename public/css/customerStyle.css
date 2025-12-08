@@ -45,7 +45,7 @@ body.modifyOrder {
 
 button:hover {
     cursor: pointer;
-    background-color: var(--light-green);
+   /* background-color: var(--light-green); */
 }
 
 /* ---- customerNavBar styling --- */
@@ -268,9 +268,11 @@ button:hover {
 }
 
 #homeNavBarLeft{
+    background-color:  #68A691;
     display: flex;
-    align-items: flex-start;
-    gap: 100px;
+    gap: 20px;
+    justify-content: flex-start;   /* left to right */
+    align-items: flex-start; 
 }
 #homeNavBarLeft a, #homeHeader a{
     text-decoration: none;
@@ -725,8 +727,8 @@ ol {
     position: relative;
     display: flex;
     align-self: center;
-    width: 60px;
-    height: 34px;
+    width: 80px;
+    height: 54px;
     transition: transform 0.2s ease;
 }
 .switch:hover{
@@ -758,8 +760,8 @@ ol {
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 46px;
+    width: 46px;
     left: 4px;
     bottom: 4px;
     background-color: #ccc;
@@ -790,13 +792,13 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 .small-a {
-  font-size: 12px;
+  font-size: 18px;
   font-weight: bold;
   color: #555;
 }
 
 .big-a {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: #555;
 }
@@ -1011,6 +1013,7 @@ table form button {
 
 table form button:hover {
     transform: scale(1.05);
+    background-color: var(--green-header);
 }
 
 
@@ -1170,13 +1173,30 @@ p.noOrders {
 #colorblindToggle{
     background-color: white;
     border-radius: 34px;
-    height: 34px;
+    height: 54px;
     border-style: none;
     font-family: "Instrument Sans", sans-serif;
     transition: transform 0.2s ease;
+    font-size: 22px;
 
 }
 
 #colorblindToggle:hover{
+    transform: scale(1.1, 1.1);
+}
+
+
+/* --------- LOGOUT BUTTON -------- */
+#logoutButton{
+    background-color: white;
+    border-radius: 34px;
+    height: 54px;
+    border-style: none;
+    font-family: "Instrument Sans", sans-serif;
+    transition: transform 0.2s ease;
+    font-size: 22px;
+}
+
+#logoutButton:hover{
     transform: scale(1.1, 1.1);
 }

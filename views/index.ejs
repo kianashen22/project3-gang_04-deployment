@@ -5,35 +5,54 @@
     <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
 </head>
 <body>
+  <!---------- NAV BAR --------->
     <div id = "homeHeader">
+      <div id = "homeNavBarLeft">
+          <div>
             <a href = "/menu"><img src = "/img/drink.png">Menu</a>
-            <p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p>
+          </div>
+          <div>
+            <label class="switch">
+              <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
+              <span class="slider round">
+                  <span class="small-a">A</span>
+                  <span class="big-a">A</span>
+              </span>
+            </label>
+          </div>
 
+      </div>
+            
         <h1>HTeaML</h1>
-        <div id = "right">
-            <div class = "rightItem">
-                <!--    this is the start of google translate code-->
-                <div id="google_translate_element"></div>
-                <script type="text/javascript">
-                    function googleTranslateElementInit() {
-                        new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-                    }
-                </script>
-                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                <!--    this is the end of google translate code-->
+    <div id = "right">
+      <div class = "rightItem">
+               <!--    this is the start of google translate code-->
+               <button id = "translateButton" class = "translateButtonStyling">
+                  <img src = "/img/globe.png">
+               </button>
+               <div id="google_translate_element" style="display: none;"></div>
+               <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                  }
+               </script>
+               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+               <!--    this is the end of google translate code-->
 
-            </div>
-            <div class="rightItem">
-                <button id="colorblindToggle" class="toggleFont">
-                  Colorblind Mode
-                </button>
-              </div>
-            <div class = "rightItem">
-                <%- include('./partials/weatherNav', { weather: weather }) %>
-            </div>
+      </div>
+      <div class="rightItem">
+         <button id="colorblindToggle" class="toggleFont">
+           Colorblind Mode
+         </button>
+       </div>
+      <div class = "rightItem">
+         <%- include('partials/weatherNav', { weather: weather }) %>
+      </div>
 
-        </div>
     </div>
+    </div>
+
+  <!---------- NAV BAR  END--------->
 
     <div class = "viewChoiceBar">
         <a class = "viewchoice" href = /auth/google?role=employee> Cashier</a>

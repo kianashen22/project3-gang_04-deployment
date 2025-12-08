@@ -56,7 +56,10 @@
        </div>
       <div class = "rightItem">
              <% if (user) { %>
-               <a href = "customerHome"><button id="colorblindToggle">Logout</button></a>
+ 
+                  <form action = "/customerLogout" method = "POST">
+                     <button id="logoutButton" type = "submit">Logout</button>
+                  </form>
             <% } 
             else { %>
                <%- include('../partials/weatherNav', { weather: weather }) %>

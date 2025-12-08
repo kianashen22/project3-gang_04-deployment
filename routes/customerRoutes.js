@@ -990,5 +990,57 @@ router.post('/updateName', async (req, res) => {
 });
 
 
+
+router.post('/orderAgain', async (req, res) => {
+    const orderId = req.body.orderId; 
+    console.log("Order ID to reorder:", orderId);
+    // get order by order id
+    const prevOrderResult = await pool.query(
+    `SELECT 
+        o.*,
+        COALESCE(json_agg(b.*) FILTER (WHERE b.beverage_id IS NOT NULL), '[]') AS beverages
+    FROM "order" o
+    LEFT JOIN beverage b ON o.order_id = b.order_id
+    WHERE o.order_id = $1
+    GROUP BY o.order_id;`,
+    [orderId]
+    );
+  
+    const prev_order = prevOrderResult.rows[0];
+
+
+    // add that order to session cart
+    prev_order.beverages.forEach(bev => {
+        // console.log("LOGGING BEV!!!!!!!!!")
+        // console.log(bev)
+        const basePrice = Number(bev.price ?? 0);
+        const toppingCharge = bev.topping ? 0.75 : 0;
+        const qty = Number(bev.quantity ?? 1);
+        const lineTotal = (basePrice + toppingCharge) * qty;
+
+        if (!req.session.cart) req.session.cart = [];
+
+        req.session.cart.push({
+            beverageInfoId: Number(bev.beverage_info_id ?? bev.beverage_id),
+            name: bev.beverage_name,
+            size: bev.size,
+            iceLevel: bev.ice_level,
+            sweetnessLevel: bev.sweetness_level,
+            topping: null,
+            price: basePrice,
+            toppingCharge,
+            quantity: qty,
+            lineTotal
+        });
+    });
+
+
+    // redirect to order summary
+    res.redirect('/customer/orderSummary');
+
+
+});
+
+
 // Export router
 module.exports = router;
