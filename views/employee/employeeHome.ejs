@@ -98,6 +98,32 @@
                 </a>
             <% } %>
         </div>
+        <div class = "col">
+            <h2>Seasonal</h2>
+            <% for (let drink of seasonal_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a>
+            <% } %>
+        </div>
+        <div class = "col">
+            <h2>Hot Drinks</h2>
+            <% for (let drink of hot_drinks) { %>
+                <a class = "drinkCard" 
+                    data-drink-id = "<%= drink.beverage_info_id %>" 
+                    data-drink-name = "<%= drink.name %>" 
+                    data-drink-price="<%= drink.price%>" 
+                    href = "/employee/<%= drink.beverage_info_id %>/customize"
+                    >
+                    <%= drink.name %>
+                </a>
+            <% } %>
+        </div>
     </div>
 
 

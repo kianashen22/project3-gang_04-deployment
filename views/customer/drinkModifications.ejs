@@ -96,12 +96,17 @@
     </div>
 
     <!-- Ice Level -->
-    <h3>Ice Level</h3>
-    <div id="iceGroup">
-      <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-        <button class="drinkMod" type="button" data-ice="<%= i %>"><%= i %></button>
-      <% }) %>
-    </div>
+
+
+      <% if (drink.category != "Hot") { %>
+         <!-- Ice Level -->
+        <h3>Ice Level</h3>
+        <div id="iceGroup">
+          <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
+            <button type="button" data-ice="<%= i %>"><%= i %></button>
+          <% }) %>
+        </div>
+      <% } %>
 
     <!-- Sweetness -->
     <h3>Sweetness</h3>

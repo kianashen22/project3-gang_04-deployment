@@ -75,6 +75,8 @@ router.get('/employeeHome', async (req, res) => {
   let fruity_drinks = []
   let iceBlended_drinks = []
   let milky_drinks = []
+  let seasonal_drinks = []
+  let hot_drinks = []
   try {
     let query_res1 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Fresh Brew'");
     freshBrew_drinks = query_res1.rows;
@@ -88,6 +90,12 @@ router.get('/employeeHome', async (req, res) => {
     let query_res4 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Milky Series'");
     milky_drinks = query_res4.rows;
 
+    let query_res5 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Seasonal'");
+    seasonal_drinks = query_res5.rows;
+
+    let query_res6 = await pool.query("SELECT * FROM beverage_info WHERE category = 'Hot'");
+    hot_drinks = query_res6.rows;
+
 
     res.render('employee/employeeHome', {
       user: user,
@@ -95,7 +103,9 @@ router.get('/employeeHome', async (req, res) => {
       freshBrew_drinks,
       fruity_drinks,
       iceBlended_drinks,
-      milky_drinks
+      milky_drinks,
+      seasonal_drinks,
+      hot_drinks
     });
   } catch (err) {
       if (err) {
@@ -108,7 +118,9 @@ router.get('/employeeHome', async (req, res) => {
         freshBrew_drinks,
         fruity_drinks,
         iceBlended_drinks,
-        milky_drinks
+        milky_drinks,
+        seasonal_drinks,
+        hot_drinks
       });
   }
 });
@@ -261,8 +273,25 @@ router.post('/getIDFromEmail', async (req, res) => {
   res.render('employee/customerEmail', {message: `Welcome back, ${customer.first_name}!`, customer: customer});
 });
 
+// // edit quantity from cart
+// router.post('/cart/updateQuantity', (req, res) => {
+//     const index = Number(req.body.index);
+//     const change = Number(req.body.change);
+
+//     if (!req.session.order || !req.session.order.drinks[index]) {
+//         return res.redirect("/employee/orderSummary");
+//     }
+
+//     // Update quantity
+//     let drink = req.session.order.drinks[index];
+//     drink.quantity = Math.max(1, (drink.quantity || 1) + change);
+
+//     console.log("Updating item:", index, "Change:", change);
+//     console.log("New quantity:", drink.quantity);
 
 
+//     res.redirect("/employee/orderSummary");
+// });
 
 
 //order confirmation page

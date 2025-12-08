@@ -68,15 +68,30 @@
         <div class = "orderCard">
           <div class = "orderInfoCol">
             <h1><%= d.name %></h1>
-            <p class = "Quantity">Quantity: <%= qty %></p>
+            <!-- <div id = "quantityButtons"> -->
+              <p class = "Quantity">Quantity: <%= qty %></p>
+              <!-- <div id = "actualButtons">
+                <form method="POST" action="/employee/cart/updateQuantity">
+                  <input type="hidden" name="index" value="<%= i %>">
+                  <input type="hidden" name="change" value="-1">
+                  <button type="submit" id = "decreaseQuantity">-</button>
+                </form>
+
+                <form method="POST" action="/employee/cart/updateQuantity">
+                    <input type="hidden" name="index" value="<%= i %>">
+                    <input type="hidden" name="change" value="1">
+                    <button type="submit" id = "increaseQuantity">+</button>
+                </form>
+              </div> -->
+            <!-- </div> -->
             <div class = "details">
               <p>
                 <% if (d.size) { %><%= d.size %>, <% } %>
-                <% if (d.iceLevel) { %><%= d.iceLevel %>, <% } %>
-                <% if (d.sweetnessLevel) { %><%= d.sweetnessLevel %> Sweet<% } %>
-              
-                <% if (Array.isArray(d.toppings) && d.toppings.length > 0) { %>
-                  , Toppings: <%= d.toppings.join(', ') %>
+                <% if (d.iceLevel) { %> <%= d.iceLevel %>, <% } %>
+                <% if (d.sweetnessLevel) { %> <%= d.sweetnessLevel %> Sweet, <% } %>
+                <!-- TODO: add all toppings -->
+                <% if (d.toppings && d.toppings.length > 0) { %>
+                  Toppings: <%= d.toppings.join(', ') %>
                 <% } %>
               </p>
             </div>

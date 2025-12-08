@@ -76,14 +76,16 @@
       <% }) %>
     </div>
 
-    <!-- Ice Level -->
-    <h3>Ice Level</h3>
-    <div id="iceGroup">
-      <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
-        <button type="button" data-ice="<%= i %>"><%= i %></button>
-      <% }) %>
-    </div>
-
+ 
+  <% if (drink.category != "Hot") { %>
+         <!-- Ice Level -->
+        <h3>Ice Level</h3>
+        <div id="iceGroup">
+          <% (iceLevels && iceLevels.length ? iceLevels : ['no ice','light ice','regular','extra ice']).forEach(function(i){ %>
+            <button type="button" data-ice="<%= i %>"><%= i %></button>
+          <% }) %>
+        </div>
+      <% } %>
     <!-- Sweetness -->
     <h3>Sweetness</h3>
     <div id="sweetGroup">
@@ -154,7 +156,7 @@
       const group = document.getElementById('toppingGroup');
       const field = document.getElementById('toppingField');
       
-      const buttons = group.querySelectorAll('button[data-topping]');
+      let selectedToppings = [];
       
       // if (!group || !field) return;
       group.addEventListener('click', (e) => {
@@ -163,17 +165,17 @@
 
         const value = btn.dataset.topping;
 
-        // Toggle off if same topping clicked twice
-        if (field.value === value) {
-          // unselect
-          field.value = '';
-
+        if (selectedToppings.includes(value)) {
+          // REMOVE
+          selectedToppings = selectedToppings.filter(t => t !== value);
           btn.classList.remove('active');
         } else {
-          field.value = value;
-          buttons.forEach(b => b.classList.remove('active'));
+          // ADD
+          selectedToppings.push(value);
           btn.classList.add('active');
         }
+
+        field.value = JSON.stringify(selectedToppings);
       });
     })();
 
