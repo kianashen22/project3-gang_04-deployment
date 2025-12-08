@@ -63,12 +63,11 @@
 <!---------- NAV BAR  END--------->
 
 
-<div class = "modifyOrder">
-<h1>Modify: <%= drink.name %></h1>
+<!-- <div class = "modifyOrder"> -->
 
-  <h1>Customize: <%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h1>
-
-  <form method="POST" action="/customer/cart/add">
+  <form method="POST" class = "modifyDrink" action="/customer/cart/add">
+    <h1>Customize: </h1>
+    <h2><%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h2>
 
     <!-- Hidden values sent to server -->
     <input type="hidden" name="beverageInfoId" value="<%= drink.id ?? drink.beverage_info_id %>" />
@@ -126,7 +125,7 @@
     
 
     <br>
-    <button class="drinkMod" type="submit">Add to Cart</button>
+    <button class="button" type="submit">Add to Cart</button>
     <br>
 
   </form>
