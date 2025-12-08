@@ -240,7 +240,7 @@ router.get('/menuAsst', async(req, res) => {
 const db = {
     async getDrink(id) {
         const q = `
-      SELECT beverage_info_id, name, price
+      SELECT beverage_info_id, name, price, category
       FROM beverage_info
       WHERE beverage_info_id = $1
     `;
