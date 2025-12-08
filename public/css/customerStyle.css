@@ -575,8 +575,16 @@ form button.active {
 
 .searchItemSection {
     display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.row {
+    display: flex;
     flex-direction: row;
     gap: 40px;
+    align-content: center;
+    justify-content: center;
 }
 
 .searchDropRow {
@@ -1072,7 +1080,7 @@ input:checked + .slider:before {
     max-width: 300px;
 }
 
-.profile-section button {
+.profile-section button, #searchDrinksButton {
     width: fit-content;
     padding: 10px 20px;
     align-self: center;
@@ -1336,3 +1344,56 @@ p.noOrders {
 #logoutButton:hover{
     transform: scale(1.1, 1.1);
 }
+
+
+/* ingredient search */
+.searchItemSection {
+    width: 100%;
+    max-width: 520px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--cream-white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+}
+
+/* Dropdown Section */
+.searchDropRow {
+    margin-bottom: 15px;
+}
+
+#ingredientSelect {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--moss);
+    border-radius: 12px;
+    font-size: 15px;
+    background: var(--light-green);
+    color: var(--mauve);
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+#ingredientSelect:hover {
+    background: var(--moss);
+}
+
+.optionDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: fit-content;
+}
+
+/* Button Section */
+.pillContent {
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+
+#searchDrinksButton:hover {
+    background: var(--button-selected);
+}
+
