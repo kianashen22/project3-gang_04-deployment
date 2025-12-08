@@ -6,33 +6,59 @@
     <link rel="stylesheet" href="/css/customerStyle.css">
     <link rel="stylesheet" href="/css/colorblind.css" id="colorblindStylesheet" disabled>
   </head>
-<body class="modifyOrder">
+<body>
+<!---------- NAV BAR --------->
+<div class = "customerNavBarContainer">
+   <div id = "left">
+      
+      <div>   
+         <a href = "/customer/customerOrder">
+             <img src = "/img/skipBack.png"> Back</a>
+      </div>
 
-<div class="modNav">
-    <a href="/customer/orderSummary" class="modBack">Back</a>
+      <div>
+         <a href = "/customer/orderSummary" >
+            <img src = "/img/shoppingCart.png">Cart</a>
+      </div>
 
-    <div><p><button onclick = "toggleFont()" class = "toggleFont" >toggle font size - Aa</button></p></div>
-
-    <div class="rightItem">
-        <button id="colorblindToggle" class="toggleFont">
-            Colorblind Mode
-        </button>
+      <label class="switch">
+         <input type="checkbox" onclick = "toggleFont()" class = "toggleFont" checked>
+         <span class="slider round">
+            <span class="small-a">A</span>
+            <span class="big-a">A</span>
+         </span>
+      </label>
     </div>
 
-    <!--    this is the start of google translate code-->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!--    this is the end of google translate code-->
+    <div id = "right">
+      <div class = "rightItem">
+               <!--    this is the start of google translate code-->
+               <button id = "translateButton" class = "translateButtonStyling">
+                  <img src = "/img/globe.png">
+               </button>
+               <div id="google_translate_element" style="display: none;"></div>
+               <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                     new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'zh-CN,pt,ru,es,fil'}, 'google_translate_element');
+                  }
+               </script>
+               <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+               <!--    this is the end of google translate code-->
+
+      </div>
+      <div class="rightItem">
+         <button id="colorblindToggle" class="toggleFont">
+           Colorblind Mode
+         </button>
+       </div>
+
+    </div>
 </div>
+<!---------- NAV BAR  END--------->
 
-    <h1>Modify: <%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h1>
-
-    <form action="/customer/updateCartItem" method="POST">
+    <form action="/customer/updateCartItem" class = "modifyDrink" method="POST">
+      <h1>Modify: </h1>
+      <h2><%= drink.name %> - $<%= Number(drink.base_price ?? drink.price).toFixed(2) %></h2>
 
       <input type="hidden" name="itemIndex" value="<%= index %>">
 
@@ -87,7 +113,7 @@
       </div>
 
       <br>
-      <button class="drinkMod" type="submit" class="submit">Save Change</button>
+      <button class="button" type="submit" class="submit">Save Change</button>
       <br><br>
 
 
