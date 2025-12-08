@@ -72,10 +72,12 @@
             <div class = "details">
               <p>
                 <% if (d.size) { %><%= d.size %>, <% } %>
-                <% if (d.iceLevel) { %> <%= d.iceLevel %>, <% } %>
-                <% if (d.sweetnessLevel) { %> <%= d.sweetnessLevel %> Sweet, <% } %>
-                <!-- TODO: add all toppings -->
-                <% if (d.topping) { %><%= d.topping %><% } %>
+                <% if (d.iceLevel) { %><%= d.iceLevel %>, <% } %>
+                <% if (d.sweetnessLevel) { %><%= d.sweetnessLevel %> Sweet<% } %>
+              
+                <% if (Array.isArray(d.toppings) && d.toppings.length > 0) { %>
+                  , Toppings: <%= d.toppings.join(', ') %>
+                <% } %>
               </p>
             </div>
             <p class = "Price "> $<%= line.toFixed(2) %></p>
