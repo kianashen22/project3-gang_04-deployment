@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const kiana = "/img/santa-kiana-gif.gif";
     const julian = "/img/santa-julian-gif.gif";
     const anna = "/img/santa-anna-gif.gif";
-    const santaArray = [kiana, anna, julian];
+    const emma = "/img/santa-emma-gif.gif";
+    const santaArray = [emma, anna, kiana, julian];
     const currentSanta = document.getElementById("santaAnimation");
 
     setInterval(changeSanta,7000);

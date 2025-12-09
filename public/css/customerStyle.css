@@ -621,6 +621,8 @@ form button.active {
 
 /*----------------------- SANTA ANIMATION ---------------------------*/
 #santaAnimation{
+    width: auto;
+    height: 210px;
     animation-name: moveAcrossScreen;
     animation-duration: 7s;
     position: relative;
