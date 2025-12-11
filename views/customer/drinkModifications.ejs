@@ -77,7 +77,7 @@
     <input type="hidden" id="sizeField" name="size" value="<%= defaults.size %>" />
     <input type="hidden" id="iceField" name="iceLevel" value="<%= defaults.iceLevel %>" />
     <input type="hidden" id="sweetField" name="sweetnessLevel" value="<%= defaults.sugarLevel %>" />
-    <input type="hidden" id="toppingField" name="toppings" value="<%= defaults.defaultTopping %>" />
+    <input type="hidden" id="toppingField" name="toppings" value="" />
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
 
 
@@ -181,7 +181,6 @@
 
   let selectedToppings = [];
 
-  const buttons = group.querySelectorAll('button[data-topping]');
 
   group.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-topping]');
