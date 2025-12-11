@@ -95,7 +95,7 @@
              %>
       <div class = "orderCard">
           <div class = "orderInfoCol">
-            <h1><%= d.name %></h1>
+            <h1 id = "orderSummaryDrinkName"><%= d.name %></h1>
             <p class = "Quantity">Quantity: <%= qty %></p>
             <div class = "details">
               <p>
@@ -114,7 +114,7 @@
           <div id = "editButton">
             <form action="/customer/editItem" method="POST">
                 <input type="hidden" name="itemIndex" value="<%= i %>">
-                <button type="submit"><img src = "/img/edit.png" alt = "edit item"></button>
+                <button type="submit"><img id = "editCartImg" src = "/img/edit.png" alt = "edit item"></button>
             </form>
           </div>
           <div id = "removeButton">
@@ -132,20 +132,32 @@
 
   <a id = "checkout" class = "button" href="/customer/orderConfirmation">Check out</a>
 
+  <footer>
+    
+  </footer>
+
   <script src = "/js/toggleFont.js"></script>
   <script src = "/js/googleTranslateHandler.js"></script>
  <script>
   const cbToggle = document.getElementById("colorblindToggle");
   const cbSheet = document.getElementById("colorblindStylesheet");
+  const editCartImg = document.getElementById("editCartImg");
 
   // Load saved preference
   if (localStorage.getItem("colorblind") === "on") {
     cbSheet.disabled = false;
   }
+ 
 
   // Toggle on click
   cbToggle.addEventListener("click", () => {
     cbSheet.disabled = !cbSheet.disabled;
+    if (cbSheet.disabled){
+      editCartImg.src = "/img/edit.png";
+    }
+    else{
+      editCartImg.src = "/img/editColorBlind.jpg";
+    }
 
     localStorage.setItem(
       "colorblind",

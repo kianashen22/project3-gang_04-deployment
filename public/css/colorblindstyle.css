@@ -27,6 +27,9 @@ h1 {
   color: #005BBB !important;
 }
 
+#homePageTitle {
+  color: white !important;
+}
 .customerNavBarContainer h1, .drinkNavBar h1, .titleContainer h1 {
   color: white !important;
 }
@@ -172,4 +175,28 @@ a {
     background-color: #FFFFFF !important;
     border: 1px solid #005BBB !important;
     color: #000000 !important;
+}
+
+
+/* Order Summary */
+.totals, .orderCard {
+    border: 1px solid   #003E80 !important;
+    background-color:   #005BBB !important;
+}
+
+.orderCard p, 
+.orderCard h1,
+.totals p, 
+.Price, 
+.Quantity {
+    color: white !important;
+}
+
+#orderSummaryDrinkName{
+    color: white !important;
+}
+
+#checkout{
+    background-color: #005BBB !important;
+    color: white !important;
 }

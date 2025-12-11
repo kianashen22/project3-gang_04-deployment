@@ -143,7 +143,7 @@ router.get('/analytics/productUsageChart', async (req, res) => {
       
       // render to ejs
       console.log(product_usage);
-      res.render('manager/analytics/ProductUsageChart', {
+      res.render('manager/analytics/productUsageChart', {
         usageMap,
         allInventory,
         startDate2,
