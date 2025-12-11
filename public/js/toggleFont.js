@@ -10,6 +10,8 @@ function toggleFont() {
 
     const chatText = document.getElementById("chatText");
 
+    const customerLoginTable = document.getElementById("customerTable")
+
 
     if (menuText) menuText.classList.toggle("large-font");
     if (drinkMenuText) drinkMenuText.classList.toggle("large-font");
@@ -31,6 +33,11 @@ function toggleFont() {
 
     if(chatText){
         chatText.classList.toggle("large-font");
+    }
+
+    
+    if (customerLoginTable){
+        customerLoginTable.classList.toggle("large-font")
     }
 
 }

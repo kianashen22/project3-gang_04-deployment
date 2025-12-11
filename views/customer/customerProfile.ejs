@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="/css/customerStyle.css">
+   <link rel="stylesheet" href="/css/colorblindstyle.css" id="colorblindStylesheet" disabled>
     <title>Customer Profile</title>
 </head>
 <body>
@@ -74,14 +75,14 @@
     <!-- order history,  with order again option -->
 
        <% if (past_orders.length > 0) { %>
-            <table>
+            <table id = "customerTable">
                 <thead>
                     <tr>
                         <!-- <th>Order ID</th> -->
-                        <th>Date</th>
-                        <th>Items</th>
-                        <th>Total</th>
-                        <th>Action</th>
+                        <th id = "tableHeadings">Date</th>
+                        <th id = "tableHeadings">Items</th>
+                        <th id = "tableHeadings">Total</th>
+                        <th id ="tableHeadings">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,4 +121,24 @@
         <% } %>
     </div>
     <script src = "/js/googleTranslateHandler.js"></script>
+    <script src = "/js/toggleFont.js"></script>
+    <script>
+      const cbToggle = document.getElementById("colorblindToggle");
+      const cbSheet = document.getElementById("colorblindStylesheet");
+    
+      // Load saved preference
+      if (localStorage.getItem("colorblind") === "on") {
+        cbSheet.disabled = false;
+      }
+    
+      // Toggle on click
+      cbToggle.addEventListener("click", () => {
+        cbSheet.disabled = !cbSheet.disabled;
+    
+        localStorage.setItem(
+          "colorblind",
+          cbSheet.disabled ? "off" : "on"
+        );
+      });
+    </script>
 </body>

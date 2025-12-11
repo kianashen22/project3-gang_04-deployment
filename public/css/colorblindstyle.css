@@ -229,3 +229,74 @@ a {
     border-bottom: 1px solid black !important;
 }
 
+
+/* CUSTOMER PROFILE */
+table {
+    width: 80%;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background-color:#005BBB !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color:  #005BBB;
+}
+
+thead th {
+    color: var(--mauve);
+    border-bottom: 2px solid #003E80;
+}
+
+tbody td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--med-green);
+    font-size: 20px;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+td ul {
+    padding-left: 20px;
+    text-align: left;
+}
+
+td ul li {
+    color: var(--green-header);
+    font-size: 18px;
+}
+
+
+table form button {
+    padding: 10px 20px;
+    background-color: var(--green-header);
+    color: var(--cream-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+table form button:hover {
+    background-color: #005BBB !important;
+}
+
+
+.no-orders-message,
+p.noOrders {
+    color: white !important;
+
+}
+
+#tableHeadings{
+    color: white !important;
+}
+
+

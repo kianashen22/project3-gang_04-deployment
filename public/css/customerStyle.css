@@ -825,6 +825,24 @@ ol {
     font-size: 0.85 rem !important;
 }
 
+
+/* deafult font size for customerTable */
+/* default font size for customerTable */
+#customerTable {
+  font-size: 1rem;
+}
+
+/* Larger font when toggle is ON the table */
+#customerTable.large-font {
+  font-size: 1.35rem;
+}
+
+#customerTable.large-font td,
+#customerTable.large-font th,
+#customerTable.large-font ul,
+#customerTable.large-font li {
+  font-size: 1.35rem !important;
+}
 /* ----- Toggle Font Switch Styling -- */
 
 .switch {
