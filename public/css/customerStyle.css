@@ -694,6 +694,14 @@ ol {
 
 
 /* ----------       MENU        ----------*/
+.text {
+    font-size: 1rem;   /* your normal size */
+}
+
+.note {
+    font-size: 0.85rem;   /* slightly smaller */
+}
+
 .menu-container {
     width: 70%;
     margin: 40px auto;
@@ -803,6 +811,18 @@ ol {
 
 #menuContainer .large-font {
     font-size: 2em;
+}
+
+.large-font .text {
+    font-size: 1.5rem !important;
+}
+
+.large-font .note {
+    font-size: 1.2rem !important; 
+}
+
+#chatText .large-font{
+    font-size: 0.85 rem !important;
 }
 
 /* ----- Toggle Font Switch Styling -- */
@@ -1220,9 +1240,9 @@ p.noOrders {
 }
 .orderSpeechContainer{
     width: 25%;
-    background: #fff;
+    background: #ffffff94;
     border-radius: 16px;
-    border: 2px solid #c9ddd5;
+    border: 2px solid var(--green-header);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     position: fixed;
     bottom: 30px;

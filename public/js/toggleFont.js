@@ -6,6 +6,11 @@ function toggleFont() {
 
     const cartItems = document.querySelectorAll(".orders");
 
+    const spanText = document.querySelectorAll("span.text");
+
+    const chatText = document.getElementById("chatText");
+
+
     if (menuText) menuText.classList.toggle("large-font");
     if (drinkMenuText) drinkMenuText.classList.toggle("large-font");
 
@@ -16,4 +21,16 @@ function toggleFont() {
     if (cartItems && cartItems.length > 0) {
         cartItems.forEach(btn => btn.classList.toggle('large-font'));
     }
+
+    if (spanText){
+        
+        spanText.forEach(span => {
+            span.classList.toggle("large-font");
+        });
+    }
+
+    if(chatText){
+        chatText.classList.toggle("large-font");
+    }
+
 }

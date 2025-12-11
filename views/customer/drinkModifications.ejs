@@ -80,7 +80,7 @@
     <input type="hidden" id="toppingField" name="toppings" value="<%= defaults.defaultTopping %>" />
     <input type="hidden" id="actionField" name="action" value="<%= defaults.action %>" />
 
-    <h2><%= defaults.defaultTopping %></h2>
+
 
     <!-- Quantity -->
     <h3 class="drinkMod" >Quantity</h3>
@@ -180,6 +180,8 @@
   const field = document.getElementById('toppingField');
 
   let selectedToppings = [];
+
+  const buttons = group.querySelectorAll('button[data-topping]');
 
   group.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-topping]');

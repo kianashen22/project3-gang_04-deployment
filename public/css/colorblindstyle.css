@@ -27,7 +27,7 @@ h1 {
   color: #005BBB !important;
 }
 
-#homePageTitle {
+.title {
   color: white !important;
 }
 .customerNavBarContainer h1, .drinkNavBar h1, .titleContainer h1 {
@@ -123,9 +123,12 @@ tbody td {
 
 /* Speech box */
 .speech-box,
-.messageStyling,
 .orderSpeechContainer {
-    background: #FFFFFF !important;
+    background: #ffffff94 !important;
+    border: 2px solid #005BBB !important;
+}
+.messageStyling{
+    background: white !important;
     border: 2px solid #005BBB !important;
 }
 
@@ -144,6 +147,16 @@ form button.active {
 /* Large-font mode should not affect colors */
 .large-font * {
     color: inherit !important;
+}
+.large-font .text {
+    color:  #005BBB !important;
+}
+
+.large-font .note {
+    color:  #005BBB !important;
+}
+.large-font .drinkCategoryButton{
+    color: white !important;
 }
 
 /* Links when not otherwise overridden */
@@ -200,3 +213,19 @@ a {
     background-color: #005BBB !important;
     color: white !important;
 }
+
+/* Speech Assistant */
+#speechAssistantStartBtn{
+    background-color : #005BBB !important;
+}
+#speechAssistantStartBtn a{
+    color : white !important;
+}
+
+/* MENU BOARD */
+.subheading{
+    color: black !important;
+    border-top: 1px solid black !important;
+    border-bottom: 1px solid black !important;
+}
+
